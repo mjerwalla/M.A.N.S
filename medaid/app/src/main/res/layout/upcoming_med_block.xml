@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/medCapsule"
+    android:layout_width="match_parent"
+    android:layout_height="74dp"
+    android:background="#BBDEFB">
+
+    <TextView
+        android:id="@+id/txtMedName2"
+        android:layout_width="104dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="-127dp"
+        android:background="#C1FFFFFF"
+        android:gravity="center"
+        android:text="Tylenol"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/txtDosage"
+        android:layout_width="111dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="0dp"
+        android:paddingBottom="8"
+        android:text="2 pills"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="114dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/txtMedName2"
+        android:text="9:00pm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Button
+        android:id="@+id/check"
+        style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/txtTime"
+        android:background="#D8546074"
+        android:text="TAKEN"
+        android:textColor="#C4FFFFFF"
+        android:textStyle="bold" />
+
+</RelativeLayout>
