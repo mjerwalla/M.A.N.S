@@ -334,7 +334,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent inent = new Intent(getBaseContext(), CalendarActivity.class);
+                Intent inent = new Intent(getBaseContext(), HistoryActivity.class);
 
                 // calling an activity using <intent-filter> action name
                 //  Intent inent = new Intent("com.hmkcode.android.ANOTHER_ACTIVITY");
