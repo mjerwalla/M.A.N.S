@@ -13,4 +13,12 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="nav_title_today">"Today"</string>
+    <string name="nav_title_calendar">"Calendar"</string>
+    <string name="nav_title_insights">"Insights"</string>
+    <string name="nav_title_personal">"Personal"</string>
+
+    <!-- Today Page -->
+    <string name="upcoming_meds">"Upcoming Medications:"</string>
+
 </resources>
