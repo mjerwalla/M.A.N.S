@@ -74,8 +74,8 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void getAllData(SQLiteDatabase sqLiteDatabase){
-        Cursor  cursor = sqLiteDatabase.rawQuery("select * from " + TABLE_NAME ,null);
+    public void getAllData(){
+        Cursor  cursor = this.medDB.rawQuery("select * from " + TABLE_NAME ,null);
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 System.out.println(cursor.getString(cursor.getColumnIndex("medName")));
