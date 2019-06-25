@@ -36,7 +36,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(uuid INTEGER PRIMARY KEY, medName TEXT, numTimesPerWeek TEXT, numTimesPerDay TEXT, takenWith TEXT)");
+        sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
 
     @Override
@@ -46,7 +46,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertData(int uuid, String medName, String timesOfDay,
-                              String daysPerWeek, int startDate, int endDate,
+                              String daysPerWeek, String startDate, String endDate,
                               int dailyNumPills, int totalNumPills, String notes) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
