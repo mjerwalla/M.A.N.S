@@ -7,13 +7,13 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class HistoryActivity extends AppCompatActivity {
-    HistoryDatabaseHelper medDb;
+    HistoryDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(this);
+        dbHelper = new HistoryDatabaseHelper(this);
         dbHelper.onCreate(dbHelper.medDB);
         String startDate = "2017-01-02 16:02";
         String endDate = "2017-01-02 16:20";
@@ -22,12 +22,12 @@ public class HistoryActivity extends AppCompatActivity {
         try {
             Date sDate = sdf.parse(startDate);
             Date eDate = sdf.parse(endDate);
-            populateDate = medDb.insertData(1234, "Paracetamol", "1", "7", sDate, eDate, 1, 7, "Have after dinner");
+            populateDate = dbHelper.insertData(1234, "Paracetamol", "1", "7", sDate, eDate, 1, 7, "Have after dinner");
         } catch(Exception e) {
             System.out.println("Failed");
         }
         if (populateDate) {
-
+            dbHelper.getAllData();
         }
     }
 
