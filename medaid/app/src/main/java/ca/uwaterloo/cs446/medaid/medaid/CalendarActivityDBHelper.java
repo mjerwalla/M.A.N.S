@@ -20,7 +20,6 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
     public static final String COL_9 = "notes";
 
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
@@ -34,17 +33,27 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
         super(context, DATABASE_NAME, null, 1);
     }
 
-    public boolean insertData(String name,String surname,String marks) {
+    public boolean insertData(int uuid,String medName,String timesOfDay,
+                              String daysPerWeek, int startDate, int endDate,
+                              int dailyNumPills, int totalNumPills, String notes) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2,name);
-        contentValues.put(COL_3,surname);
-        contentValues.put(COL_4,marks);
+        contentValues.put(COL_1,uuid);
+        contentValues.put(COL_2,medName);
+        contentValues.put(COL_3,timesOfDay);
+        contentValues.put(COL_4,daysPerWeek);
+        contentValues.put(COL_5,startDate);
+        contentValues.put(COL_6,endDate);
+        contentValues.put(COL_7,dailyNumPills);
+        contentValues.put(COL_8,totalNumPills);
+        contentValues.put(COL_9,notes);
         long result = db.insert(TABLE_NAME,null ,contentValues);
-        if(result == -1)
+        if(result == -1){
             return false;
-        else
+        }
+        else{
             return true;
+        }
     }
 
     public Cursor getAllData() {

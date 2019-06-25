@@ -18,4 +18,5 @@
         app:itemIconTint="@color/colorPrimaryDark"
         app:itemTextColor="@color/colorPrimaryDark"
         app:menu="@menu/bottom_navigation" />
+
 </RelativeLayout>
