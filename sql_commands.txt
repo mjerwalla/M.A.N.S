@@ -1,0 +1,32 @@
+CREATE TABLE "Users" (
+	"username"	TEXT NOT NULL UNIQUE,
+	"password"	TEXT NOT NULL,
+	"firstname"	TEXT NOT NULL,
+	"lastname"	TEXT NOT NULL,
+	"uuid"	INTEGER NOT NULL
+);
+
+CREATE TABLE "Medication" (
+	"uuid"	INTEGER NOT NULL,
+	"medName"	TEXT NOT NULL,
+	"timesOfDay"	TEXT NOT NULL,
+	"daysPerWeek"	TEXT NOT NULL,
+	"startDate"	INTEGER NOT NULL,
+	"endDate"	INTEGER,
+	"dailyNumPills"	INTEGER NOT NULL,
+	"totalNumPills"	INTEGER,
+	"notes"	TEXT,
+	PRIMARY KEY("uuid")
+);
+
+CREATE TABLE "Vaccinations" (
+	"uuid"	INTEGER NOT NULL,
+	"vacName"	TEXT NOT NULL,
+	"date"	INTEGER,
+	PRIMARY KEY("uuid")
+);
+
+CREATE TABLE "Reports" (
+	"uuid"	INTEGER NOT NULL,
+	"filename"	TEXT NOT NULL
+);
