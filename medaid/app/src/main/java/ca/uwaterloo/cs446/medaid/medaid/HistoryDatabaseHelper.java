@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.database.Cursor;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Medication.db";
@@ -22,13 +26,13 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
 //    String DB_PATH = null;
 //    private static String DATABASE_NAME = "Medication.db";
-//    private SQLiteDatabase medDB;
+    SQLiteDatabase medDB;
 //    private final context myContext;
 
 
     public HistoryDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
+        medDB = this.getWritableDatabase();
 //        this.myContext = context;
 //        this.DB_PATH = "/data/data" + context.getPackageName() + "/" + "databases";
 //        Log.e("Path 1", DB_PATH);
@@ -36,7 +40,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        sqLiteDatabase.execSQL("create table IF NOT EXISTS " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
 
     @Override
@@ -46,16 +50,17 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertData(int uuid, String medName, String timesOfDay,
-                              String daysPerWeek, String startDate, String endDate,
+                              String daysPerWeek, Date startDate, Date endDate,
                               int dailyNumPills, int totalNumPills, String notes) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_1, uuid);
         cv.put(COL_2, medName);
         cv.put(COL_3, timesOfDay);
         cv.put(COL_4, daysPerWeek);
-        cv.put(COL_5, startDate);
-        cv.put(COL_6, endDate);
+        cv.put(COL_5, sdf.format(startDate));
+        cv.put(COL_6, sdf.format(endDate));
         cv.put(COL_7, dailyNumPills);
         cv.put(COL_8, totalNumPills);
         cv.put(COL_9, notes);
@@ -66,6 +71,18 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public void getAllData(SQLiteDatabase sqLiteDatabase){
+        Cursor  cursor = sqLiteDatabase.rawQuery("select * from " + TABLE_NAME ,null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                System.out.println(cursor.getString(cursor.getColumnIndex("medName")));
+                System.out.println(cursor.getString(cursor.getColumnIndex("timesOfDay")));
+                System.out.println(cursor.getString(cursor.getColumnIndex("daysPerWeek")));
+                cursor.moveToNext();
+            }
         }
     }
 }
