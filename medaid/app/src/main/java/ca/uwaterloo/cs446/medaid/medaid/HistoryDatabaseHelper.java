@@ -2,6 +2,7 @@ package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
@@ -22,13 +23,13 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
 //    String DB_PATH = null;
 //    private static String DATABASE_NAME = "Medication.db";
-//    private SQLiteDatabase medDB;
+    SQLiteDatabase medDB;
 //    private final context myContext;
 
 
     public HistoryDatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
+        super(context, DATABASE_NAME, null, 2);
+        medDB = this.getWritableDatabase();
 //        this.myContext = context;
 //        this.DB_PATH = "/data/data" + context.getPackageName() + "/" + "databases";
 //        Log.e("Path 1", DB_PATH);
@@ -36,7 +37,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        sqLiteDatabase.execSQL("create table " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
 
     @Override
@@ -67,5 +68,12 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+
+    public Cursor getMedication() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select * from "+TABLE_NAME,null);
+        return result;
     }
 }
