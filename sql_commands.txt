@@ -7,7 +7,7 @@ CREATE TABLE "Users" (
 );
 
 CREATE TABLE "Medication" (
-	"uuid"	INTEGER NOT NULL,
+	"uuid"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	"medName"	TEXT NOT NULL,
 	"timesOfDay"	TEXT NOT NULL,
 	"daysPerWeek"	TEXT NOT NULL,
@@ -15,8 +15,7 @@ CREATE TABLE "Medication" (
 	"endDate"	INTEGER,
 	"dailyNumPills"	INTEGER NOT NULL,
 	"totalNumPills"	INTEGER,
-	"notes"	TEXT,
-	PRIMARY KEY("uuid")
+	"notes"	TEXT
 );
 
 CREATE TABLE "Vaccinations" (

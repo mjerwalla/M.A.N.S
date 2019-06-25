@@ -23,7 +23,7 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(uuid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        db.execSQL("create table " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
