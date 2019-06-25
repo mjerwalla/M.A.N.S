@@ -11,6 +11,8 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         medDb = new HistoryDatabaseHelper(this);
+        medDb.onCreate();
+        boolean populatedDate - medDb.insertData("1234", "Paracetamol", "1". "7", 1561003200000, 1561867200000, 1, 7, "Have after dinner");
     }
 
     //search database for searched word
