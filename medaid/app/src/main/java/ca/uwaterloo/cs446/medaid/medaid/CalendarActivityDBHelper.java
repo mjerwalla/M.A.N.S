@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class CalendarActivityDBHelper extends SQLiteOpenHelper{
-    public static final String DATABASE_NAME = "Medication.db";
-    public static final String TABLE_NAME = "medication_table";
+    public static final String DATABASE_NAME = "MedAid.db";
+    public static final String TABLE_NAME = "Medication";
     public static final String COL_1 = "uuid";
     public static final String COL_2 = "medName";
     public static final String COL_3 = "timesOfDay";
