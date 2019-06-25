@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import java.util.Date;
+import android.icu.text.SimpleDateFormat;
 
 public class CalendarActivityDBHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "MedAid.db";
@@ -22,7 +24,8 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        db.execSQL("create table " + "Users" + " (username TEXT PRIMARY KEY ,password TEXT NOT NULL, firstName TEXT NOT NULL, lastName TEXT NOT NULL, uuid INTEGER NOT NULL)");
+        db.execSQL("create table " + TABLE_NAME + " (num INTEGER PRIMARY KEY AUTOINCREMENT,uuid INTEGER NOT NULL, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT, FOREIGN KEY(uuid) REFERENCES Users(uuid))");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -30,20 +33,23 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
     public CalendarActivityDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
     }
 
-    public boolean insertData(int uuid,String medName,String timesOfDay,
-                              String daysPerWeek, int startDate, int endDate,
+
+    public boolean insertMedicationData(int uuid, String medName, String timesOfDay,
+                              String daysPerWeek, Date startDate, Date endDate,
                               int dailyNumPills, int totalNumPills, String notes) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:MM");
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1,uuid);
         contentValues.put(COL_2,medName);
         contentValues.put(COL_3,timesOfDay);
         contentValues.put(COL_4,daysPerWeek);
-        contentValues.put(COL_5,startDate);
-        contentValues.put(COL_6,endDate);
+        contentValues.put(COL_5,sdf.format(startDate));
+        contentValues.put(COL_6,sdf.format(endDate));
         contentValues.put(COL_7,dailyNumPills);
         contentValues.put(COL_8,totalNumPills);
         contentValues.put(COL_9,notes);
@@ -59,6 +65,7 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+
         return res;
     }
 
@@ -75,6 +82,6 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
 
     public Integer deleteData (String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "ID = ?",new String[] {id});
+        return db.delete(TABLE_NAME, "uuid = ?",new String[] {id});
     }
 }

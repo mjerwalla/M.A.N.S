@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     CalendarActivityDBHelper medDb;
 
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void update(View view) {
-        medDb.insertData(1, "abc", "9", "M,W,F",
-                1500, 1500, 2, -1, "nothing");
+        medDb.insertMedicationData(1, "abc", "9", "M,W,F",
+                new Date(), new Date(), 2, -1, "nothing");
     }
 }
