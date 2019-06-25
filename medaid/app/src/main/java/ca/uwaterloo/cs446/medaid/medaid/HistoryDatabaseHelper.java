@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Medication.db";
@@ -21,18 +23,12 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_8 = "totalNumPills";
     public static final String COL_9 = "notes";
 
-//    String DB_PATH = null;
-//    private static String DATABASE_NAME = "Medication.db";
     SQLiteDatabase medDB;
-//    private final context myContext;
 
 
     public HistoryDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 2);
         medDB = this.getWritableDatabase();
-//        this.myContext = context;
-//        this.DB_PATH = "/data/data" + context.getPackageName() + "/" + "databases";
-//        Log.e("Path 1", DB_PATH);
     }
 
     @Override
@@ -47,16 +43,17 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertData(int uuid, String medName, String timesOfDay,
-                              String daysPerWeek, String startDate, String endDate,
+                              String daysPerWeek, Date startDate, Date endDate,
                               int dailyNumPills, int totalNumPills, String notes) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_1, uuid);
         cv.put(COL_2, medName);
         cv.put(COL_3, timesOfDay);
         cv.put(COL_4, daysPerWeek);
-        cv.put(COL_5, startDate);
-        cv.put(COL_6, endDate);
+        cv.put(COL_5, sdf.format(startDate));
+        cv.put(COL_6, sdf.format(endDate));
         cv.put(COL_7, dailyNumPills);
         cv.put(COL_8, totalNumPills);
         cv.put(COL_9, notes);
@@ -69,7 +66,6 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-
 
     public Cursor getMedication() {
         SQLiteDatabase db = this.getWritableDatabase();
