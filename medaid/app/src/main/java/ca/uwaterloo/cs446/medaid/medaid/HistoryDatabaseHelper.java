@@ -2,18 +2,17 @@ package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.database.Cursor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HistoryDatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "Medication.db";
-    public static final String TABLE_NAME = "medication_table";
+    public static final String DATABASE_NAME = "Mediaid.db";
+    public static final String TABLE_NAME = "MedicationHistory";
     public static final String COL_1 = "uuid";
     public static final String COL_2 = "medName";
     public static final String COL_3 = "timesOfDay";
@@ -24,23 +23,17 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_8 = "totalNumPills";
     public static final String COL_9 = "notes";
 
-//    String DB_PATH = null;
-//    private static String DATABASE_NAME = "Medication.db";
     SQLiteDatabase medDB;
-//    private final context myContext;
 
 
     public HistoryDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
         medDB = this.getWritableDatabase();
-//        this.myContext = context;
-//        this.DB_PATH = "/data/data" + context.getPackageName() + "/" + "databases";
-//        Log.e("Path 1", DB_PATH);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table IF NOT EXISTS " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate INTEGER NOT NULL, endDate INTEGER, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        sqLiteDatabase.execSQL("create table IF NOT EXISTS " + TABLE_NAME + " (medID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uuid INTEGER NOT NULL, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT NOT NULL, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
 
     @Override
@@ -52,7 +45,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     public boolean insertData(int uuid, String medName, String timesOfDay,
                               String daysPerWeek, Date startDate, Date endDate,
                               int dailyNumPills, int totalNumPills, String notes) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_1, uuid);
@@ -74,8 +67,8 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void getAllData(){
-        Cursor  cursor = this.medDB.rawQuery("select * from " + TABLE_NAME ,null);
+    public void getMedication() {
+        Cursor cursor = this.medDB.rawQuery("select * from " + TABLE_NAME, null);
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 System.out.println(cursor.getString(cursor.getColumnIndex("medName")));

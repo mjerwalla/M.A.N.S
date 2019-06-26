@@ -1,10 +1,11 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.database.Cursor;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class HistoryActivity extends AppCompatActivity {
     HistoryDatabaseHelper dbHelper;
@@ -27,12 +28,13 @@ public class HistoryActivity extends AppCompatActivity {
             System.out.println("Failed");
         }
         if (populateDate) {
-            dbHelper.getAllData();
+            //populate ListView
+
         }
     }
 
     //search database for searched word
-    private void search() {
-
-    }
+//    private void search() {
+//
+//    }
 }
