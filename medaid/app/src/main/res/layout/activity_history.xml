@@ -26,12 +26,6 @@
         app:layout_constraintEnd_toStartOf="@+id/searchView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-        <!--android:text="@string/add"-->
-        <!--android:textColor="#F2F2F2"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/listView"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/searchView"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <ListView
         android:id="@+id/listView"
