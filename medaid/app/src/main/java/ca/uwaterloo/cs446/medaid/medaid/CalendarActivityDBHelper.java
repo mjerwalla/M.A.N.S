@@ -3,10 +3,20 @@ package ca.uwaterloo.cs446.medaid.medaid;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
 import android.icu.text.SimpleDateFormat;
+
+
 
 public class CalendarActivityDBHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "MedAid.db";
@@ -20,6 +30,50 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
     public static final String COL_7 = "dailyNumPills";
     public static final String COL_8 = "totalNumPills";
     public static final String COL_9 = "notes";
+
+
+    public class MyData {
+        String column0;
+        String column1;
+        String column2;
+        String column3;
+        String column4;
+        String column5;
+        String column6;
+        String column7;
+        String column8;
+        String column9;
+
+
+        public MyData(String column0, String column1, String column2, String column3,String column4,
+                      String column5, String column6, String column7,String column8,String column9){
+            this.column0 = column0;
+            this.column1 = column1;
+            this.column2 = column2;
+            this.column3 = column3;
+            this.column4 = column4;
+            this.column5 = column5;
+            this.column6 = column6;
+            this.column7 = column7;
+            this.column8 = column8;
+            this.column9 = column9;
+        }
+
+        public ArrayList<String> getContent(){
+            ArrayList<String> list = new ArrayList<>();
+            list.add(this.column0);
+            list.add(this.column1);
+            list.add(this.column2);
+            list.add(this.column3);
+            list.add(this.column4);
+            list.add(this.column5);
+            list.add(this.column6);
+            list.add(this.column7);
+            list.add(this.column8);
+            list.add(this.column9);
+            return list;
+        }
+    }
 
 
     @Override
@@ -62,11 +116,36 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
         }
     }
 
-    public Cursor getAllData() {
+
+
+
+    public List<MyData> getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+        List<MyData> list = new ArrayList<>();
+        while(res.moveToNext()) {
+            String column0 = res.getString(res.getColumnIndex("num"));
+            String column1 = res.getString(res.getColumnIndex(COL_1));
+            String column2 = res.getString(res.getColumnIndex(COL_2));
+            String column3 = res.getString(res.getColumnIndex(COL_3));
+            String column4 = res.getString(res.getColumnIndex(COL_4));
+            String column5 = res.getString(res.getColumnIndex(COL_5));
+            String column6 = res.getString(res.getColumnIndex(COL_6));
+            String column7 = res.getString(res.getColumnIndex(COL_7));
+            String column8 = res.getString(res.getColumnIndex(COL_8));
+            String column9 = res.getString(res.getColumnIndex(COL_9));
 
-        return res;
+            MyData data = new MyData(column0, column1,column2,column3,column4,column5,
+                    column6,column7,column8,column9);
+            list.add(data);
+        }
+        System.out.println("The Length of the list is:");
+        System.out.println(list.size());
+        for(MyData myData : list) {
+            System.out.println(myData.column0);
+
+        }
+        return list;
     }
 
     public boolean updateData(String id,String name,String surname,String marks) {

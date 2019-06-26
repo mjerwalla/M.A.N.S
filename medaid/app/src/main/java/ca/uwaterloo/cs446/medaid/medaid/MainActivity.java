@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.Date;
 
@@ -19,7 +20,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void update(View view) {
-        medDb.insertMedicationData(1, "abc", "9", "M,W,F",
-                new Date(), new Date(), 2, -1, "nothing");
+//        medDb.insertMedicationData(1, "abc", "9", "M,W,F",
+//                new Date(), new Date(), 2, -1, "nothing");
+//        TextView myAwesomeTextView = (TextView)findViewById(R.id.textView3);
+//        myAwesomeTextView.setText(medDb.getAllData().toString());
+        medDb.getAllData();
     }
 }
