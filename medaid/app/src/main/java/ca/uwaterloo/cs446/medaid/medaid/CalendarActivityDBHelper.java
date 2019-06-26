@@ -79,7 +79,7 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + "Users" + " (username TEXT PRIMARY KEY ,password TEXT NOT NULL, firstName TEXT NOT NULL, lastName TEXT NOT NULL, uuid INTEGER NOT NULL)");
+        //db.execSQL("create table " + "Users" + " (username TEXT PRIMARY KEY ,password TEXT NOT NULL, firstName TEXT NOT NULL, lastName TEXT NOT NULL, uuid INTEGER NOT NULL)");
         db.execSQL("create table " + TABLE_NAME + " (num INTEGER PRIMARY KEY AUTOINCREMENT,uuid INTEGER NOT NULL, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT, FOREIGN KEY(uuid) REFERENCES Users(uuid))");
     }
     @Override
@@ -88,7 +88,7 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
     public CalendarActivityDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
     }
 
 
