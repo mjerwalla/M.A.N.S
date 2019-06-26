@@ -6,13 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ListView listView;
     ArrayList<String> names = new ArrayList<>();
     ArrayList<String> duration = new ArrayList<>();
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +98,14 @@ public class HistoryActivity extends AppCompatActivity {
 //                }
 //            });
 
-            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_2, android.R.id.text1, names) {
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, names) {
                 @NonNull
                 @Override
                 public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
-                    TextView t1 = (TextView) view.findViewById(android.R.id.text1);
+//                    TextView t1 = (TextView) view.findViewById(android.R.id.text1);
                     TextView t2 = (TextView) view.findViewById(android.R.id.text2);
-                    t1.setText(names.get(position));
+//                    t1.setText(names.get(position));
                     t2.setText(duration.get(position));
                     return view;
                 }
@@ -109,5 +113,25 @@ public class HistoryActivity extends AppCompatActivity {
 
             listView.setAdapter(adapter);
         }
-    }
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+                public boolean onQueryTextSubmit(String query) {
+                if (names.contains(query)) {
+                    adapter.getFilter().filter(query);
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "No Match Found", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    adapter.getFilter().filter(query);
+                }
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+        }
 }
