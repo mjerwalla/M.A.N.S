@@ -7,16 +7,17 @@ CREATE TABLE "Users" (
 );
 
 CREATE TABLE "Medication" (
+	"num"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"uuid"	INTEGER NOT NULL,
 	"medName"	TEXT NOT NULL,
 	"timesOfDay"	TEXT NOT NULL,
 	"daysPerWeek"	TEXT NOT NULL,
-	"startDate"	TEXT NOT NULL,
-	"endDate"	TEXT,
+	"startDate"	INTEGER NOT NULL,
+	"endDate"	INTEGER,
 	"dailyNumPills"	INTEGER NOT NULL,
 	"totalNumPills"	INTEGER,
 	"notes"	TEXT,
-	PRIMARY KEY("uuid")
+	FOREIGN KEY("uuid") REFERENCES Users("uuid")
 );
 
 CREATE TABLE "Vaccinations" (

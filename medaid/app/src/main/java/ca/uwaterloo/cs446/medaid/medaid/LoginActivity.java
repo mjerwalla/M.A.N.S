@@ -334,12 +334,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent inent = new Intent(getBaseContext(), MainActivity.class);
 
-                // calling an activity using <intent-filter> action name
-                //  Intent inent = new Intent("com.hmkcode.android.ANOTHER_ACTIVITY");
-
-                startActivity(inent);
+                Intent intent = new Intent(getBaseContext(), HistoryActivity.class);
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
