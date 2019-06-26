@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class HistoryDatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "Mediaid.db";
+    public static final String DATABASE_NAME = "Medaid.db";
     public static final String TABLE_NAME = "MedicationHistory";
     public static final String COL_1 = "uuid";
     public static final String COL_2 = "medName";

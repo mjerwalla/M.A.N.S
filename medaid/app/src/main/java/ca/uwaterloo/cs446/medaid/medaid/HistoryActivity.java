@@ -45,7 +45,10 @@ public class HistoryActivity extends AppCompatActivity {
             populateDate = dbHelper.insertData(1234, "Adderall", "2", "4", sdf.parse("2017-06-23 16:02"), sdf.parse("2017-07-19 16:02"), 1, 10, "Have before sleeping");
             populateDate = dbHelper.insertData(1234, "Xanax", "1", "5", sdf.parse("2017-06-19 16:02"), sdf.parse("2017-06-30 16:02"), 1, 10, "Have before sleeping");
             populateDate = dbHelper.insertData(1234, "Ibuprofen", "1", "1", sdf.parse("2017-06-10 16:02"), sdf.parse("2017-08-10 16:02"), 1, 10, "Have before sleeping");
-            populateDate = dbHelper.insertData(1234, "Panadol", "2", "7", sdf.parse("2017-06-25 16:02"), sdf.parse("2017-06-28 16:02"), 1, 10, "Have before sleeping");
+            populateDate = dbHelper.insertData(1234, "Advil Flu and Cold", "1", "3", sdf.parse("2017-05-25 16:02"), sdf.parse("2017-06-28 16:02"), 1, 10, "Have before sleeping");
+            populateDate = dbHelper.insertData(1234, "Antibiotic", "2", "7", sdf.parse("2017-06-26 16:02"), sdf.parse("2017-07-07 16:02"), 1, 10, "Have before sleeping");
+            populateDate = dbHelper.insertData(1234, "Penicillin", "2", "2", sdf.parse("2017-06-22 16:02"), sdf.parse("2017-06-30 16:02"), 1, 10, "Have before sleeping");
+            populateDate = dbHelper.insertData(1234, "Panadol", "1", "7", sdf.parse("2017-06-25 16:02"), sdf.parse("2017-06-28 16:02"), 1, 10, "Have before sleeping");
         } catch(Exception e) {
             System.out.println("Failed");
         }
