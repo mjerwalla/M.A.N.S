@@ -35,7 +35,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        sqLiteDatabase.execSQL("create table IF NOT EXISTS " + TABLE_NAME + " (medID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uuid INTEGER NOT NULL, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT NOT NULL, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        sqLiteDatabase.execSQL("create table IF NOT EXISTS " + TABLE_NAME + " (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uuid INTEGER NOT NULL, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT NOT NULL, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
 
     @Override
@@ -69,19 +69,8 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<String> getMedication() {
+    public Cursor getMedication() {
         Cursor cursor = this.medDB.rawQuery("select * from " + TABLE_NAME, null);
-        ArrayList<String> names = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                System.out.println(cursor.getString(cursor.getColumnIndex("medName")));
-                System.out.println(cursor.getString(cursor.getColumnIndex("timesOfDay")));
-                System.out.println(cursor.getString(cursor.getColumnIndex("daysPerWeek")));
-                names.add(cursor.getString(cursor.getColumnIndex("medName")));
-                cursor.moveToNext();
-            }
-        }
-//        return cursor;
-        return names;
+        return cursor;
     }
 }
