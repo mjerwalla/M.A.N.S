@@ -19,6 +19,7 @@ import android.icu.text.SimpleDateFormat;
 
 
 public class CalendarActivityDBHelper extends SQLiteOpenHelper{
+
     public static final String DATABASE_NAME = "MedAid.db";
     public static final String TABLE_NAME = "Medication";
     public static final String COL_1 = "uuid";
