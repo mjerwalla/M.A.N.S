@@ -1,4 +1,5 @@
 package ca.uwaterloo.cs446.medaid.medaid;
+import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
@@ -8,13 +9,16 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     CalendarActivityDBHelper medDb;
@@ -27,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new CalendarFragment()).commit();
 
 //        // Adds "add medication" behaviour
 //
@@ -82,8 +87,15 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new CalendarFragment()).commit();
+
         // TextView myAwesomeTextView = (TextView)findViewById(R.id.textView3);
         // myAwesomeTextView.setText(medDb.getAllData().toString());
         // medDb.getAllData();
+    }
+
+    public void delete(View view){
+        medDb.deleteData(Integer.toString(view.getId()));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new CalendarFragment()).commit();
     }
 }

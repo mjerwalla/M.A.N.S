@@ -160,8 +160,11 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
         return true;
     }
 
-    public Integer deleteData (String id) {
+    public void deleteData (String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "uuid = ?",new String[] {id});
+        db.delete(TABLE_NAME, "num = ?",new String[] {id});
+        db.close();
     }
+
+    // TODO: ADD FUNCTION THAT RETURNS ARRAY OF TIMES FOR TIMESOFDAY
 }

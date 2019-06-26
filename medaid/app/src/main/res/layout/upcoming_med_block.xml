@@ -8,11 +8,13 @@
     android:background="#BBDEFB">
 
     <TextView
-        android:id="@+id/txtMedName2"
+        android:id="@+id/txtMedName"
         android:layout_width="104dp"
         android:layout_height="match_parent"
         android:layout_marginStart="45dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="-127dp"
+        android:layout_marginBottom="12dp"
         android:background="#EDF6FD"
         android:gravity="center"
         android:text="Tylenol"
@@ -23,10 +25,10 @@
         android:id="@+id/txtDosage"
         android:layout_width="111dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtMedName2"
+        android:layout_alignBottom="@+id/txtMedName"
         android:layout_marginStart="140dp"
-        android:layout_marginBottom="9dp"
-        android:layout_toEndOf="@+id/txtMedName2"
+        android:layout_marginBottom="-4dp"
+        android:layout_toEndOf="@+id/txtMedName"
         android:paddingBottom="8dp"
         android:text="2 pills"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -43,7 +45,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Button
-        android:id="@+id/check"
+        android:id="@+id/btnTaken"
         style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
         android:layout_width="100dp"
         android:layout_height="match_parent"
@@ -52,6 +54,7 @@
         android:layout_marginBottom="20dp"
         android:layout_toEndOf="@+id/txtDosage"
         android:background="#56B7D1"
+        android:onClick="delete"
         android:text="TAKEN"
         android:textColor="#C4FFFFFF"
         android:textStyle="bold" />
