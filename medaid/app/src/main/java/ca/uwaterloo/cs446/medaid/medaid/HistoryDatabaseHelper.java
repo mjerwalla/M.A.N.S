@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HistoryDatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "Medication.db";
-    public static final String TABLE_NAME = "medication_table";
+    public static final String DATABASE_NAME = "Mediaid.db";
+    public static final String TABLE_NAME = "MedicationHistory";
     public static final String COL_1 = "uuid";
     public static final String COL_2 = "medName";
     public static final String COL_3 = "timesOfDay";
@@ -27,13 +27,13 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
 
 
     public HistoryDatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 1);
         medDB = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " + TABLE_NAME + " (uuid INTEGER NOT NULL PRIMARY KEY, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
+        sqLiteDatabase.execSQL("create table IF NOT EXISTS " + TABLE_NAME + " (medID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uuid INTEGER NOT NULL, medName TEXT NOT NULL, timesOfDay TEXT NOT NULL, daysPerWeek TEXT NOT NULL, startDate TEXT NOT NULL, endDate TEXT NOT NULL, dailyNumPills INTEGER NOT NULL, totalNumPills INTEGER, notes TEXT)");
     }
 
     @Override
@@ -67,9 +67,15 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getMedication() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("select * from "+TABLE_NAME,null);
-        return result;
+    public void getMedication() {
+        Cursor cursor = this.medDB.rawQuery("select * from " + TABLE_NAME, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                System.out.println(cursor.getString(cursor.getColumnIndex("medName")));
+                System.out.println(cursor.getString(cursor.getColumnIndex("timesOfDay")));
+                System.out.println(cursor.getString(cursor.getColumnIndex("daysPerWeek")));
+                cursor.moveToNext();
+            }
+        }
     }
 }

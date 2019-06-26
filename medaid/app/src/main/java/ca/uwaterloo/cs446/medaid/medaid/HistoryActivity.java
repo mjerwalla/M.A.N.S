@@ -28,7 +28,7 @@ public class HistoryActivity extends AppCompatActivity {
             System.out.println("Failed");
         }
         if (populateDate) {
-            dbHelper.getMedication();
+            //populate ListView
 
         }
     }
