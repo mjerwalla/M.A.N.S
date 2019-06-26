@@ -17,4 +17,8 @@
     <string name="appointments">APPOINTMENTS</string>
     <string name="reports">REPORTS</string>
     <string name="add">ADD</string>
+    <string name="nav_title_today">Today</string>
+    <string name="nav_title_calendar">Calendar</string>
+    <string name="nav_title_insights">Insights</string>
+    <string name="nav_title_personal">Personal</string>
 </resources>
