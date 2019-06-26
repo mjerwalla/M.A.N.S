@@ -88,7 +88,7 @@ public class CalendarActivityDBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
     public CalendarActivityDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 4);
     }
 
 
