@@ -21,4 +21,8 @@
     <!-- Today Page -->
     <string name="upcoming_meds">"Upcoming Medications:"</string>
 
+    <string name="medication">MEDICATION</string>
+    <string name="appointments">APPOINTMENTS</string>
+    <string name="reports">REPORTS</string>
+    <string name="add">ADD</string>
 </resources>
