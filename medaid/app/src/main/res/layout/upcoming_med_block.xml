@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/medCapsule"
-    android:layout_width="match_parent"
-    android:layout_height="74dp"
-    android:background="#BBDEFB">
+    style="@style/upcoming_med_block">
 
     <TextView
         android:id="@+id/txtMedName2"
@@ -13,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="-127dp"
-        android:background="#C1FFFFFF"
+        android:background="#EDF6FD"
         android:gravity="center"
         android:text="Tylenol"
         android:textAlignment="center"
@@ -23,8 +21,10 @@
         android:id="@+id/txtDosage"
         android:layout_width="111dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="0dp"
+        android:layout_alignBottom="@+id/txtMedName2"
+        android:layout_marginStart="140dp"
+        android:layout_marginBottom="9dp"
+        android:layout_toEndOf="@+id/txtMedName2"
         android:paddingBottom="8dp"
         android:text="2 pills"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -33,10 +33,10 @@
         android:id="@+id/txtTime"
         android:layout_width="114dp"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/txtDosage"
+        android:layout_alignStart="@+id/txtDosage"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="2dp"
         android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/txtMedName2"
         android:text="9:00pm"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -46,8 +46,10 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_marginStart="0dp"
-        android:layout_toEndOf="@+id/txtTime"
-        android:background="#D8546074"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toEndOf="@+id/txtDosage"
+        android:background="#56B7D1"
         android:text="TAKEN"
         android:textColor="#C4FFFFFF"
         android:textStyle="bold" />
