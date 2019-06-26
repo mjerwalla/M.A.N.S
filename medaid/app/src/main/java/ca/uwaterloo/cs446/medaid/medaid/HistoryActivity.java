@@ -119,13 +119,15 @@ public class HistoryActivity extends AppCompatActivity {
                 public boolean onQueryTextSubmit(String query) {
                 if (names.contains(query)) {
                     adapter.getFilter().filter(query);
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "No Match Found", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
-                    adapter.getFilter().filter(query);
+                    return true;
                 }
-                return true;
+//                else {
+//                    Toast toast = Toast.makeText(getApplicationContext(), "No Match Found", Toast.LENGTH_SHORT);
+//                    toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+//                    toast.show();
+//                    adapter.getFilter().filter(query);
+//                }
+                return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
