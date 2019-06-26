@@ -1,5 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.content.Intent;
 import android.database.Cursor;
 
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
@@ -117,6 +119,41 @@ public class HistoryActivity extends AppCompatActivity {
             };
 
             listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent p = new Intent(getApplicationContext(), PopupActivity.class);
+                    Bundle extras = new Bundle();
+                    String name = listView.getItemAtPosition(i).toString();
+
+                    extras.putString("name", "Name: " + name);
+
+                    if (medData.moveToFirst()) {
+                        while (!medData.isAfterLast()) {
+                            System.out.println(name);
+                            System.out.println(medData.getString(medData.getColumnIndex("medName")));
+                            System.out.println(name.equals(medData.getString(medData.getColumnIndex("medName"))));
+                            if (name.equals(medData.getString(medData.getColumnIndex("medName")))) {
+                                System.out.println("YEEEES");
+                                String start = medData.getString(medData.getColumnIndex("startDate"));
+                                String end = medData.getString(medData.getColumnIndex("endDate"));
+                                extras.putString("start", "Start Date: " + start.substring(0,10));
+                                extras.putString("end", "End Date: " + end.substring(0,10));
+                                extras.putString("timesOfDay", "Times per Day: " + medData.getString(medData.getColumnIndex("timesOfDay")));
+                                extras.putString("daysPerWeek", "Days per Week: " + medData.getString(medData.getColumnIndex("daysPerWeek")));
+                                extras.putString("dailyNumPills", "Number of Pills Daily: " + medData.getString(medData.getColumnIndex("dailyNumPills")));
+                                extras.putString("notes", "Notes: " + medData.getString(medData.getColumnIndex("notes")));
+                                break;
+                            }
+                            medData.moveToNext();
+                        }
+                    }
+                    medData.moveToFirst();
+                    p.putExtras(extras);
+                    startActivity(p);
+                }
+            });
         }
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
