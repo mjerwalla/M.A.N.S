@@ -2,9 +2,12 @@ package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.database.Cursor;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
@@ -20,6 +23,7 @@ public class HistoryActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     private ListView listView;
     ArrayList<String> names = new ArrayList<>();
+    ArrayList<String> duration = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +50,14 @@ public class HistoryActivity extends AppCompatActivity {
 
             listView = (ListView) findViewById(R.id.listView);
 
-            Cursor medData = dbHelper.getMedication();
+            final Cursor medData = dbHelper.getMedication();
 
             if (medData.moveToFirst()) {
                 while (!medData.isAfterLast()) {
+                    String start = medData.getString(medData.getColumnIndex("startDate"));
+                    String end = medData.getString(medData.getColumnIndex("endDate"));
                     names.add(medData.getString(medData.getColumnIndex("medName")));
+                    duration.add("Needs to be taken from " + start.substring(0,10) + " to " + end.substring(0,10));
                     medData.moveToNext();
                 }
             }
@@ -70,24 +77,37 @@ public class HistoryActivity extends AppCompatActivity {
             };
 
 
-            medicationAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, medData, cols, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-            medicationAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-                @Override
-                public boolean setViewValue(View view, Cursor cursor, int i) {
-                    if (view.getId() == android.R.id.text2) {
-                        int getIndex1 = cursor.getColumnIndex("startDate");
-                        String start = cursor.getString(getIndex1);
-                        int getIndex2 = cursor.getColumnIndex("endDate");
-                        String end = cursor.getString(getIndex2);
-                        TextView dateTextView = (TextView) view;
-                        dateTextView.setText("Needs to be taken from " + start.substring(0,10) + " to " + end.substring(0,10));
-                        return true;
-                    }
-                    return false;
-                }
-            });
+//            medicationAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, medData, cols, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+//            medicationAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+//                @Override
+//                public boolean setViewValue(View view, Cursor cursor, int i) {
+//                    if (view.getId() == android.R.id.text2) {
+//                        int getIndex1 = cursor.getColumnIndex("startDate");
+//                        String start = cursor.getString(getIndex1);
+//                        int getIndex2 = cursor.getColumnIndex("endDate");
+//                        String end = cursor.getString(getIndex2);
+//                        TextView dateTextView = (TextView) view;
+//                        dateTextView.setText("Needs to be taken from " + start.substring(0,10) + " to " + end.substring(0,10));
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
 
-            listView.setAdapter(medicationAdapter);
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_2, android.R.id.text1, names) {
+                @NonNull
+                @Override
+                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    TextView t1 = (TextView) view.findViewById(android.R.id.text1);
+                    TextView t2 = (TextView) view.findViewById(android.R.id.text2);
+                    t1.setText(names.get(position));
+                    t2.setText(duration.get(position));
+                    return view;
+                }
+            };
+
+            listView.setAdapter(adapter);
         }
     }
 }
