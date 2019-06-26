@@ -75,7 +75,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button"
-            android:text="@string/appointments"
+            android:text="@string/vaccination"
             android:textColor="@android:color/background_light" />
 
         <Space

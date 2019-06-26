@@ -14,7 +14,7 @@
         completions."
     </string>
     <string name="medication">MEDICATION</string>
-    <string name="appointments">APPOINTMENTS</string>
+    <string name="vaccination">VACCINATION</string>
     <string name="reports">REPORTS</string>
     <string name="add">ADD</string>
 </resources>
