@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Name of Medicine"
             android:inputType="textPersonName"
-            android:text="Name of Medicine"
             android:textColor="#818181" />
 
         <EditText
@@ -25,10 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Total # of Pills"
             android:inputType="numberDecimal"
-            android:text="Dosage"
-            android:textColor="#818181"
-            tools:text="Total # of Pills" />
+            android:textColor="#818181" />
 
         <TextView
             android:id="@+id/DaysPerWeek"
@@ -40,6 +39,7 @@
             android:id="@+id/monday"
             android:layout_width="135dp"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="Monday" />
 
         <CheckBox
@@ -83,17 +83,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Intake Per Day"
             android:inputType="numberDecimal"
-            android:text="Intake Per Day"
-            android:textColor="#818181" />
-
-        <EditText
-            android:id="@+id/startDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Start Date"
             android:textColor="#818181" />
 
         <EditText
@@ -101,15 +92,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Special Notes"
             android:inputType="textPersonName"
-            android:text="Special Notes"
             android:textColor="#818181" />
 
         <Button
             android:id="@+id/submitNewMed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="update"
+            android:onClick="addMedicalEntry"
             android:text="SUBMIT"
             tools:background="#F8FFFFFF" />
 

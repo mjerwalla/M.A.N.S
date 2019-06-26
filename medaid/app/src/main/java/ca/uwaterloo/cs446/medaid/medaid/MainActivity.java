@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new CalendarFragment()).commit();
+                .replace(R.id.fragment_container, new TodayFragment()).commit();
 
 //        // Adds "add medication" behaviour
 //
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
                     switch(item.getItemId()) {
                         case R.id.nav_today:
-                            selectedFrag = new CalendarFragment();
+                            selectedFrag = new TodayFragment();
                             break;
                         case R.id.nav_calendar:
                             selectedFrag = new CalendarFragment();
@@ -82,11 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void update(View view) {
-        medDb.insertMedicationData(1, "Janumet", "10,19", "M,W,F",
-                new Date(2019,06,26), new Date(2020,06,26), 2, 100, "None");
-
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new CalendarFragment()).commit();
+                .replace(R.id.fragment_container, new TodayFragment()).commit();
 
         // TextView myAwesomeTextView = (TextView)findViewById(R.id.textView3);
         // myAwesomeTextView.setText(medDb.getAllData().toString());
@@ -96,6 +95,68 @@ public class MainActivity extends AppCompatActivity {
     public void delete(View view){
         medDb.deleteData(Integer.toString(view.getId()));
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new CalendarFragment()).commit();
+                .replace(R.id.fragment_container, new TodayFragment()).commit();
+    }
+
+    public void addMedicalEntry(View view) {
+        TextView medName = findViewById(R.id.txtMedName);
+        TextView totalPills = findViewById(R.id.txtTotalPills);
+        TextView numTimesPerDay = findViewById(R.id.txtNumTimesPerDay);
+        // TextView startDate = findViewById(R.id.startDate);
+        TextView notes = findViewById(R.id.txtNotes);
+        String daysOfTheWeekString;
+
+        CheckBox[] daysOfTheWeek = {
+                findViewById(R.id.monday),
+                findViewById(R.id.tuesday),
+                findViewById(R.id.wednesday),
+                findViewById(R.id.thursday),
+                findViewById(R.id.friday),
+                findViewById(R.id.saturday),
+                findViewById(R.id.sunday)
+        };
+
+        String[] lettersOfTheWeek = {
+                "MO",
+                "TU",
+                "WE",
+                "TH",
+                "FR",
+                "SA",
+                "SU"
+        };
+
+        // Get DaysPerWeek
+        int counter = 0;
+        for (CheckBox day: daysOfTheWeek) {
+            // TODO
+        }
+
+        String[] timesPerDay = {
+                "12",
+                "15",
+                "18",
+                "21",
+                "23"
+        };
+
+        int dailyIntake = Integer.parseInt(numTimesPerDay.getText().toString());
+        String timesOfDayString = "9";
+        for (int i = 0; i < dailyIntake - 1; i++) {
+            timesOfDayString += "," + timesPerDay[i];
+        }
+
+        medDb.insertMedicationData(
+                1,
+                medName.getText().toString(),
+                timesOfDayString,
+                "M,W,F",
+                new Date(2019,06,26),
+                new Date(2020,06,26),
+                dailyIntake,
+                Integer.parseInt(totalPills.getText().toString()),
+                notes.getText().toString());
+
+        this.update(view);
     }
 }
