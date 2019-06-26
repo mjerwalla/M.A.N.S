@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCD2F7F4"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/txtMedName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name of Medicine"
+            android:textColor="#818181" />
+
+        <EditText
+            android:id="@+id/txtTotalPills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="Dosage"
+            android:textColor="#818181"
+            tools:text="Total # of Pills" />
+
+        <TextView
+            android:id="@+id/DaysPerWeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please select the days you will be taking your medicine on:" />
+
+        <CheckBox
+            android:id="@+id/monday"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:text="Monday" />
+
+        <CheckBox
+            android:id="@+id/tuesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tuesday" />
+
+        <CheckBox
+            android:id="@+id/wednesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wednesday" />
+
+        <CheckBox
+            android:id="@+id/thursday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thursday" />
+
+        <CheckBox
+            android:id="@+id/friday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Friday" />
+
+        <CheckBox
+            android:id="@+id/saturday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saturday" />
+
+        <CheckBox
+            android:id="@+id/sunday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sunday" />
+
+        <EditText
+            android:id="@+id/txtNumTimesPerDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="Intake Per Day"
+            android:textColor="#818181" />
+
+        <EditText
+            android:id="@+id/startDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            android:text="Start Date"
+            android:textColor="#818181" />
+
+        <EditText
+            android:id="@+id/txtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Special Notes"
+            android:textColor="#818181" />
+
+        <Button
+            android:id="@+id/submitNewMed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="update"
+            android:text="SUBMIT"
+            tools:background="#F8FFFFFF" />
+
+    </LinearLayout>
+
+</ScrollView>

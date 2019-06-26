@@ -1,4 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
+import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 
@@ -8,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +27,18 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+
+//        // Adds "add medication" behaviour
+//
+//        Button addMedication = findViewById(R.id.btnAddMed);
+//
+//        addMedication.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(MainActivity.this, AddMedOverlay.class));
+//            }
+//        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -53,11 +69,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    public void setAddBehavior(View view) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new AddMedOverlay()).commit();
+        // startActivity(new Intent(MainActivity.this, AddMedOverlay.class));
+    }
+
+
     public void update(View view) {
-        medDb.insertMedicationData(1, "abc", "9", "M,W,F",
-                new Date(), new Date(), 2, -1, "nothing");
-        TextView myAwesomeTextView = (TextView)findViewById(R.id.textView3);
-        myAwesomeTextView.setText(medDb.getAllData().toString());
-        medDb.getAllData();
+        medDb.insertMedicationData(1, "Janumet", "10,19", "M,W,F",
+                new Date(2019,06,26), new Date(2020,06,26), 2, 100, "None");
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new CalendarFragment()).commit();
+        // TextView myAwesomeTextView = (TextView)findViewById(R.id.textView3);
+        // myAwesomeTextView.setText(medDb.getAllData().toString());
+        // medDb.getAllData();
     }
 }
