@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,17 +36,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new TodayFragment()).commit();
-
-//        // Adds "add medication" behaviour
-//
-//        Button addMedication = findViewById(R.id.btnAddMed);
-//
-//        addMedication.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, AddMedOverlay.class));
-//            }
-//        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -76,45 +66,66 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-    public void setAddBehavior(View view) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new AddMedOverlay()).commit();
-        // startActivity(new Intent(MainActivity.this, AddMedOverlay.class));
-    }
+    public void setAddMedPopupBehavior(View view) {
+        AlertDialog.Builder medPopupBuilder = new AlertDialog.Builder(MainActivity.this);
+        View medPopupView = getLayoutInflater().inflate(R.layout.overlay_add_med, null);
 
+        medPopupBuilder.setView(medPopupView);
+        final AlertDialog dialog = medPopupBuilder.create();
+        dialog.show();
 
-    public void update(View view) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new TodayFragment()).commit();
-
-        // TextView myAwesomeTextView = (TextView)findViewById(R.id.textView3);
-        // myAwesomeTextView.setText(medDb.getAllData().toString());
-        // medDb.getAllData();
-    }
-
-    public void delete(View view){
-        medDb.deleteData(Integer.toString(view.getId()));
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new TodayFragment()).commit();
-    }
-
-    public void addMedicalEntry(View view) {
-        TextView medName = findViewById(R.id.txtMedName);
-        TextView totalPills = findViewById(R.id.txtTotalPills);
-        TextView numTimesPerDay = findViewById(R.id.txtNumTimesPerDay);
-        // TextView startDate = findViewById(R.id.startDate);
-        TextView notes = findViewById(R.id.txtNotes);
-        String daysOfTheWeekString;
+        // TODO: Modularize this function to find multiple Views by ID
+        final TextView medName = medPopupView.findViewById(R.id.txtMedName);
+        final TextView totalPills = medPopupView.findViewById(R.id.txtTotalPills);
+        final TextView numTimesPerDay = medPopupView.findViewById(R.id.txtNumTimesPerDay);
+        // final TextView startDate = medPopupView.findViewById(R.id.startDate);
+        final TextView notes = medPopupView.findViewById(R.id.txtNotes);
+        Button submitNewMedButton = medPopupView.findViewById(R.id.submitNewMed);
 
         CheckBox[] daysOfTheWeek = {
-                findViewById(R.id.monday),
-                findViewById(R.id.tuesday),
-                findViewById(R.id.wednesday),
-                findViewById(R.id.thursday),
-                findViewById(R.id.friday),
-                findViewById(R.id.saturday),
-                findViewById(R.id.sunday)
+                medPopupView.findViewById(R.id.monday),
+                medPopupView.findViewById(R.id.tuesday),
+                medPopupView.findViewById(R.id.wednesday),
+                medPopupView.findViewById(R.id.thursday),
+                medPopupView.findViewById(R.id.friday),
+                medPopupView.findViewById(R.id.saturday),
+                medPopupView.findViewById(R.id.sunday)
         };
+
+        // Call helper (which will be reused) that gets existing fields in order to send to db
+        // TODO: Set OnClick behaviour to call the helper, passing in the found ID's strings as parameters
+
+        submitNewMedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addMedicalEntry(
+                        medName.getText().toString(),
+                        numTimesPerDay.getText().toString(), // TODO: CHANGE
+                        numTimesPerDay.getText().toString(), // TODO: CHANGE
+                        "startDate",
+                        "endDate",
+                        2,
+                        Integer.parseInt(totalPills.getText().toString()),
+                        notes.getText().toString());
+
+                // TODO: Check if new med was successfully added (maybe return value of addMedicalEntry?)
+                // TODO: If successful, close window, otherwise show prompt that say they are missing fields
+
+                dialog.hide();
+            }
+        });
+    }
+
+    private void addMedicalEntry(
+            String medName,
+            String timesOfDay,
+            String daysPerWeek,
+            String startDate,
+            String endDate,
+            int dosePerIntake,
+            int totalPills,
+            String notes) {
+        String daysOfTheWeekString;
 
         String[] lettersOfTheWeek = {
                 "MO",
@@ -128,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Get DaysPerWeek
         int counter = 0;
-        for (CheckBox day: daysOfTheWeek) {
-            // TODO
-        }
+//        for (CheckBox day: daysOfTheWeek) {
+////            // TODO
+////        }
 
         String[] timesPerDay = {
                 "12",
@@ -140,23 +151,35 @@ public class MainActivity extends AppCompatActivity {
                 "23"
         };
 
-        int dailyIntake = Integer.parseInt(numTimesPerDay.getText().toString());
-        String timesOfDayString = "9";
-        for (int i = 0; i < dailyIntake - 1; i++) {
-            timesOfDayString += "," + timesPerDay[i];
-        }
+//        int dailyIntake = Integer.parseInt(numTimesPerDay.getText().toString());
+//        String timesOfDayString = "9";
+//        for (int i = 0; i < dailyIntake - 1; i++) {
+//            timesOfDayString += "," + timesPerDay[i];
+//        }
 
         medDb.insertMedicationData(
                 1,
-                medName.getText().toString(),
-                timesOfDayString,
+                medName,
+                timesOfDay,
                 "M,W,F",
                 new Date(2019,06,26),
                 new Date(2020,06,26),
-                dailyIntake,
-                Integer.parseInt(totalPills.getText().toString()),
-                notes.getText().toString());
+                dosePerIntake,
+                totalPills,
+                notes);
 
-        this.update(view);
+        this.update();
+    }
+
+
+    private void update() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new TodayFragment()).commit();
+    }
+
+    public void delete(View view){
+        medDb.deleteData(Integer.toString(view.getId()));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new TodayFragment()).commit();
     }
 }
