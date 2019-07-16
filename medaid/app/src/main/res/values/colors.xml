@@ -6,4 +6,6 @@
     <color name="primaryColor1">#27CEA7</color>
     <color name="primaryColor2">#3A95EB</color>
     <color name="primaryColor3">#3F51B5</color>
+    <color name="textColor1">#000000</color>
+    <color name="textColor2">#FFFFFF</color>
 </resources>

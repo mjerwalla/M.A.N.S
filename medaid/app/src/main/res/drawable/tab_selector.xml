@@ -8,9 +8,7 @@
     <item
         android:drawable="@drawable/tab_background_selected"
         android:state_selected="true"/>
-
     <item
         android:drawable="@drawable/tab_background"
         android:state_selected="false"/>
-
 </selector>
