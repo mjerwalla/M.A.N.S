@@ -32,7 +32,7 @@ public class HistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_history, container, false);
+        view = inflater.inflate(R.layout.activity_history_new, container, false);
 
         dbHelper = new HistoryDatabaseHelper(getContext());
         dbHelper.onCreate(dbHelper.medDB);
