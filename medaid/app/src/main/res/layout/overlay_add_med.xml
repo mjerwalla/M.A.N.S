@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FCD2F7F4"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <EditText
             android:id="@+id/txtMedName"
@@ -102,7 +103,10 @@
             android:layout_height="wrap_content"
             android:onClick="addMedicalEntry"
             android:text="SUBMIT"
-            tools:background="#F8FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            tools:background="#F81E333A" />
 
     </LinearLayout>
 
