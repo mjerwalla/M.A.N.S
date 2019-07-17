@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flaskext.mysql import MySQL
+import json
 app = Flask(__name__)
 
 
@@ -23,6 +24,20 @@ def index():
         cur.close()
         return 'success'
     return render_template('index.html')
+
+@app.route('/hello')
+def abc():
+   cur = mysql.get_db().cursor()
+   cur.execute('SELECT * FROM MyUsers')
+   row_headers=[x[0] for x in cur.description] #this will extract row headers
+   rv = cur.fetchall()
+   json_data=[]
+   for result in rv:
+        json_data.append(dict(zip(row_headers,result)))
+   return json.dumps(json_data)
+
+if __name__ == '__main__':
+   app.run(debug=True)
 
 
 if __name__ == '__main__':
