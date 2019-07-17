@@ -1,0 +1,11 @@
+mysql-client: 
+  container_name: mysql-medaid
+  image: "mysql/mysql-server:5.7"
+  environment: 
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_DATABASE: "medaid"
+    MYSQL_USER: "test"
+    MYSQL_PASSWORD: "test"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  ports: 
+    - 3306:3306
