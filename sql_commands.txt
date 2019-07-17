@@ -25,6 +25,7 @@ CREATE TABLE Medications(
    selectedDaysPerWeek VARCHAR(30),
    numTimesPerDay INT,
    timesToBeReminded VARCHAR(30),
+   takenInPast INT,
    PRIMARY KEY(medicationID),
    FOREIGN KEY(userID) REFERENCES Users(userID)
 );
