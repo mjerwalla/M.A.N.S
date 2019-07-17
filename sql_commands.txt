@@ -1,28 +1,47 @@
-CREATE TABLE "Users" (
-	"username"	TEXT NOT NULL UNIQUE,
-	"password"	TEXT NOT NULL,
-	"firstname"	TEXT NOT NULL,
-	"lastname"	TEXT NOT NULL,
-	"uuid"	INTEGER NOT NULL
+CREATE TABLE Users (
+  `userID` int(11) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `firstName` varchar(30) NOT NULL,
+  `lastName` varchar(30) NOT NULL,
+  `userType` int(11) NOT NULL,
+  PRIMARY KEY (`userID`)
 );
 
-CREATE TABLE "Medication" (
-	"uuid"	INTEGER NOT NULL,
-	"medName"	TEXT NOT NULL,
-	"numTimesPerWeek"	TEXT NOT NULL,
-	"numTimesPerDay"	TEXT NOT NULL,
-	"takenWith"	TEXT,
-	PRIMARY KEY("uuid")
+CREATE TABLE CareTakers(
+   careTakerID INT NOT NULL,
+   patientID INT NOT NULL,
+   PRIMARY KEY(careTakerID,patientID),
+   FOREIGN KEY(careTakerID) REFERENCES Users(userID),
+   FOREIGN KEY(patientID) REFERENCES Users(userID)
 );
 
-CREATE TABLE "Vaccinations" (
-	"uuid"	INTEGER NOT NULL,
-	"vacName"	TEXT NOT NULL,
-	"date"	INTEGER,
-	PRIMARY KEY("uuid")
+CREATE TABLE Medications(
+   medicationID INT NOT NULL,
+   userID INT NOT NULL,
+   medName VARCHAR(20) NOT NULL,
+   startDate DATETIME NOT NULL,
+   endDate DATETIME,
+   selectedDaysPerWeek VARCHAR(30),
+   numTimesPerDay INT,
+   timesToBeReminded VARCHAR(30),
+   PRIMARY KEY(medicationID),
+   FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
-CREATE TABLE "Reports" (
-	"uuid"	INTEGER NOT NULL,
-	"filename"	TEXT NOT NULL
+CREATE TABLE Vaccinations(
+    vaccinationID INTEGER NOT NULL,
+	userID	INTEGER NOT NULL,
+	vacName	TEXT NOT NULL,
+	timeOfVac	DATETIME,
+	PRIMARY KEY(vaccinationID),
+    FOREIGN KEY(userID) REFERENCES Users(userID)
 );
+
+CREATE TABLE Reports (
+  reportID INTEGER NOT NULL,
+  userID INTEGER NOT NULL,
+  reportName TEXT NOT NULL,
+  FOREIGN KEY(userID) REFERENCES Users(userID)
+);
+
