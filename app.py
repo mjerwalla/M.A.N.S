@@ -4,7 +4,7 @@ import json
 import pymysql
 app = Flask(__name__)
 
-conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='abc123', db='Test',autocommit=True)
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 cur = conn.cursor()
 # app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 # app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -71,4 +71,4 @@ def getAllUsers():
    return json.dumps(json_data)
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0',port=80,debug=True)
+   app.run(host='0.0.0.0',port=5000,debug=True)
