@@ -23,6 +23,14 @@ public class PopupActivity extends AppCompatActivity {
 
 
         TextView t = (TextView) findViewById(R.id.textViewPopup);
-        t.setText(name + "\n\n" + start + "\n" + end + "\n\nInstructions:\n\n" + "Have " + numTimesPerDay + " times a day on " + daysPerWeek + " with " + takenWith);
+
+        System.out.println(daysPerWeek);
+        System.out.println(daysPerWeek.isEmpty());
+
+        if (daysPerWeek.isEmpty()) {
+            t.setText(name + "\n\n" + start + "\n" + end + "\n\nInstructions:\n\n" + takenWith);
+        } else {
+            t.setText(name + "\n\n" + start + "\n" + end + "\n\nInstructions:\n\n" + "Have " + numTimesPerDay + " times a day on " + daysPerWeek + " with " + takenWith);
+        }
     }
 }

@@ -316,6 +316,10 @@ public class HistoryFragment extends Fragment {
 
                 System.out.println(med);
 
+                m = m.substring(0, m.length()-1) + "," + med.toString() + "]";
+
+                updateView("medication");
+
 //                addToMedicationTable(med);
 
                 dialog.hide();
@@ -347,17 +351,21 @@ public class HistoryFragment extends Fragment {
                 System.out.println(takenDay.getText().toString() + "-" + takenMonth.getText().toString() + "-" + takenYear.getText().toString() + " 00:00");
                 JSONObject vac = new JSONObject();
                 try {
-                    vac.put("rowNum", "1");
+//                    vac.put("rowNum", "1");
                     vac.put("uuid", userID);
                     vac.put("vacName", vacName.getText().toString());
-                    vac.put("takenDate", takenDay.getText().toString() + "-" + takenMonth.getText().toString() + "-" + takenYear.getText().toString() + " 00:00");
+                    vac.put("dateTaken", takenDay.getText().toString() + "-" + takenMonth.getText().toString() + "-" + takenYear.getText().toString() + " 00:00");
                 } catch (Exception e) {
                     System.out.println("Failed at Add vaccination from history");
                 }
 
                 System.out.println(vac);
 
-//                addToMedicationTable(med);
+                v = v.substring(0, v.length()-1) + "," + vac.toString() + "]";
+
+                updateView("vaccination");
+
+//                addToVaccinationTable(vac);
 
                 dialog.hide();
             }
