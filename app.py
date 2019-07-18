@@ -4,7 +4,7 @@ import json
 import pymysql
 app = Flask(__name__)
 
-conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='456455Nabil', db='Test',autocommit=True)
+conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='abc123', db='Test',autocommit=True)
 cur = conn.cursor()
 # app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 # app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -35,8 +35,33 @@ def addUser():
         cur.execute("""INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)""", (userName, password, firstName, lastName, userType))
         return 'success'
 
+@app.route('/addMedication', methods=['GET', 'POST'])
+def addMedication():
+    if request.method == "POST":
+        jsonData = request.get_json()
+        userID = jsonData['userID']
+        medName = jsonData['medName']
+        startDate = jsonData['startDate']
+        endDate = jsonData['endDate']
+        selectedDaysPerWeek = jsonData['selectedDaysPerWeek']
+        numTimesPerDay = jsonData['numTimesPerDay']
+        timesToBeReminded = jsonData['timesToBeReminded']
+        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded) VALUES (%s, %s,%s,%s,%s,%s,%s)""",
+        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded))
+        return 'success'
+
+@app.route('/getUserMedicalHistory/<userID>', methods=['GET', 'POST'])
+def getUserMedicalHistory(userID):
+    cur.execute("""SELECT * FROM Medications WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    return json.dumps(json_data, default=str)
+
 @app.route('/getAllUsers', methods=['GET'])
-def abc():
+def getAllUsers():
    cur.execute('SELECT * FROM Users')
    row_headers=[x[0] for x in cur.description] #this will extract row headers
    rv = cur.fetchall()
