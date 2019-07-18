@@ -138,6 +138,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        }
 //    }
 
+    public void Register(View view) {
+        Intent intent = new Intent(getBaseContext(), RegisterActivity.class);
+        startActivity(intent);
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
