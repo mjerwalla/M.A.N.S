@@ -23,8 +23,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center|center_vertical"
                 android:text="@string/first_name"
+                android:textColor="@color/primaryColor2"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
@@ -34,9 +35,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="First Name"
                 android:inputType="textPersonName"
-                android:text="@string/first_name"
-                android:textColor="#000000" />
+                android:textColor="@color/textColor1"
+                android:textColorHint="@color/hintColor" />
         </LinearLayout>
 
     </LinearLayout>
