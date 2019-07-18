@@ -2,6 +2,7 @@ package ca.uwaterloo.cs446.medaid.medaid;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 
@@ -10,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,20 +20,60 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     CalendarActivityDBHelper medDb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        medDb = new CalendarActivityDBHelper(this);
+//        Map<String, String> postData = new HashMap<>();
+//        postData.put("userName", "shadowbil");
+//        postData.put("password", "abc1231");
+//        postData.put("firstName", "abbba");
+//        postData.put("lastName", "accca");
+//        postData.put("userType", "2");
+//
+//
+//        Callback callback = new Callback() {
+//            @Override
+//            public void onValueReceived(final String value) {
+//                System.out.println("The onValueReceived  for Post: " + value);
+//                // call method to update view as required using returned value
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                System.out.println("I failed :(");
+//            }
+//        };
+//        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
+//        task.execute("http://10.0.2.2/addUser");
+//
+//        Callback callbackGet = new Callback() {
+//            @Override
+//            public void onValueReceived(final String value) {
+//                System.out.println("The onValueReceived for Get : " + value);
+//                // call method to update view as required using returned value
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                System.out.println("I failed :(");
+//            }
+//        };
+//        DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
+//        taskGet.execute("http://10.0.2.2/getAllUsers");
 
+        medDb = new CalendarActivityDBHelper(this);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction()
