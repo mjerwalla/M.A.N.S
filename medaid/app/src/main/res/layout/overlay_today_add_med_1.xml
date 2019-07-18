@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <EditText
+            android:id="@+id/txtMedName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name of Medicine"
+            android:inputType="textPersonName"
+            android:textColor="#818181" />
+
+        <EditText
+            android:id="@+id/txtTotalPills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Total # of Pills"
+            android:inputType="numberDecimal"
+            android:textColor="#818181" />
+
+        <TextView
+            android:id="@+id/TimesPerDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please select the days you will be taking your medicine on:" />
+
+        <CheckBox
+            android:id="@+id/monday"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:checked="false"
+            android:text="Monday" />
+
+        <CheckBox
+            android:id="@+id/tuesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Tuesday" />
+
+        <CheckBox
+            android:id="@+id/wednesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Wednesday" />
+
+        <CheckBox
+            android:id="@+id/thursday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Thursday" />
+
+        <CheckBox
+            android:id="@+id/friday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Friday" />
+
+        <CheckBox
+            android:id="@+id/saturday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Saturday" />
+
+        <CheckBox
+            android:id="@+id/sunday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Sunday" />
+
+        <EditText
+            android:id="@+id/txtDosagePerIntake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Dosage Per Intake"
+            android:inputType="numberDecimal"
+            android:textColor="#818181" />
+
+        <EditText
+            android:id="@+id/txtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Special Notes"
+            android:inputType="textPersonName"
+            android:textColor="#818181" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addMedicalEntry"
+            android:text="NEXT"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            tools:background="#F81E333A" />
+
+    </LinearLayout>
+
+</ScrollView>

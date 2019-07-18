@@ -1,7 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
+import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 
@@ -13,13 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -68,19 +69,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void setAddMedPopupBehavior(View view) {
         AlertDialog.Builder medPopupBuilder = new AlertDialog.Builder(MainActivity.this);
-        View medPopupView = getLayoutInflater().inflate(R.layout.overlay_add_med, null);
+        View medPopupView = getLayoutInflater().inflate(R.layout.overlay_today_add_med_1, null);
 
         medPopupBuilder.setView(medPopupView);
-        final AlertDialog dialog = medPopupBuilder.create();
-        dialog.show();
+        final AlertDialog medInfoDialog = medPopupBuilder.create();
+        medInfoDialog.show();
 
         // TODO: Modularize this function to find multiple Views by ID
         final TextView medName = medPopupView.findViewById(R.id.txtMedName);
         final TextView totalPills = medPopupView.findViewById(R.id.txtTotalPills);
-        final TextView numTimesPerDay = medPopupView.findViewById(R.id.txtNumTimesPerDay);
+        final TextView dosagePerIntake = medPopupView.findViewById(R.id.txtDosagePerIntake);
         // final TextView startDate = medPopupView.findViewById(R.id.startDate);
         final TextView notes = medPopupView.findViewById(R.id.txtNotes);
-        Button submitNewMedButton = medPopupView.findViewById(R.id.submitNewMed);
+        Button nextScreenButton = medPopupView.findViewById(R.id.btnNext);
 
         CheckBox[] daysOfTheWeek = {
                 medPopupView.findViewById(R.id.monday),
@@ -95,25 +96,97 @@ public class MainActivity extends AppCompatActivity {
         // Call helper (which will be reused) that gets existing fields in order to send to db
         // TODO: Set OnClick behaviour to call the helper, passing in the found ID's strings as parameters
 
-        submitNewMedButton.setOnClickListener(new View.OnClickListener() {
+        nextScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addMedicalEntry(
-                        medName.getText().toString(),
-                        numTimesPerDay.getText().toString(), // TODO: CHANGE
-                        numTimesPerDay.getText().toString(), // TODO: CHANGE
-                        "startDate",
-                        "endDate",
-                        2,
-                        Integer.parseInt(totalPills.getText().toString()),
-                        notes.getText().toString());
+                // Show the next screen
+                AlertDialog.Builder medTimePopupBuilder = new AlertDialog.Builder(MainActivity.this);
+                final View medTimesPopupView = getLayoutInflater().inflate(R.layout.overlay_today_add_med_2, null);
+                medTimePopupBuilder.setView(medTimesPopupView);
+                final AlertDialog medTimesDialog = medTimePopupBuilder.create();
+                medTimesDialog.show();
+                final NumberPicker numberPicker = medTimesPopupView.findViewById(R.id.numberPicker);
+                numberPicker.setMinValue(1);
+                numberPicker.setMaxValue(7);
 
-                // TODO: Check if new med was successfully added (maybe return value of addMedicalEntry?)
-                // TODO: If successful, close window, otherwise show prompt that say they are missing fields
+                Button okButton = medTimesPopupView.findViewById(R.id.btnOk);
+                Button submitButton = medTimesPopupView.findViewById(R.id.btnSubmit);
 
-                dialog.hide();
+                // Hide the current pop-up
+                medInfoDialog.hide();
+
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int chosenNumTimesPerDay = numberPicker.getValue();
+                        // Populate chosenNumTimesPerDay # of time choosers
+                        LinearLayout linearLayout = medTimesPopupView.findViewById(R.id.linearLayoutMedTimes);
+                        linearLayout.removeAllViews();
+
+                        for (int i = 1; i <= chosenNumTimesPerDay; i++) {
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View rowView = inflater.inflate(R.layout.overlay_select_time, linearLayout, false);
+
+                            if (rowView.getParent() != null) {
+                                ((ViewGroup)rowView.getParent()).removeView(rowView);
+                            }
+                            linearLayout.addView(rowView);
+
+                            // Set
+                            // new text
+                            TextView medTime = rowView.findViewById(R.id.txtMedTime);
+                            medTime.setText(medTime.getText() + Integer.toString(i) + ": ");
+
+                            // TODO: May need to double check there are no conflicting id's for txtNumTimesPerDay
+                            final Button setMedicineTime = rowView.findViewById(R.id.btnNumTimesPerDay);
+
+                            setMedicineTime.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    TimePickerDialog timePickerDialog;
+                                    timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                                        @Override
+                                        public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                                            String ampm = "am";
+                                            // TODO: Add am/pm
+                                            if (hourOfDay > 12) {
+                                                ampm = "pm";
+                                            }
+                                            String minutesString = Integer.toString(minutes);
+                                            if (minutes < 10) {
+                                                minutesString = "0" + minutes;
+                                            }
+
+                                            setMedicineTime.setText(hourOfDay + ":" + minutesString + " " + ampm);
+                                        }
+                                    }, 0, 0, false);
+                                    timePickerDialog.show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
+//        submitNewMedButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                addMedicalEntry(
+//                        medName.getText().toString(),
+//                        numTimesPerDay.getText().toString(), // TODO: CHANGE
+//                        numTimesPerDay.getText().toString(), // TODO: CHANGE
+//                        "startDate",
+//                        "endDate",
+//                        2,
+//                        Integer.parseInt(totalPills.getText().toString()),
+//                        notes.getText().toString());
+//
+//                // TODO: Check if new med was successfully added (maybe return value of addMedicalEntry?)
+//                // TODO: If successful, close window, otherwise show prompt that say they are missing fields
+//
+//                medInfoDialog.hide();
+//            }
+//        });
     }
 
     private void addMedicalEntry(
