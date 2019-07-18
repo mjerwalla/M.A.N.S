@@ -39,7 +39,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Date"
-                android:textSize="18dp" />
+                android:textColor="@color/primaryColor2"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/day1"
@@ -80,7 +82,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End Date"
-                android:textSize="18dp" />
+                android:textColor="@color/primaryColor2"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/day2"
@@ -116,7 +120,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Instructions:"
-            android:textSize="18dp" />
+            android:textColor="@color/primaryColor2"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/instructions"
@@ -131,10 +137,10 @@
             android:id="@+id/addMedSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor1"
+            android:background="@color/primaryColor2"
             android:onClick="addMedicalEntry"
             android:text="SUBMIT"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor2"
             android:textSize="18sp"
             android:textStyle="bold" />
 
