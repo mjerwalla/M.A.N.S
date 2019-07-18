@@ -17,7 +17,7 @@ CREATE TABLE CareTakers(
 );
 
 CREATE TABLE Medications(
-   medicationID INT NOT NULL,
+   medicationID INT NOT NULL AUTO_INCREMENT,
    userID INT NOT NULL,
    medName VARCHAR(20) NOT NULL,
    startDate DATETIME NOT NULL,
