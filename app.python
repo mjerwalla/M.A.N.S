@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from flaskext.mysql import MySQL
 import json
 app = Flask(__name__)
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'abc123'
+app.config['MYSQL_DATABASE_PASSWORD'] = '456455Nabil'
 app.config['MYSQL_DATABASE_DB'] = 'Test'
 
 mysql = MySQL(app)
@@ -14,15 +14,25 @@ mysql = MySQL(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
+    print(request.args)
     return 'Hello, World!'
 
 
 @app.route('/addUser', methods=['GET', 'POST'])
 def addUser():
     if request.method == "POST":
-        print(request.headers)
+        conn = mysql.connect()
+        jsonData = request.get_json()
+        userName = jsonData['userName']
+        password = jsonData['password']
+        firstName = jsonData['firstName']
+        lastName = jsonData['lastName']
+        userType = jsonData['userType']
+        print(userName + password + firstName + lastName + userType)
+        cur = mysql.get_db().cursor()
+        cur.execute('''INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)''', (userName, password, firstName, lastName, userType))
+        conn.commit()
         return 'success'
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 @app.route('/hello')
 def abc():
