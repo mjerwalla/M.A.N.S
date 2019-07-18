@@ -33,45 +33,45 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Map<String, String> postData = new HashMap<>();
-        postData.put("userName", "shadowbil");
-        postData.put("password", "abc1231");
-        postData.put("firstName", "abbba");
-        postData.put("lastName", "accca");
-        postData.put("userType", "2");
-
-
-        Callback callback = new Callback() {
-            @Override
-            public void onValueReceived(final String value) {
-                System.out.println("The onValueReceived  for Post: " + value);
-                // call method to update view as required using returned value
-
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("I failed :(");
-            }
-        };
-        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
-        task.execute("http://10.0.2.2/addUser");
-
-        Callback callbackGet = new Callback() {
-            @Override
-            public void onValueReceived(final String value) {
-                System.out.println("The onValueReceived for Get : " + value);
-                // call method to update view as required using returned value
-
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("I failed :(");
-            }
-        };
-        DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
-        taskGet.execute("http://10.0.2.2/getAllUsers");
+//        Map<String, String> postData = new HashMap<>();
+//        postData.put("userName", "shadowbil");
+//        postData.put("password", "abc1231");
+//        postData.put("firstName", "abbba");
+//        postData.put("lastName", "accca");
+//        postData.put("userType", "2");
+//
+//
+//        Callback callback = new Callback() {
+//            @Override
+//            public void onValueReceived(final String value) {
+//                System.out.println("The onValueReceived  for Post: " + value);
+//                // call method to update view as required using returned value
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                System.out.println("I failed :(");
+//            }
+//        };
+//        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
+//        task.execute("http://10.0.2.2/addUser");
+//
+//        Callback callbackGet = new Callback() {
+//            @Override
+//            public void onValueReceived(final String value) {
+//                System.out.println("The onValueReceived for Get : " + value);
+//                // call method to update view as required using returned value
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                System.out.println("I failed :(");
+//            }
+//        };
+//        DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
+//        taskGet.execute("http://10.0.2.2/getAllUsers");
 
         medDb = new CalendarActivityDBHelper(this);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
