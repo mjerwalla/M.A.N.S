@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flaskext.mysql import MySQL
 import json
 app = Flask(__name__)
@@ -13,17 +13,16 @@ mysql = MySQL(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
-def index():
+def hello_world():
+    return 'Hello, World!'
+
+
+@app.route('/addUser', methods=['GET', 'POST'])
+def addUser():
     if request.method == "POST":
-        details = request.form
-        firstName = details['fname']
-        lastName = details['lname']
-        cur = mysql.get_db().cursor()
-        cur.execute("INSERT INTO MyUsers(firstName, lastName) VALUES (%s, %s)", (firstName, lastName))
-        mysql.get_db().commit()
-        cur.close()
+        print(request.headers)
         return 'success'
-    return render_template('index.html')
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 @app.route('/hello')
 def abc():
@@ -37,8 +36,4 @@ def abc():
    return json.dumps(json_data)
 
 if __name__ == '__main__':
-   app.run(debug=True)
-
-
-if __name__ == '__main__':
-    app.run()
+   app.run(host='0.0.0.0',port=80,debug=True)
