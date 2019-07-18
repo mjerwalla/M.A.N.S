@@ -49,12 +49,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/ic_add_box_24dp"
+        android:onClick="setAddMedPopupBehavior"
         app:layout_constraintEnd_toStartOf="@+id/searchView"
         app:layout_constraintHorizontal_bias="0.727"
         app:layout_constraintStart_toStartOf="parent"

@@ -17,13 +17,12 @@ public class PopupActivity extends AppCompatActivity {
         String name = extras.getString("name");
         String start = extras.getString("start");
         String end = extras.getString("end");
-        String timesOfDay = extras.getString("timesOfDay");
         String daysPerWeek = extras.getString("daysPerWeek");
-        String dailyNumPills = extras.getString("dailyNumPills");
-        String notes = extras.getString("notes");
+        String numTimesPerDay = extras.getString("numTimesPerDay");
+        String takenWith = extras.getString("takenWith");
 
 
-        TextView t = (TextView)  findViewById(R.id.textViewPopup);
-        t.setText(name + "\n" + start + "\n" + end + "\n" + timesOfDay + "\n" + daysPerWeek + "\n" + dailyNumPills + "\n" + notes);
+        TextView t = (TextView) findViewById(R.id.textViewPopup);
+        t.setText(name + "\n\n" + start + "\n" + end + "\n\nInstructions:\n\n" + "Have " + numTimesPerDay + " times a day on " + daysPerWeek + " with " + takenWith);
     }
 }
