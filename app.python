@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '456455Nabil'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'abc123'
 app.config['MYSQL_DATABASE_DB'] = 'Test'
 
 mysql = MySQL(app)
@@ -30,7 +30,7 @@ def addUser():
         userType = jsonData['userType']
         print(userName + password + firstName + lastName + userType)
         cur = mysql.get_db().cursor()
-        cur.execute('''INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)''', (userName, password, firstName, lastName, userType))
+        cur.execute('''INSERT INTO USERS (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)''', (userName, password, firstName, lastName, userType))
         conn.commit()
         return 'success'
 
