@@ -50,6 +50,8 @@ public class HistoryFragment extends Fragment {
 
     String v = "[{'userID':'1', 'vacName':'Chicken Pox', 'dateTaken':'2009-04-12 00:00'}, {'userID':'1', 'vacName':'Tetanus', 'dateTaken':'2018-10-22 00:00'}]";
 
+    String r = "[]";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -197,8 +199,8 @@ public class HistoryFragment extends Fragment {
                     addMedPopUp();
                 } else if (type == "vaccination") {
                     addVacPopUp();
-                } else {
-
+                } else if (type == "report") {
+//                    addReportPopUp();
                 }
             }
         });
@@ -278,7 +280,6 @@ public class HistoryFragment extends Fragment {
         final AlertDialog dialog = medPopupBuilder.create();
         dialog.show();
 
-        // TODO: Modularize this function to find multiple Views by ID
         final TextView medName = medPopupView.findViewById(R.id.addMed);
         final TextView startDay = medPopupView.findViewById(R.id.day1);
         final TextView startMonth = medPopupView.findViewById(R.id.month1);
@@ -335,15 +336,14 @@ public class HistoryFragment extends Fragment {
         final AlertDialog dialog = vacPopupBuilder.create();
         dialog.show();
 
-        // TODO: Modularize this function to find multiple Views by ID
         final TextView vacName = vacPopupView.findViewById(R.id.addVac);
         final TextView takenDay = vacPopupView.findViewById(R.id.day3);
         final TextView takenMonth = vacPopupView.findViewById(R.id.month3);
         final TextView takenYear = vacPopupView.findViewById(R.id.year3);
 
-        Button submitNewMedButton = vacPopupView.findViewById(R.id.addVacSubmit);
+        Button submitNewVacButton = vacPopupView.findViewById(R.id.addVacSubmit);
 
-        submitNewMedButton.setOnClickListener(new View.OnClickListener() {
+        submitNewVacButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("ADDDDDING");

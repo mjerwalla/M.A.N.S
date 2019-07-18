@@ -101,12 +101,12 @@
             android:id="@+id/submitNewMed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/primaryColor2"
             android:onClick="addMedicalEntry"
             android:text="SUBMIT"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor2"
             android:textSize="18sp"
-            android:textStyle="normal"
-            tools:background="#F81E333A" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
