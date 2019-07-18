@@ -1,0 +1,48 @@
+
+CREATE TABLE "Users" (
+	"username"	TEXT NOT NULL UNIQUE,
+	"password"	TEXT NOT NULL,
+	"firstname"	TEXT NOT NULL,
+	"lastname"	TEXT NOT NULL,
+  "userType" INTEGER NOT NULL,
+	"uuid"	INTEGER NOT NULL
+);
+
+Users need to registered with a userType, single-user, patient, caretaker, or doctor
+when user is selected as patient, they are added to a CareTaker table instead and only requires first name and lastName, username/password will be randomly generated
+
+CREATE TABLE "CareTaker" (
+  "rowNum": INTEGER NOT NULL,
+  "careTakerID": INTEGER NOT NULL,
+  "patientID": INTEGER NOT NULL
+);
+
+a new table will required called 
+
+CREATE TABLE "Medication" (
+  "rowNum" INTEGER NOT NULL
+	"uuid"	INTEGER NOT NULL,
+	"medName"	TEXT NOT NULL,
+  "startDate"
+  "endDate"
+	"SelectedDaysPerWeek"	TEXT NOT NULL, // this will be checkboxes i.e MON,TUES,WED,THURS,FRI,SAT,SUN that have these values, comma seperated
+	"numTimesPerDay"	TEXT NOT NULL, // the number of times in a day they need to take this med
+  "TimeToBeReminded" // 24 hour times 8:00,14:00,22:00
+	"takenWith"	TEXT,
+	PRIMARY KEY("rowNum")
+);
+
+
+CREATE TABLE "Vaccinations" (
+  "rowNum" INTEGER NOT NULL,
+	"uuid"	INTEGER NOT NULL,
+	"vacName"	TEXT NOT NULL,
+	"date"	INTEGER,
+	PRIMARY KEY("rowNum")
+);
+
+CREATE TABLE "Reports" (
+  "rowNum" INTEGER NOT NULL,
+	"uuid"	INTEGER NOT NULL,
+	"filename"	TEXT NOT NULL
+);
