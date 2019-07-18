@@ -37,18 +37,18 @@ public class HistoryFragment extends Fragment {
     JSONArray jsonArray;
     String userID;
 
-    String m = "[{'rowNum': '22', 'uuid': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Advil', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Adderall', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Xanax', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Ibuprofen', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Advil Flu and Cold', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Evening Snack'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Antibiotic', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Penicillin', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Panadol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'uuid': '1', 'medName': 'Buckleys', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'}]";
+    String m = "[{'rowNum': '22', 'userID': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Adderall', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Xanax', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Ibuprofen', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil Flu and Cold', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Evening Snack'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Antibiotic', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Penicillin', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Panadol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Buckleys', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'}]";
 
-    String v = "[{'uuid':'1', 'vacName':'Chicken Pox', 'dateTaken':'2009-04-12 00:00'}, {'uuid':'1', 'vacName':'Tetanus', 'dateTaken':'2018-10-22 00:00'}]";
+    String v = "[{'userID':'1', 'vacName':'Chicken Pox', 'dateTaken':'2009-04-12 00:00'}, {'userID':'1', 'vacName':'Tetanus', 'dateTaken':'2018-10-22 00:00'}]";
 
     @Nullable
     @Override
@@ -62,7 +62,7 @@ public class HistoryFragment extends Fragment {
 
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject explrObject = jsonArray.getJSONObject(i);
-                userID = explrObject.getString("uuid");
+                userID = explrObject.getString("userID");
                 System.out.println(explrObject.getString("medName"));
                 names.add(explrObject.getString("medName"));
 
@@ -302,7 +302,7 @@ public class HistoryFragment extends Fragment {
                 JSONObject med = new JSONObject();
                 try {
                     med.put("rowNum", "1");
-                    med.put("uuid", userID);
+                    med.put("userID", userID);
                     med.put("medName", medName.getText().toString());
                     med.put("startDate", startYear.getText().toString() + "-" + startMonth.getText().toString() + "-" + startDay.getText().toString() + " 00:00");
                     med.put("endDate", endYear.getText().toString() + "-" + endMonth.getText().toString() + "-" + endDay.getText().toString() + " 00:00");
@@ -352,7 +352,7 @@ public class HistoryFragment extends Fragment {
                 JSONObject vac = new JSONObject();
                 try {
 //                    vac.put("rowNum", "1");
-                    vac.put("uuid", userID);
+                    vac.put("userID", userID);
                     vac.put("vacName", vacName.getText().toString());
                     vac.put("dateTaken", takenDay.getText().toString() + "-" + takenMonth.getText().toString() + "-" + takenYear.getText().toString() + " 00:00");
                 } catch (Exception e) {
