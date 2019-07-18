@@ -4,7 +4,7 @@ import json
 import pymysql
 app = Flask(__name__)
 
-conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='abc123', db='Test',autocommit=True)
+conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='456455Nabil', db='Test',autocommit=True)
 cur = conn.cursor()
 # app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 # app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -35,7 +35,7 @@ def addUser():
         cur.execute("""INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)""", (userName, password, firstName, lastName, userType))
         return 'success'
 
-@app.route('/getAllUsers')
+@app.route('/getAllUsers', methods=['GET'])
 def abc():
    cur.execute('SELECT * FROM Users')
    row_headers=[x[0] for x in cur.description] #this will extract row headers
