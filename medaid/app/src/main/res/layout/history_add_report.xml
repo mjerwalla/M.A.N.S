@@ -28,6 +28,25 @@
             android:inputType="textPersonName"
             android:textColorHint="@color/hintColor" />
 
+        <EditText
+            android:id="@+id/pdfName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="PDF Name (ex: report.pdf)"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/hintColor" />
+
+        <TextView
+            android:id="@+id/or"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="OR"
+            android:textColor="@color/textColor1"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
         <Button
             android:id="@+id/browseButton"
             android:layout_width="match_parent"

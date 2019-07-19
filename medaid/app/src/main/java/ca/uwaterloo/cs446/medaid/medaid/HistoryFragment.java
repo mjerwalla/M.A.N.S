@@ -1,12 +1,17 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -36,6 +42,7 @@ public class HistoryFragment extends Fragment {
     String type = "medication";
     JSONArray jsonArray;
     String userID;
+    TextView pdfFile;
 
     String m = "[{'rowNum': '22', 'userID': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
             "{'rowNum': 23', 'userID': '1', 'medName': 'Advil', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
@@ -129,6 +136,8 @@ public class HistoryFragment extends Fragment {
             }
         };
 
+        adapter.setNotifyOnChange(true);
+
         listView.setAdapter(adapter);
 
 
@@ -171,10 +180,6 @@ public class HistoryFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (names.contains(query)) {
-                    adapter.getFilter().filter(query);
-                    return true;
-                }
 //                else {
 //                    Toast toast = Toast.makeText(getApplicationContext(), "No Match Found", Toast.LENGTH_SHORT);
 //                    toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -191,6 +196,34 @@ public class HistoryFragment extends Fragment {
             }
         });
 
+        searchView.setQueryHint("Search");
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adapter = null;
+                listView.setAdapter(null);
+
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, names) {
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+//                    TextView t1 = (TextView) view.findViewById(android.R.id.text1);
+                        TextView t2 = (TextView) view.findViewById(android.R.id.text2);
+//                    t1.setText(names.get(position));
+                        t2.setText(duration.get(position));
+                        return view;
+                    }
+                };
+
+                adapter.setNotifyOnChange(true);
+                listView.setAdapter(adapter);
+
+                return false;
+            }
+        });
+
         addButton = view.findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +233,7 @@ public class HistoryFragment extends Fragment {
                 } else if (type == "vaccination") {
                     addVacPopUp();
                 } else if (type == "report") {
-//                    addReportPopUp();
+                    addReportPopUp();
                 }
             }
         });
@@ -258,11 +291,26 @@ public class HistoryFragment extends Fragment {
                 System.out.println("Failed");
             }
 
-        } else {
-            jsonArray = null;
+        } else if (type == "report") {
+            System.out.println(("report"));
+            System.out.println(names);
+            System.out.println(r);
             names.clear();
             duration.clear();
-            System.out.println("Hiiii");
+            try {
+                jsonArray = new JSONArray(r);
+
+                System.out.println(jsonArray);
+
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    JSONObject explrObject = jsonArray.getJSONObject(i);
+                    names.add(explrObject.getString("reportName"));
+
+                    duration.add("File Name: " + explrObject.getString("pdfName"));
+                }
+            } catch (Exception e) {
+                System.out.println("Failed");
+            }
         }
 
         adapter.notifyDataSetChanged();
@@ -370,5 +418,105 @@ public class HistoryFragment extends Fragment {
                 dialog.hide();
             }
         });
+    }
+
+    public void addReportPopUp() {
+        AlertDialog.Builder repPopupBuilder = new AlertDialog.Builder(this.getContext());
+        View repPopupView = getLayoutInflater().inflate(R.layout.history_add_report, null);
+
+        repPopupBuilder.setView(repPopupView);
+        final AlertDialog dialog = repPopupBuilder.create();
+        dialog.show();
+
+        final TextView repName = repPopupView.findViewById(R.id.addRep);
+
+        Button browseButton = repPopupView.findViewById(R.id.browseButton);
+
+       pdfFile = (TextView) repPopupView.findViewById(R.id.pdfName);
+
+        browseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Open pdf dialog");
+
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/pdf");
+
+                startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), 1);
+            }
+        });
+
+        final TextView pdfName = repPopupView.findViewById(R.id.pdfName);
+
+        Button submitNewRepButton = repPopupView.findViewById(R.id.addReportSubmit);
+
+        submitNewRepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("ADDDDDING");
+                System.out.println(repName.getText().toString());
+                System.out.println(pdfName.getText().toString());
+                JSONObject report = new JSONObject();
+                try {
+//                    vac.put("rowNum", "1");
+                    report.put("userID", userID);
+                    report.put("reportName", repName.getText().toString());
+                    report.put("pdfName", pdfName.getText().toString());
+                } catch (Exception e) {
+                    System.out.println("Failed at Add report from history");
+                }
+
+                if (r == "[]") {
+                    r = r.substring(0, r.length() - 1) + report.toString() + "]";
+                } else {
+                    r = r.substring(0, r.length() - 1) + "," + report.toString() + "]";
+                }
+
+                updateView("report");
+
+//                addToVaccinationTable(vac);
+
+                dialog.hide();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+//        super.onActivityResult(requestCode, resultCode, resultData);
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = resultData.getData();
+                System.out.println(uri);
+                System.out.println((uri));
+                File myFile = new File(uri.toString());
+                String path = myFile.getAbsolutePath();
+                System.out.println(path);
+                String displayName = "";
+
+                if (uri.toString().startsWith("content://")) {
+                    Cursor c = null;
+
+                    try {
+                        c = getActivity().getContentResolver().query(uri, null, null, null, null);
+
+                        if (c != null && c.moveToFirst()) {
+                            displayName = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                        }
+                    } finally {
+                        c.close();
+                    }
+                }
+                System.out.println("lalallal");
+                System.out.println(displayName);
+                System.out.println("lalallal");
+
+//                TextView pdf = (TextView) findViewById(R.id.pdfName);
+                pdfFile.setText(displayName);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, resultData);
     }
 }
