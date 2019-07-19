@@ -9,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +22,12 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     CalendarActivityDBHelper medDb;
@@ -92,6 +97,40 @@ public class MainActivity extends AppCompatActivity {
                 medPopupView.findViewById(R.id.saturday),
                 medPopupView.findViewById(R.id.sunday)
         };
+        final StringBuilder daysOfTheWeekString = new StringBuilder();
+
+        for (CheckBox checkBox : daysOfTheWeek) {
+            if (checkBox.isChecked()) {
+                switch (checkBox.getId()) {
+                    case R.id.monday:
+                        daysOfTheWeekString.append("MON");
+                        break;
+                    case R.id.tuesday:
+                        daysOfTheWeekString.append("TUES");
+                        break;
+                    case R.id.wednesday:
+                        daysOfTheWeekString.append("WED");
+                        break;
+                    case R.id.thursday:
+                        daysOfTheWeekString.append("THURS");
+                        break;
+                    case R.id.friday:
+                        daysOfTheWeekString.append("FRI");
+                        break;
+                    case R.id.saturday:
+                        daysOfTheWeekString.append("SAT");
+                        break;
+                    case R.id.sunday:
+                        daysOfTheWeekString.append("SUN");
+                        break;
+                }
+            }
+            daysOfTheWeekString.append(",");
+        }
+
+        // Remove last comma
+        int lastCharIndex = daysOfTheWeekString.length() - 1;
+        daysOfTheWeekString.substring(0, lastCharIndex);
 
         // Call helper (which will be reused) that gets existing fields in order to send to db
         // TODO: Set OnClick behaviour to call the helper, passing in the found ID's strings as parameters
@@ -110,7 +149,9 @@ public class MainActivity extends AppCompatActivity {
                 numberPicker.setMaxValue(7);
 
                 Button okButton = medTimesPopupView.findViewById(R.id.btnOk);
-                Button submitButton = medTimesPopupView.findViewById(R.id.btnSubmit);
+                final Map<Integer, String> timeIDMap = new HashMap<Integer, String>();
+                final Button submitButton = medTimesPopupView.findViewById(R.id.btnSubmit);
+                final int dosage;
 
                 // Hide the current pop-up
                 medInfoDialog.hide();
@@ -139,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
 
                             // TODO: May need to double check there are no conflicting id's for txtNumTimesPerDay
                             final Button setMedicineTime = rowView.findViewById(R.id.btnNumTimesPerDay);
+                            setMedicineTime.setId(R.id.btnNumTimesPerDay + i);
+                            timeIDMap.put(setMedicineTime.getId(), "NULL");
 
                             setMedicineTime.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -152,41 +195,79 @@ public class MainActivity extends AppCompatActivity {
                                             if (hourOfDay > 12) {
                                                 ampm = "pm";
                                             }
+
                                             String minutesString = Integer.toString(minutes);
                                             if (minutes < 10) {
                                                 minutesString = "0" + minutes;
                                             }
 
-                                            setMedicineTime.setText(hourOfDay + ":" + minutesString + " " + ampm);
+                                            String time = hourOfDay + ":" + minutesString;
+                                            setMedicineTime.setText(time + " " + ampm);
+
+                                            // Add 0 in front of hour if < 10
+                                            if (hourOfDay < 10) {
+                                                time = "0" + time;
+                                            }
+                                            timeIDMap.put(setMedicineTime.getId(), time);
+
+                                            if (!timeIDMap.containsValue("NULL")) {
+                                                submitButton.setVisibility(View.VISIBLE);
+                                            }
                                         }
                                     }, 0, 0, false);
                                     timePickerDialog.show();
                                 }
                             });
                         }
+
+                    }
+                });
+
+                // TODO: Set submitButton action once all times have been set
+                submitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Concatenate all timeIDMap times
+                        List<String> times = new ArrayList<>();
+                        for (Map.Entry<Integer, String> entry : timeIDMap.entrySet()) {
+                            times.add(entry.getValue());
+                        }
+                        final String medTimes = sortAndConcatMedTimes(times);
+
+                        addMedicalEntry(
+                            medName.getText().toString(),
+                            medTimes,
+                            daysOfTheWeekString.toString(),
+                            "startDate",
+                            "endDate",
+                            Integer.parseInt(dosagePerIntake.getText().toString()),
+                            Integer.parseInt(totalPills.getText().toString()),
+                            notes.getText().toString());
+
+                        // TODO: Check if new med was successfully added (maybe return value of addMedicalEntry?)
+                        // TODO: If successful, close window, otherwise show prompt that say they are missing fields
+
+                        medTimesDialog.hide();
                     }
                 });
             }
         });
-//        submitNewMedButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                addMedicalEntry(
-//                        medName.getText().toString(),
-//                        numTimesPerDay.getText().toString(), // TODO: CHANGE
-//                        numTimesPerDay.getText().toString(), // TODO: CHANGE
-//                        "startDate",
-//                        "endDate",
-//                        2,
-//                        Integer.parseInt(totalPills.getText().toString()),
-//                        notes.getText().toString());
-//
-//                // TODO: Check if new med was successfully added (maybe return value of addMedicalEntry?)
-//                // TODO: If successful, close window, otherwise show prompt that say they are missing fields
-//
-//                medInfoDialog.hide();
-//            }
-//        });
+    }
+
+    final private String sortAndConcatMedTimes(List<String> medTimes) {
+        StringBuilder timesBuilder = new StringBuilder();
+        String times;
+        // TODO: Sort the times from earliest to latest in the day
+
+        for (String time : medTimes) {
+            timesBuilder.append(time);
+            timesBuilder.append(",");
+        }
+
+        times = timesBuilder.toString();
+        int lastCharIndex = times.length() - 1;
+        times.substring(0, lastCharIndex);
+        return times;
     }
 
     private void addMedicalEntry(
@@ -198,44 +279,13 @@ public class MainActivity extends AppCompatActivity {
             int dosePerIntake,
             int totalPills,
             String notes) {
-        String daysOfTheWeekString;
-
-        String[] lettersOfTheWeek = {
-                "MO",
-                "TU",
-                "WE",
-                "TH",
-                "FR",
-                "SA",
-                "SU"
-        };
-
-        // Get DaysPerWeek
-        int counter = 0;
-//        for (CheckBox day: daysOfTheWeek) {
-////            // TODO
-////        }
-
-        String[] timesPerDay = {
-                "12",
-                "15",
-                "18",
-                "21",
-                "23"
-        };
-
-//        int dailyIntake = Integer.parseInt(numTimesPerDay.getText().toString());
-//        String timesOfDayString = "9";
-//        for (int i = 0; i < dailyIntake - 1; i++) {
-//            timesOfDayString += "," + timesPerDay[i];
-//        }
 
         medDb.insertMedicationData(
                 1,
                 medName,
                 timesOfDay,
-                "M,W,F",
-                new Date(2019,06,26),
+                daysPerWeek,
+                new Date(),
                 new Date(2020,06,26),
                 dosePerIntake,
                 totalPills,
@@ -243,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.update();
     }
-
 
     private void update() {
         getSupportFragmentManager().beginTransaction()

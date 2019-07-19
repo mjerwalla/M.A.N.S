@@ -51,12 +51,13 @@
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
+            android:enabled="true"
             android:onClick="addMedicalEntry"
             android:text="SUBMIT"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="normal"
+            android:visibility="invisible"
             tools:background="#F81E333A" />
 
     </LinearLayout>
