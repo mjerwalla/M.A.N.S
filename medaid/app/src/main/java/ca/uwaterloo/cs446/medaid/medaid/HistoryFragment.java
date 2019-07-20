@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -172,6 +173,37 @@ public class HistoryFragment extends Fragment {
                     }
                     p.putExtras(extras);
                     startActivity(p);
+                } else if (type == "report") {
+                    String name = listView.getItemAtPosition(i).toString();
+                    String pdf = "";
+
+                    try {
+                        for (int j = 0; j < jsonArray.length(); ++j) {
+                            JSONObject explrObject = jsonArray.getJSONObject(j);
+
+                            if (explrObject.getString("reportName") == name) {
+                                System.out.println("YEEEES report");
+                                pdf = explrObject.getString("pdfName");
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Failed at Line 191");
+                    }
+
+                    Uri path = Uri.parse(pdf);
+                    System.out.println(path);
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(path);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    try {
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        System.out.println("Unable to open PDF");
+                    }
                 }
             }
         });
@@ -494,27 +526,26 @@ public class HistoryFragment extends Fragment {
                 File myFile = new File(uri.toString());
                 String path = myFile.getAbsolutePath();
                 System.out.println(path);
-                String displayName = "";
+//                String displayName = "";
+//
+//                if (uri.toString().startsWith("content://")) {
+//                    Cursor c = null;
+//
+//                    try {
+//                        c = getActivity().getContentResolver().query(uri, null, null, null, null);
+//
+//                        if (c != null && c.moveToFirst()) {
+//                            displayName = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//                        }
+//                    } finally {
+//                        c.close();
+//                    }
+//                }
+//                System.out.println("lalallal");
+//                System.out.println(displayName);
+//                System.out.println("lalallal");
 
-                if (uri.toString().startsWith("content://")) {
-                    Cursor c = null;
-
-                    try {
-                        c = getActivity().getContentResolver().query(uri, null, null, null, null);
-
-                        if (c != null && c.moveToFirst()) {
-                            displayName = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                        }
-                    } finally {
-                        c.close();
-                    }
-                }
-                System.out.println("lalallal");
-                System.out.println(displayName);
-                System.out.println("lalallal");
-
-//                TextView pdf = (TextView) findViewById(R.id.pdfName);
-                pdfFile.setText(displayName);
+                pdfFile.setText(uri.toString());
             }
         }
         super.onActivityResult(requestCode, resultCode, resultData);
