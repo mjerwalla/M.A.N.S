@@ -50,9 +50,30 @@ def addMedication():
         (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded))
         return 'success'
 
-@app.route('/getUserMedicalHistory/<userID>', methods=['GET', 'POST'])
+@app.route('/getUserMedicalHistory/<userID>', methods=['GET'])
 def getUserMedicalHistory(userID):
     cur.execute("""SELECT * FROM Medications WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    return json.dumps(json_data, default=str)
+
+@app.route('/getCurrentMeds/<userID>', methods=['GET'])
+def getUserMedicalHistory(userID):
+    cur.execute("""SELECT * FROM Medications WHERE NOW() <= endDate AND startDate <= NOW() AND userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    return json.dumps(json_data, default=str)
+
+
+@app.route('/validateUser/<username>/<password>', methods=['GET'])
+def validateUser(username,password):
+    cur.execute("""SELECT userID,userType FROM Users WHERE userName = %s AND password = %s""", (username,password))
     row_headers=[x[0] for x in cur.description] #this will extract row headers
     rv = cur.fetchall()
     json_data=[]
