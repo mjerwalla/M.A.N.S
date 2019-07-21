@@ -108,13 +108,12 @@
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#F81E333A"
+            android:background="@color/primaryColor2"
             android:onClick="addMedicalEntry"
+            android:textColor="@color/textColor2"
             android:text="NEXT"
-            android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="normal"
-            tools:background="#F81E333A" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

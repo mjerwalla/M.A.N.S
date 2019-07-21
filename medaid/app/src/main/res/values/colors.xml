@@ -8,4 +8,5 @@
     <color name="primaryColor3">#3F51B5</color>
     <color name="textColor1">#000000</color>
     <color name="textColor2">#FFFFFF</color>
+    <color name="hintColor">#818181</color>
 </resources>
