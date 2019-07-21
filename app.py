@@ -7,7 +7,6 @@ app = Flask(__name__)
 conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 
 
-
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     print(request.args)
@@ -96,5 +95,4 @@ def getAllUsers():
    return json.dumps(json_data)
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0',port=80,debug=True)
-
+   app.run(host='0.0.0.0',port=5000,debug=True)
