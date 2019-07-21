@@ -1,8 +1,10 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.icu.text.SymbolTable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.DatePicker;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -361,12 +364,8 @@ public class HistoryFragment extends Fragment {
         dialog.show();
 
         final TextView medName = medPopupView.findViewById(R.id.addMed);
-        final TextView startDay = medPopupView.findViewById(R.id.day1);
-        final TextView startMonth = medPopupView.findViewById(R.id.month1);
-        final TextView startYear = medPopupView.findViewById(R.id.year1);
-        final TextView endDay = medPopupView.findViewById(R.id.day2);
-        final TextView endMonth = medPopupView.findViewById(R.id.month2);
-        final TextView endYear = medPopupView.findViewById(R.id.year2);
+        final DatePicker start = medPopupView.findViewById(R.id.datePickerStart);
+        final DatePicker end = medPopupView.findViewById(R.id.datePickerEnd);
         final TextView notes = medPopupView.findViewById(R.id.instructions);
 
         Button submitNewMedButton = medPopupView.findViewById(R.id.addMedSubmit);
@@ -376,8 +375,8 @@ public class HistoryFragment extends Fragment {
             public void onClick(View view) {
                 System.out.println("ADDDDDING");
                 System.out.println(medName.getText().toString());
-                System.out.println(startYear.getText().toString() + "-" + startMonth.getText().toString() + "-" + startDay.getText().toString() + " 00:00");
-                System.out.println(endYear.getText().toString() + "-" + endMonth.getText().toString() + "-" + endDay.getText().toString() + " 00:00");
+                System.out.println(start.getDayOfMonth() + "-" + (start.getMonth() + 1) + "-" + start.getYear());
+                System.out.println(end.getDayOfMonth() + "-" + (end.getMonth() + 1) + "-" + end.getYear());
                 System.out.println(notes.getText().toString());
 
                 JSONObject med = new JSONObject();
@@ -385,8 +384,24 @@ public class HistoryFragment extends Fragment {
                     med.put("rowNum", "1");
                     med.put("userID", userID);
                     med.put("medName", medName.getText().toString());
-                    med.put("startDate", startYear.getText().toString() + "-" + startMonth.getText().toString() + "-" + startDay.getText().toString() + " 00:00");
-                    med.put("endDate", endYear.getText().toString() + "-" + endMonth.getText().toString() + "-" + endDay.getText().toString() + " 00:00");
+                    String dayS = String.valueOf(start.getDayOfMonth());
+                    String monthS = String.valueOf(start.getMonth() + 1);
+                    if (dayS.length() == 1) {
+                        dayS = "0" + dayS;
+                    }
+                    if (monthS.length() == 1) {
+                        monthS = "0" + monthS;
+                    }
+                    String dayE = String.valueOf(end.getDayOfMonth());
+                    String monthE = String.valueOf(end.getMonth() + 1);
+                    if (dayE.length() == 1) {
+                        dayE = "0" + dayE;
+                    }
+                    if (monthE.length() == 1) {
+                        monthE = "0" + monthE;
+                    }
+                    med.put("startDate", start.getYear() + "-" + monthS + "-" + dayS + " 00:00");
+                    med.put("endDate", end.getYear() + "-" + monthE + "-" + dayE + " 00:00");
                     med.put("selectedDaysPerWeek", "");
                     med.put("numTimesPerDay", "");
                     med.put("timesToBeReminded", "");
@@ -417,9 +432,7 @@ public class HistoryFragment extends Fragment {
         dialog.show();
 
         final TextView vacName = vacPopupView.findViewById(R.id.addVac);
-        final TextView takenDay = vacPopupView.findViewById(R.id.day3);
-        final TextView takenMonth = vacPopupView.findViewById(R.id.month3);
-        final TextView takenYear = vacPopupView.findViewById(R.id.year3);
+        final DatePicker date = vacPopupView.findViewById(R.id.datePickerVac);
 
         Button submitNewVacButton = vacPopupView.findViewById(R.id.addVacSubmit);
 
@@ -428,13 +441,22 @@ public class HistoryFragment extends Fragment {
             public void onClick(View view) {
                 System.out.println("ADDDDDING");
                 System.out.println(vacName.getText().toString());
-                System.out.println(takenDay.getText().toString() + "-" + takenMonth.getText().toString() + "-" + takenYear.getText().toString() + " 00:00");
+                System.out.println("HEEEELO DATEPICKER");
+                System.out.println(date.getDayOfMonth() + "-" + (date.getMonth() + 1) + "-" + date.getYear());
                 JSONObject vac = new JSONObject();
                 try {
 //                    vac.put("rowNum", "1");
                     vac.put("userID", userID);
                     vac.put("vacName", vacName.getText().toString());
-                    vac.put("dateTaken", takenDay.getText().toString() + "-" + takenMonth.getText().toString() + "-" + takenYear.getText().toString() + " 00:00");
+                    String day = String.valueOf(date.getDayOfMonth());
+                    String month = String.valueOf(date.getMonth() + 1);
+                    if (day.length() == 1) {
+                        day = "0" + day;
+                    }
+                    if (month.length() == 1) {
+                        month = "0" + month;
+                    }
+                    vac.put("dateTaken", date.getYear() + "-" + month + "-" + day + " 00:00");
                 } catch (Exception e) {
                     System.out.println("Failed at Add vaccination from history");
                 }
