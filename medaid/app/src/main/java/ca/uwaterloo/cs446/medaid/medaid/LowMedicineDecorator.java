@@ -1,5 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -37,4 +38,5 @@ public class LowMedicineDecorator implements DayViewDecorator {
 
 
     }
+
 }

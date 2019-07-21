@@ -3,6 +3,7 @@ package ca.uwaterloo.cs446.medaid.medaid;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -39,26 +41,6 @@ public class CalendarFragment extends Fragment {
     }
 
     public void whatev() {
-//        CustomCalendarView calendarView = (CustomCalendarView) v.findViewById(R.id.calendar_view);
-//        Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
-//        calendarView.setFirstDayOfWeek(Calendar.MONDAY);
-//        List decorators = new ArrayList<>();
-//        decorators.add(new ColorDecorator());
-//        calendarView.setDecorators(decorators);
-//        calendarView.refreshCalendar(currentCalendar);
-//
-//        calendarView.setCalendarListener(new CalendarListener() {
-//            @Override
-//            public void onDateSelected(Date date) {
-//                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-//                Toast.makeText(getContext(), df.format(date), Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onMonthChanged(Date date) {
-//                SimpleDateFormat df = new SimpleDateFormat("MM-yyyy");
-//                Toast.makeText(getContext(), df.format(date), Toast.LENGTH_SHORT).show();
-//            }
-//        });
         MaterialCalendarView calendarView = (MaterialCalendarView) v.findViewById(R.id.calendarView);
         calendarView.setSelectionColor(Color.parseColor("#27CEA7"));
         List decorators = new ArrayList<>();
@@ -71,10 +53,30 @@ public class CalendarFragment extends Fragment {
 
         calendarView.addDecorator(new LowMedicineDecorator(days,red));
         calendarView.addDecorator(new AppointmentDecorator(days,green));
-        calendarView.refreshDrawableState();
+        OnDateSelectedListener dateListener = new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                System.out.println("Hello A new date was selected : " + date);
+                Callback callback = new Callback() {
+                    @Override
+                    public void onValueReceived(final String value) {
+                        System.out.println("The onValueReceived  for Post: " + value);
+                        // call method to update view as required using returned value
 
+                    }
 
-
+                    @Override
+                    public void onFailure() {
+                        System.out.println("I failed :(");
+                    }
+                };
+                DatabaseHelperPost task = new DatabaseHelperPost(null, callback);
+                // pass in the saved userID and the CalenderDay
+                //task.execute("http://10.0.2.2/eventsOnThisDay/" + userID + "/" + );
+                    }
+                };
+                calendarView.setOnDateChangedListener(dateListener);
+                calendarView.refreshDrawableState();
     }
 
 }
