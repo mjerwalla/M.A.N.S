@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_calendar:
                             selectedFrag = new CalendarFragment();
                             break;
-                        case R.id.nav_insights:
+                        case R.id.nav_history:
                             selectedFrag = new HistoryFragment();
                             break;
-                        case R.id.nav_personal:
-                            selectedFrag = new HistoryFragment();
+                        case R.id.nav_insights:
+                            selectedFrag = new InsightsFragment();
                             break;
                     }
 
