@@ -32,44 +32,27 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text=" Date Taken"
-            android:textSize="18sp" />
+            android:textColor="@color/primaryColor2"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/day3"
-            android:layout_width="match_parent"
+        <DatePicker
+            android:id="@+id/datePickerVac"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" dd"
-            android:inputType="textPersonName"
-            android:textColor="#818181" />
-
-        <EditText
-            android:id="@+id/month3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" mm"
-            android:inputType="textPersonName"
-            android:textColor="#818181" />
-
-        <EditText
-            android:id="@+id/year3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" yyyy"
-            android:inputType="textPersonName"
-            android:textColor="#818181" />
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
 
         <Button
             android:id="@+id/addVacSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor1"
+            android:background="@color/primaryColor2"
             android:onClick="addMedicalEntry"
             android:text="SUBMIT"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor2"
             android:textSize="18sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

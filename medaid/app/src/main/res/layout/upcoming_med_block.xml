@@ -9,12 +9,12 @@
 
     <TextView
         android:id="@+id/txtMedName"
-        android:layout_width="104dp"
+        android:layout_width="135dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="-127dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:background="#EDF6FD"
         android:gravity="center"
         android:text="Tylenol"

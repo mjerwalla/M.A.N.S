@@ -31,7 +31,7 @@
             android:textColor="#818181" />
 
         <TextView
-            android:id="@+id/DaysPerWeek"
+            android:id="@+id/TimesPerDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Please select the days you will be taking your medicine on:" />
@@ -40,6 +40,7 @@
             android:id="@+id/monday"
             android:layout_width="135dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:checked="false"
             android:text="Monday" />
 
@@ -47,44 +48,50 @@
             android:id="@+id/tuesday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Tuesday" />
 
         <CheckBox
             android:id="@+id/wednesday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Wednesday" />
 
         <CheckBox
             android:id="@+id/thursday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Thursday" />
 
         <CheckBox
             android:id="@+id/friday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Friday" />
 
         <CheckBox
             android:id="@+id/saturday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Saturday" />
 
         <CheckBox
             android:id="@+id/sunday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Sunday" />
 
         <EditText
-            android:id="@+id/txtNumTimesPerDay"
+            android:id="@+id/txtDosagePerIntake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Intake Per Day"
+            android:hint="Dosage Per Intake"
             android:inputType="numberDecimal"
             android:textColor="#818181" />
 
@@ -98,15 +105,15 @@
             android:textColor="#818181" />
 
         <Button
-            android:id="@+id/submitNewMed"
+            android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/primaryColor2"
             android:onClick="addMedicalEntry"
-            android:text="SUBMIT"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor2"
+            android:text="NEXT"
             android:textSize="18sp"
-            android:textStyle="normal"
-            tools:background="#F81E333A" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -4,16 +4,7 @@ import json
 import pymysql
 app = Flask(__name__)
 
-conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='abc123', db='Test',autocommit=True)
-cur = conn.cursor()
-# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-# app.config['MYSQL_DATABASE_USER'] = 'root'
-# app.config['MYSQL_DATABASE_PASSWORD'] = '456455Nabil'
-# app.config['MYSQL_DATABASE_DB'] = 'Test'
-#
-# mysql = MySQL(app)
-# conn = mysql.connect()
-# cursor =conn.cursor()
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -25,6 +16,7 @@ def hello_world():
 @app.route('/addUser', methods=['GET', 'POST'])
 def addUser():
     if request.method == "POST":
+        cur = conn.cursor()
         jsonData = request.get_json()
         userName = jsonData['userName']
         password = jsonData['password']
@@ -33,11 +25,13 @@ def addUser():
         userType = jsonData['userType']
         print(userName + password + firstName + lastName + userType)
         cur.execute("""INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)""", (userName, password, firstName, lastName, userType))
+        cur.close()
         return 'success'
 
 @app.route('/addMedication', methods=['GET', 'POST'])
 def addMedication():
     if request.method == "POST":
+        cur = conn.cursor()
         jsonData = request.get_json()
         userID = jsonData['userID']
         medName = jsonData['medName']
@@ -48,27 +42,57 @@ def addMedication():
         timesToBeReminded = jsonData['timesToBeReminded']
         cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded) VALUES (%s, %s,%s,%s,%s,%s,%s)""",
         (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded))
+        cor.close()
         return 'success'
 
-@app.route('/getUserMedicalHistory/<userID>', methods=['GET', 'POST'])
+@app.route('/getUserMedicalHistory/<userID>', methods=['GET'])
 def getUserMedicalHistory(userID):
+    cur = conn.cursor()
     cur.execute("""SELECT * FROM Medications WHERE userID = %s""", (userID))
     row_headers=[x[0] for x in cur.description] #this will extract row headers
     rv = cur.fetchall()
     json_data=[]
     for result in rv:
          json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
+@app.route('/getCurrentMeds/<userID>', methods=['GET'])
+def getCurrentMeds(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Medications WHERE NOW() <= endDate AND startDate <= NOW() AND userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
+
+@app.route('/validateUser/<username>/<password>', methods=['GET'])
+def validateUser(username,password):
+    cur = conn.cursor()
+    cur.execute("""SELECT userID,userType FROM Users WHERE userName = %s AND password = %s""", (username,password))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
     return json.dumps(json_data, default=str)
 
 @app.route('/getAllUsers', methods=['GET'])
 def getAllUsers():
+   cur = conn.cursor()
    cur.execute('SELECT * FROM Users')
    row_headers=[x[0] for x in cur.description] #this will extract row headers
    rv = cur.fetchall()
    json_data=[]
    for result in rv:
         json_data.append(dict(zip(row_headers,result)))
+   cur.close()
    return json.dumps(json_data)
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0',port=80,debug=True)
+   app.run(host='0.0.0.0',port=5000,debug=True)

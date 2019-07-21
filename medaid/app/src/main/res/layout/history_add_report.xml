@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="295dp"
-        android:layout_height="550dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -20,74 +20,51 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/addMed"
+            android:id="@+id/addRep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Name of Medicine"
+            android:hint="Name of the Report"
             android:inputType="textPersonName"
-            android:textColor="#818181" />
+            android:textColorHint="@color/hintColor" />
 
         <TextView
-            android:id="@+id/start"
+            android:id="@+id/pdfName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Start Date"
-            android:textColor="@color/primaryColor2"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <DatePicker
-            android:id="@+id/datePickerStart"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner" />
-
-        <TextView
-            android:id="@+id/end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="End Date"
-            android:textColor="@color/primaryColor2"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <DatePicker
-            android:id="@+id/datePickerEnd"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Instructions:"
-            android:textColor="@color/primaryColor2"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/instructions"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:ems="10"
-            android:hint="Enter any instructions"
-            android:inputType="textPersonName"
-            android:textColor="#818181" />
+            android:layout_height="42dp"
+            android:hint="PDF File Name"
+            android:textColorHint="@color/hintColor"
+            android:textSize="18sp" />
 
         <Button
-            android:id="@+id/addMedSubmit"
+            android:id="@+id/browseButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:text="Browse for PDF"
+            android:textColor="@color/textColor2"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/uriName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/addReportSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:background="@color/primaryColor2"
             android:onClick="addMedicalEntry"
             android:text="SUBMIT"
             android:textColor="@color/textColor2"
             android:textSize="18sp"
             android:textStyle="bold" />
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
