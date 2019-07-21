@@ -17,5 +17,9 @@
         android:id="@+id/nav_insights"
         android:icon="@drawable/ic_assessment_black_24dp"
         android:title="@string/nav_title_insights" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/nav_title_logout" />
 
 </menu>
