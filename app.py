@@ -25,8 +25,14 @@ def addUser():
         userType = jsonData['userType']
         print(userName + password + firstName + lastName + userType)
         cur.execute("""INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)""", (userName, password, firstName, lastName, userType))
+        cur.execute("""SELECT LAST_INSERT_ID""");
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
         cur.close()
-        return 'success'
+        return json.dumps(json_data, default=str)
 
 @app.route('/addMedication', methods=['GET', 'POST'])
 def addMedication():
