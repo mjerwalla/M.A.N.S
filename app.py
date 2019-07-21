@@ -44,7 +44,7 @@ def addMedication():
         dosagePerIntake = jsonData['dosagePerIntake']
         cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded) VALUES (%s, %s,%s,%s,%s,%s,%s,%s)""",
         (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake))
-        cor.close()
+        cur.close()
         return 'success'
 
 @app.route('/getAppointments/<userID>', methods=['GET'])
