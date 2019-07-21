@@ -1,5 +1,7 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.graphics.Color;
+
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -8,15 +10,20 @@ import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class EventDecorator implements DayViewDecorator {
+public class AppointmentDecorator implements DayViewDecorator {
 
     private final int color;
     private final HashSet<CalendarDay> dates;
 
-    public EventDecorator(int color, Collection<CalendarDay> dates) {
-        this.color = color;
+
+    public AppointmentDecorator(Collection<CalendarDay> dates, int color) {
+        //this.color = color;
         this.dates = new HashSet<>(dates);
+
+        this.color = color;
+
     }
+
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
@@ -25,6 +32,8 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new DotSpan(5, color));
+
+        view.addSpan((new CustomAppointmentSpan(5,color)));
+
     }
 }

@@ -6,18 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtUpcomingMed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/scrollView"
-        android:layout_alignTop="@+id/scrollView"
-        android:layout_marginTop="25dp"
-        android:background="#1281B8"
-        android:text="Calendar Overview"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF" />
+    <!--<TextView-->
+        <!--android:id="@+id/txtUpcomingMed"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/scrollView"-->
+        <!--android:layout_alignTop="@+id/scrollView"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:background="#3F51B5"-->
+        <!--android:text="Calendar Overview"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+        <!--android:textColor="#FFFFFF" />-->
 
     <Button
         android:id="@+id/btnAddMed"

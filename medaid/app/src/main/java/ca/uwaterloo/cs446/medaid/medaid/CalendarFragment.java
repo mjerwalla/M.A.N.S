@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,13 +60,20 @@ public class CalendarFragment extends Fragment {
 //            }
 //        });
         MaterialCalendarView calendarView = (MaterialCalendarView) v.findViewById(R.id.calendarView);
+        calendarView.setSelectionColor(Color.parseColor("#27CEA7"));
         List decorators = new ArrayList<>();
         CalendarDay day = new CalendarDay();
         HashSet<CalendarDay> days = new HashSet<CalendarDay>();
         days.add(day);
-        decorators.add(new EventDecorator(0xFFFF0000, days));
-        calendarView.addDecorators(decorators);
+        //decorators.add(new AppointmentDecorator(days));
+        int red = Color.RED;
+        int green = Color.BLUE;
+
+        calendarView.addDecorator(new LowMedicineDecorator(days,red));
+        calendarView.addDecorator(new AppointmentDecorator(days,green));
         calendarView.refreshDrawableState();
+
+
 
     }
 
