@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ import java.util.Date;
 
 public class InsightsFragment extends Fragment {
     View view;
+    TextView text1;
+    TextView text2;
+    TextView foodText;
     BarChart weekChart;
     ArrayList<BarEntry> Meds = new ArrayList();
     ArrayList<String> Day = new ArrayList();
@@ -49,43 +53,24 @@ public class InsightsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_insights, container, false);
 
-        final TextView text1 = (TextView) view.findViewById(R.id.medication1);
-        final TextView text2 = (TextView) view.findViewById(R.id.medication2);
-
+        text1 = (TextView) view.findViewById(R.id.medication1);
+        text2 = (TextView) view.findViewById(R.id.medication2);
         Button submitConflict = view.findViewById(R.id.checkConflictButton);
 
         submitConflict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String med1 = text1.getText().toString();
-                String med2 = text2.getText().toString();
-
-                Intent intent = new Intent(getContext(), ConflictsActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString("med1", med1);
-                extras.putString("med2", med2);
-                intent.putExtras(extras);
-                startActivity(intent);
+                goToMedConflict();
             }
         });
 
+        foodText = (TextView) view.findViewById(R.id.foodMed);
         Button foodConflict = view.findViewById(R.id.foodButton);
-
-        final TextView foodText = (TextView) view.findViewById(R.id.foodMed);
 
         foodConflict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String med = foodText.getText().toString();
-
-                Intent intent = new Intent(getContext(), ConflictsActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString("med1", med);
-                extras.putString("med2", "");
-                intent.putExtras(extras);
-                startActivity(intent);
+                goToFoodConflict();
             }
         });
 
@@ -94,6 +79,67 @@ public class InsightsFragment extends Fragment {
         getDataforChart();
 
         return view;
+    }
+
+
+    public void goToMedConflict() {
+        text1.setError(null);
+        text2.setError(null);
+
+        String med1 = text1.getText().toString();
+        String med2 = text2.getText().toString();
+
+        View focusView = null;
+        boolean cancel = false;
+
+        if (TextUtils.isEmpty(med1)) {
+            text1.setError("Can not be empty");
+            focusView = text1;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(med2)) {
+            text2.setError("Can not be empty");
+            focusView = text2;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            Intent intent = new Intent(getContext(), ConflictsActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("med1", med1);
+            extras.putString("med2", med2);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
+    }
+
+
+    public void goToFoodConflict() {
+        foodText.setError(null);
+
+        String med = foodText.getText().toString();
+
+        View focusView = null;
+        boolean cancel = false;
+
+        if (TextUtils.isEmpty(med)) {
+            foodText.setError("Can not be empty");
+            focusView = foodText;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            Intent intent = new Intent(getContext(), ConflictsActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("med1", med);
+            extras.putString("med2", "");
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
     }
 
     public void getDataforChart() {
