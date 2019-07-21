@@ -6,8 +6,6 @@ app = Flask(__name__)
 
 conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 
-
-
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     print(request.args)
@@ -42,7 +40,7 @@ def addMedication():
         numTimesPerDay = jsonData['numTimesPerDay']
         timesToBeReminded = jsonData['timesToBeReminded']
         dosagePerIntake = jsonData['dosagePerIntake']
-	takenInPast = jsonData['takenInPast']
+        takenInPast = jsonData['takenInPast']
         cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast) VALUES (%s, %s,%s,%s,%s,%s,%s,%s,%s)""",
         (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake))
         cur.close()
