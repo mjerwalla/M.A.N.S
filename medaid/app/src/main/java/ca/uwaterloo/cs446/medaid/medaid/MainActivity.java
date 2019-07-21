@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFrag = new HistoryFragment();
                             break;
                         case R.id.nav_insights:
-                            selectedFrag = new HistoryFragment();
+                            selectedFrag = new InsightsFragment();
                             break;
                     }
 
