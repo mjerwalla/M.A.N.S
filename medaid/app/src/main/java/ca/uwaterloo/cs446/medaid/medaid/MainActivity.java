@@ -18,6 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -111,9 +116,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         final TextView dosagePerIntake = medPopupView.findViewById(R.id.txtDosagePerIntake);
         // final TextView startDate = medPopupView.findViewById(R.id.startDate);
         final TextView notes = medPopupView.findViewById(R.id.txtNotes);
+        final StringBuilder daysOfTheWeekStringBuilder = new StringBuilder();
         Button nextScreenButton = medPopupView.findViewById(R.id.btnNext);
 
-        CheckBox[] daysOfTheWeek = {
+        final CheckBox[] daysOfTheWeek = {
                 medPopupView.findViewById(R.id.monday),
                 medPopupView.findViewById(R.id.tuesday),
                 medPopupView.findViewById(R.id.wednesday),
@@ -122,40 +128,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                 medPopupView.findViewById(R.id.saturday),
                 medPopupView.findViewById(R.id.sunday)
         };
-        final StringBuilder daysOfTheWeekString = new StringBuilder();
-
-        for (CheckBox checkBox : daysOfTheWeek) {
-            if (checkBox.isChecked()) {
-                switch (checkBox.getId()) {
-                    case R.id.monday:
-                        daysOfTheWeekString.append("MON");
-                        break;
-                    case R.id.tuesday:
-                        daysOfTheWeekString.append("TUES");
-                        break;
-                    case R.id.wednesday:
-                        daysOfTheWeekString.append("WED");
-                        break;
-                    case R.id.thursday:
-                        daysOfTheWeekString.append("THURS");
-                        break;
-                    case R.id.friday:
-                        daysOfTheWeekString.append("FRI");
-                        break;
-                    case R.id.saturday:
-                        daysOfTheWeekString.append("SAT");
-                        break;
-                    case R.id.sunday:
-                        daysOfTheWeekString.append("SUN");
-                        break;
-                }
-            }
-            daysOfTheWeekString.append(",");
-        }
-
-        // Remove last comma
-        int lastCharIndex = daysOfTheWeekString.length() - 1;
-        daysOfTheWeekString.substring(0, lastCharIndex);
 
         // Call helper (which will be reused) that gets existing fields in order to send to db
         // TODO: Set OnClick behaviour to call the helper, passing in the found ID's strings as parameters
@@ -163,6 +135,40 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         nextScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Create daysOfTheWeekString depending on checkBoxes
+                for (CheckBox checkBox : daysOfTheWeek) {
+                    if (checkBox.isChecked()) {
+                        switch (checkBox.getId()) {
+                            case R.id.monday:
+                                daysOfTheWeekStringBuilder.append("MON");
+                                break;
+                            case R.id.tuesday:
+                                daysOfTheWeekStringBuilder.append("TUES");
+                                break;
+                            case R.id.wednesday:
+                                daysOfTheWeekStringBuilder.append("WED");
+                                break;
+                            case R.id.thursday:
+                                daysOfTheWeekStringBuilder.append("THURS");
+                                break;
+                            case R.id.friday:
+                                daysOfTheWeekStringBuilder.append("FRI");
+                                break;
+                            case R.id.saturday:
+                                daysOfTheWeekStringBuilder.append("SAT");
+                                break;
+                            case R.id.sunday:
+                                daysOfTheWeekStringBuilder.append("SUN");
+                                break;
+                        }
+                        daysOfTheWeekStringBuilder.append(",");
+                    }
+                }
+
+                // Remove last comma
+                int lastCharIndex = daysOfTheWeekStringBuilder.length() - 1;
+                final String daysOfTheWeekString = daysOfTheWeekStringBuilder.substring(0, lastCharIndex);
+
                 // Show the next screen
                 AlertDialog.Builder medTimePopupBuilder = new AlertDialog.Builder(MainActivity.this);
                 final View medTimesPopupView = getLayoutInflater().inflate(R.layout.overlay_today_add_med_2, null);
@@ -262,15 +268,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                             times.add(entry.getValue());
                         }
                         final String medTimes = sortAndConcatMedTimes(times);
-                        final String startDate = new Date().toString();
-                        final String endDate = new Date(2020,06,26).toString();
+                        Date startDate = new Date();
+                        Date endDate = new Date(2020, 05, 22);
+                        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm");
+                        String startDateString = ft.format(startDate);
+                        String endDateString = ft.format(endDate);
 
                         addMedicalEntry(
                             medName.getText().toString(),
                             medTimes,
-                            daysOfTheWeekString.toString(),
-                            startDate,
-                            endDate,
+                            daysOfTheWeekString,
+                            startDateString,
+                            endDateString,
                             timeIDMap.size(),
                             Integer.parseInt(dosagePerIntake.getText().toString()),
                             Integer.parseInt(totalPills.getText().toString()),
@@ -298,8 +307,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         times = timesBuilder.toString();
         int lastCharIndex = times.length() - 1;
-        times.substring(0, lastCharIndex);
-        return times;
+        return times.substring(0, lastCharIndex);
     }
 
     private void addMedicalEntry(
@@ -320,7 +328,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                 endDate,
                 daysPerWeek,
                 Integer.toString(numTimesPerDay),
-                timesOfDay);
+                timesOfDay,
+                Integer.toString(dosePerIntake));
 
         this.update();
     }
