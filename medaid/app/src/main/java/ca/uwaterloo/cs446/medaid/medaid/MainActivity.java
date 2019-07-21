@@ -226,9 +226,14 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
                                             String ampm = "am";
-                                            // TODO: Add am/pm
+                                            
                                             if (hourOfDay > 12) {
                                                 ampm = "pm";
+                                            }
+
+                                            hourOfDay = hourOfDay % 12;
+                                            if (hourOfDay == 0) {
+                                                hourOfDay = 12;
                                             }
 
                                             String minutesString = Integer.toString(minutes);
