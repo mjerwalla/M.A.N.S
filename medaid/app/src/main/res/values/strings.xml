@@ -11,6 +11,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_name">Please enter a First Name</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -25,4 +26,9 @@
     <string name="nav_title_insights">Insights</string>
     <string name="nav_title_personal">Personal</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string-array name="user_mode">
+        <item>Single User</item>
+        <item>Multi User</item>
+        <item>Doctor</item>
+    </string-array>
 </resources>
