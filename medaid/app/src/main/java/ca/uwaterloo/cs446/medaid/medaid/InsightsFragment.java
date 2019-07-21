@@ -12,9 +12,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class InsightsFragment extends Fragment {
     View view;
+    BarChart weekChart;
+    ArrayList Meds = new ArrayList();
+    ArrayList Day = new ArrayList();
+
+    //Will be removed
+    String m = "[{'rowNum': '22', 'userID': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Adderall', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Xanax', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Ibuprofen', 'startDate': '2018-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil Flu and Cold', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Evening Snack'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Antibiotic', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Penicillin', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Panadol', 'startDate': '2017-07-02 00:00', 'endDate': '2017-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
+            "{'rowNum': 23', 'userID': '1', 'medName': 'Buckleys', 'startDate': '2018-07-02 00:00', 'endDate': '2018-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'}]";
+
 
     @Nullable
     @Override
@@ -66,6 +92,49 @@ public class InsightsFragment extends Fragment {
             }
         });
 
+        weekChart = (BarChart) view.findViewById(R.id.barChart);
+
+        getDataforChart();
+
         return view;
+    }
+
+    public void getDataforChart() {
+        Day.add("MON");
+        Day.add("TUE");
+        Day.add("WED");
+        Day.add("THUR");
+        Day.add("FRI");
+        Day.add("SAT");
+        Day.add("SUN");
+
+        JSONArray medication;
+
+        try {
+            medication = new JSONArray(m);
+        } catch (Exception e) {
+            System.out.println("Failed to initialize JSON Array");
+            return;
+        }
+
+        for (int i = 0; i < medication.length(); ++i) {
+            try {
+                JSONObject x = medication.getJSONObject(i);
+                String s = x.getString("startDate");
+                String e = x.getString("endDate");
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date start = sdf.parse(s);
+                Date end = sdf.parse(e);
+
+                if ((c.getTimeInMillis() >= start.getTime()) && (c.getTimeInMillis() <= end.getTime())) {
+                    
+                }
+
+            } catch (Exception e) {
+                System.out.println("Failed to get JSON Object");
+            }
+        }
+
     }
 }

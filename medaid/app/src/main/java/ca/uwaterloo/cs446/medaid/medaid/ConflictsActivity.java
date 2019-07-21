@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class ConflictsActivity extends AppCompatActivity {
+    String done1 = "";
+    String done2 = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,13 +24,14 @@ public class ConflictsActivity extends AppCompatActivity {
 
         final WebView webView = (WebView) findViewById(R.id.conflictView);
 
-        if (med2.isEmpty()) {
+        if (TextUtils.isEmpty(med2)) {
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(webView, url);
-                    System.out.println("running on PageFinished");
-                    webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
+                    if(!done1.equals(url)) {
+                        webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
+                    }
+                    done1 = url;
                 }
             });
 
@@ -39,9 +43,10 @@ public class ConflictsActivity extends AppCompatActivity {
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(webView, url);
-                    System.out.println("running on PageFinished");
-                    webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "; " + med2 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
+                    if (!done2.equals(url)) {
+                        webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "; " + med2 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
+                    }
+                    done2 = url;
                 }
             });
 
