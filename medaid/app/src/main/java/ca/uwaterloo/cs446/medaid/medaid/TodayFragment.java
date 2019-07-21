@@ -43,8 +43,9 @@ public class TodayFragment extends Fragment {
             TextView medName = rowView.findViewById(R.id.txtMedName);
             medName.setText(myData.column2);
 
+            // TODO: Create new medicine reminder for each time
             TextView time = rowView.findViewById(R.id.txtTime);
-            time.setText(myData.column3.charAt(0) + ":00am");
+            time.setText(myData.column3.charAt(1) + ":00am");
 
             TextView dosage = rowView.findViewById(R.id.txtDosage);
             dosage.setText(myData.column7 + " pills");
