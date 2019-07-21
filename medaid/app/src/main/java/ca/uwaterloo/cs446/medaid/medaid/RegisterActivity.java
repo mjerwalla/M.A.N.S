@@ -3,12 +3,14 @@ package ca.uwaterloo.cs446.medaid.medaid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,6 +30,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         userSelection = (Spinner) findViewById(R.id.userType);
+        TextView mTextView = (TextView)  findViewById(R.id.textView13);
+        String text = "<font color=#27CEA7>Med</font><font color=#3A95EB>Aid</font>";
+        mTextView.setText(Html.fromHtml(text));
         addItemsToSpinner();
         Button btnRegister = (Button) findViewById(R.id.register);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -39,20 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
                 pass=(EditText) findViewById(R.id.password);
                 userType= userSelection.getSelectedItemPosition();
                 if (checkInput()){
-//                    System.out.println("After check ");
-//                    System.out.println(postFailed);
                     postData(userType);
-//                    System.out.println(postFailed);
-//                    while (postFailed != null){
-//                        System.out.println("Waiting");
-//                    }
-//                    System.out.println("After while loop");
-//                    System.out.println(postFailed);
-//                    if (postFailed == "true"){
-//                        Toast.makeText(getApplicationContext(),"Failed to create user. Please check connection and try again.",Toast.LENGTH_LONG).show();
-////                        postFailed=false;
-//                    }
-                    // Do something
                 }
             }
 
@@ -113,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             System.out.println("FAILED WHILE SETTING SHARED PREFERENCES");
+            System.out.println(e);
         }
 
     }

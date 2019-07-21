@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFrag = new HistoryFragment();
                             break;
                         case R.id.nav_logout:
+                            deleteUserSettings();
                             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                             startActivity(intent);
                             finish();
@@ -112,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public void deleteUserSettings(){
+        sharePref user = new sharePref(this);
+        user.modifyPref("userID",null);
+        user.modifyPref("userType", null);
+    }
 
     public void setAddMedPopupBehavior(View view) {
         AlertDialog.Builder medPopupBuilder = new AlertDialog.Builder(MainActivity.this);

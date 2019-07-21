@@ -91,7 +91,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="@string/action_sign_in"
+                android:textColor="@color/textColor2"
                 android:textStyle="bold" />
 
             <Button
@@ -100,8 +102,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:onClick="Register"
                 android:text="@string/action_sign_up"
+                android:textColor="@color/textColor2"
                 android:textStyle="bold" />
 
         </LinearLayout>

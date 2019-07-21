@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="50dp"
-                android:text="MedAid"
                 android:textAlignment="center"
                 android:textColor="@color/primaryColor1"
                 android:textSize="50sp"
@@ -174,8 +173,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="@color/primaryColor2"
                 android:gravity="center"
-                android:text="Submit" />
+                android:text="Submit"
+                android:textColor="@color/textColor2"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
