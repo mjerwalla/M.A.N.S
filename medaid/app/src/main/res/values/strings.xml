@@ -24,12 +24,16 @@
     <string name="nav_title_today">Today</string>
     <string name="nav_title_calendar">Calendar</string>
     <string name="nav_title_insights">Insights</string>
-    <string name="nav_title_personal">Personal</string>
     <string name="nav_title_logout">Logout</string>
+    <string name="nav_title_history">History</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string-array name="user_mode">
         <item>Single User</item>
         <item>Multi User</item>
         <item>Doctor</item>
     </string-array>
+    <string name="conflict_checker">Conflict Checker</string>
+    <string name="diet_recco">Diet Recommendations</string>
+    <string name="analytics">Analytics</string>
+
 </resources>
