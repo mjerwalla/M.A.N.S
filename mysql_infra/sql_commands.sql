@@ -50,9 +50,11 @@ CREATE TABLE medaid.Appointments(
 );
 
 CREATE TABLE medaid.Reports (
-  reportID INTEGER NOT NULL,
+  reportID INTEGER NOT NULL AUTO_INCREMENT,
   userID INTEGER NOT NULL,
   reportName TEXT NOT NULL,
+  pdfName TEXT NOT NULL,
+  uri TEXT NOT NULL,
   FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
