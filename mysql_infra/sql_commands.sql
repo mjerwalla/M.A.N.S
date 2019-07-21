@@ -1,4 +1,4 @@
-CREATE TABLE Users (
+CREATE TABLE medaid.Users (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
   `userName` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE Users (
   PRIMARY KEY (`userID`)
 );
 
-CREATE TABLE CareTakers(
+CREATE TABLE medaid.CareTakers(
    careTakerID INT NOT NULL,
    patientID INT NOT NULL,
    PRIMARY KEY(careTakerID,patientID),
@@ -16,7 +16,7 @@ CREATE TABLE CareTakers(
    FOREIGN KEY(patientID) REFERENCES Users(userID)
 );
 
-CREATE TABLE Medications(
+CREATE TABLE medaid.Medications(
    medicationID INT NOT NULL AUTO_INCREMENT,
    userID INT NOT NULL,
    medName VARCHAR(20) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE Medications(
    FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
-CREATE TABLE Vaccinations(
+CREATE TABLE medaid.Vaccinations(
     vaccinationID INTEGER NOT NULL,
 	userID	INTEGER NOT NULL,
 	vacName	TEXT NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE Vaccinations(
     FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
-CREATE TABLE Reports (
+CREATE TABLE medaid.Reports (
   reportID INTEGER NOT NULL,
   userID INTEGER NOT NULL,
   reportName TEXT NOT NULL,
