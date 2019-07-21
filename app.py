@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 
-
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     print(request.args)
@@ -40,10 +39,24 @@ def addMedication():
         selectedDaysPerWeek = jsonData['selectedDaysPerWeek']
         numTimesPerDay = jsonData['numTimesPerDay']
         timesToBeReminded = jsonData['timesToBeReminded']
-        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded) VALUES (%s, %s,%s,%s,%s,%s,%s)""",
-        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded))
-        cor.close()
+        dosagePerIntake = jsonData['dosagePerIntake']
+        takenInPast = jsonData['takenInPast']
+        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast) VALUES (%s, %s,%s,%s,%s,%s,%s,%s,%s)""",
+        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake))
+        cur.close()
         return 'success'
+
+@app.route('/getAppointments/<userID>', methods=['GET'])
+def getAppointments(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Appointments WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
 
 @app.route('/getUserMedicalHistory/<userID>', methods=['GET'])
 def getUserMedicalHistory(userID):
