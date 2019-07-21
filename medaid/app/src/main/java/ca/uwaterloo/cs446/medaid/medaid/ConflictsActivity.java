@@ -21,16 +21,32 @@ public class ConflictsActivity extends AppCompatActivity {
 
         final WebView webView = (WebView) findViewById(R.id.conflictView);
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(webView, url);
-                System.out.println("running on PageFinished");
-                webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "; " + med2 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
-            }
-        });
+        if (med2.isEmpty()) {
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(webView, url);
+                    System.out.println("running on PageFinished");
+                    webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
+                }
+            });
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://www.drugbank.ca/interax/multi_search");
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.loadUrl("https://www.drugbank.ca/interax/food_lookup");
+        }
+
+        else {
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(webView, url);
+                    System.out.println("running on PageFinished");
+                    webView.loadUrl("javascript:(function(){document.getElementById('q').value='" + med1 + "; " + med2 + "';document.getElementsByClassName('btn btn-drugbank-primary btn-sm mr-2')[0].click();})()");
+                }
+            });
+
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.loadUrl("https://www.drugbank.ca/interax/multi_search");
+        }
     }
 }

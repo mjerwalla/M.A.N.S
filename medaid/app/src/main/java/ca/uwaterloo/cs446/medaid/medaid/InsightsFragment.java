@@ -44,17 +44,28 @@ public class InsightsFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        return view;
-    }
 
+        Button foodConflict = view.findViewById(R.id.foodButton);
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        final TextView foodText = (TextView) view.findViewById(R.id.foodMed);
 
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                System.out.println("YAY");
+        foodConflict.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String med = foodText.getText().toString();
+
+                System.out.println(med);
+
+                Intent intent = new Intent(getContext(), ConflictsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("med1", med);
+                extras.putString("med2", "");
+                intent.putExtras(extras);
+                startActivity(intent);
             }
-        }
+        });
+
+        return view;
     }
 }
