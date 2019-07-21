@@ -25,6 +25,7 @@
     <string name="nav_title_calendar">Calendar</string>
     <string name="nav_title_insights">Insights</string>
     <string name="nav_title_personal">Personal</string>
+    <string name="nav_title_logout">Logout</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string-array name="user_mode">
         <item>Single User</item>

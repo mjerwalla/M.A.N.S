@@ -2,10 +2,7 @@ package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Spinner userSelection;
     private EditText firstName, lastName, email, pass;
     private String postFailed = null;
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
                 lastName=(EditText)findViewById(R.id.lastName);
                 email=(EditText) findViewById(R.id.email);
                 pass=(EditText) findViewById(R.id.password);
-                int userType= userSelection.getSelectedItemPosition();
+                userType= userSelection.getSelectedItemPosition();
                 if (checkInput()){
 //                    System.out.println("After check ");
 //                    System.out.println(postFailed);
@@ -83,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     System.out.println("NOT FALSE");
                     postFailed = "false";
+                    setSharedPreferences(value);
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -102,6 +103,19 @@ public class RegisterActivity extends AppCompatActivity {
         task.execute("http://3.94.171.162:5000/addUser");
     }
 
+    public void setSharedPreferences(String response){
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+            String userID = String.valueOf(jsonArray.getJSONObject(0).getString("LAST_INSERT_ID()"));
+            sharePref preferences = new sharePref(this);
+            preferences.modifyPref("userID",userID);
+            preferences.modifyPref("userType", String.valueOf(userType));
+
+        } catch (Exception e) {
+            System.out.println("FAILED WHILE SETTING SHARED PREFERENCES");
+        }
+
+    }
 
     private boolean checkInput() {
 

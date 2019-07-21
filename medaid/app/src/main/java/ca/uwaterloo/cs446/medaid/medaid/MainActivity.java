@@ -1,6 +1,7 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -98,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_personal:
                             selectedFrag = new HistoryFragment();
                             break;
+                        case R.id.nav_logout:
+                            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                            return true;
                     }
 
                     getSupportFragmentManager().beginTransaction()
