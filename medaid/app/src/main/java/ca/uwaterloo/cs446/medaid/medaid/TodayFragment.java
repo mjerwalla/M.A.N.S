@@ -13,25 +13,30 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class TodayFragment extends Fragment {
+public class TodayFragment extends Fragment implements  TodayFragmentPresenter.View{
     private View v;
-    private CalendarActivityDBHelper medDb;
+    private TodayFragmentPresenter todayFragmentPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        System.out.println("ON CREATE VIEW CALLED - today");
         v = inflater.inflate(R.layout.fragment_today, container, false);
-        medDb = new CalendarActivityDBHelper(getContext());
-        this.UpdateMedList();
+        todayFragmentPresenter = new TodayFragmentPresenter(this);
+        this.updateMedicationListEverywhere();
 
         return v;
     }
 
-    private void UpdateMedList() {
+    @Override
+    public void updateMedicationListView(List<TodayFragmentPresenter.UpcomingMedicine> upcomingMedicines) {
+        System.out.println("UPDATEMEDLIST CALLED");
         LinearLayout linearLayout = v.findViewById(R.id.linearLayout);
-        List<CalendarActivityDBHelper.MyData> data = medDb.getAllData();
 
-        for (CalendarActivityDBHelper.MyData myData: data) {
+        int idCounter = 0;
+        for (TodayFragmentPresenter.UpcomingMedicine med: upcomingMedicines) {
+            System.out.println("Inside for loop - iteration #:" + idCounter);
+            idCounter++;
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.upcoming_med_block, linearLayout, false);
 
@@ -41,18 +46,22 @@ public class TodayFragment extends Fragment {
             linearLayout.addView(rowView);
 
             TextView medName = rowView.findViewById(R.id.txtMedName);
-            medName.setText(myData.column2);
+            medName.setText(med.medName);
 
             // TODO: Create new medicine reminder for each time
             TextView time = rowView.findViewById(R.id.txtTime);
-            time.setText(myData.column3.charAt(1) + ":00am");
+            time.setText(med.timesToBeReminded[0]);
 
             TextView dosage = rowView.findViewById(R.id.txtDosage);
-            dosage.setText(myData.column7 + " pills");
+            dosage.setText(med.dosagePerIntake + " pills");
 
             // Set button ID
             Button takenButton = rowView.findViewById(R.id.btnTaken);
-            takenButton.setId(Integer.parseInt(myData.column0));
+            takenButton.setId(R.id.btnTaken + idCounter);
         }
+    }
+
+    public void updateMedicationListEverywhere() {
+        todayFragmentPresenter.updateMedicationList();
     }
 }

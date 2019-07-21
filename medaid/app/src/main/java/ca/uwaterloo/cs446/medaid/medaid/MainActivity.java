@@ -24,59 +24,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-    CalendarActivityDBHelper medDb;
+public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View{
+    private MainActivityPresenter mainActivityPresenter;
+
+    TodayFragment todayFragment = new TodayFragment();
+    CalendarFragment calendarFragment = new CalendarFragment();
+    HistoryFragment insightsFragment = new HistoryFragment();
+    HistoryFragment historyFragment = new HistoryFragment();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Map<String, String> postData = new HashMap<>();
-//        postData.put("userName", "shadowbil");
-//        postData.put("password", "abc1231");
-//        postData.put("firstName", "abbba");
-//        postData.put("lastName", "accca");
-//        postData.put("userType", "2");
-//
-//
-//        Callback callback = new Callback() {
-//            @Override
-//            public void onValueReceived(final String value) {
-//                System.out.println("The onValueReceived  for Post: " + value);
-//                // call method to update view as required using returned value
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                System.out.println("I failed :(");
-//            }
-//        };
-//        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
-//        task.execute("http://10.0.2.2/addUser");
-//
-//        Callback callbackGet = new Callback() {
-//            @Override
-//            public void onValueReceived(final String value) {
-//                System.out.println("The onValueReceived for Get : " + value);
-//                // call method to update view as required using returned value
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                System.out.println("I failed :(");
-//            }
-//        };
-//        DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
-//        taskGet.execute("http://10.0.2.2/getAllUsers");
 
-        medDb = new CalendarActivityDBHelper(this);
+        mainActivityPresenter = new MainActivityPresenter(this);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new TodayFragment()).commit();
+                .replace(R.id.fragment_container, todayFragment).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -87,35 +53,59 @@ public class MainActivity extends AppCompatActivity {
 
                     switch(item.getItemId()) {
                         case R.id.nav_today:
-                            selectedFrag = new TodayFragment();
+                            selectedFrag = todayFragment;
                             break;
                         case R.id.nav_calendar:
-                            selectedFrag = new CalendarFragment();
+                            selectedFrag = calendarFragment;
                             break;
                         case R.id.nav_insights:
-                            selectedFrag = new HistoryFragment();
+                            selectedFrag = historyFragment;
                             break;
                         case R.id.nav_personal:
-                            selectedFrag = new HistoryFragment();
+                            selectedFrag = historyFragment;
                             break;
                     }
 
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, selectedFrag).commit();
 
+                    // TODO: Call corresponding updateView functions
                     return true;
                 }
             };
 
+    @Override
+    public void updateTodayMedicationList() {
+        todayFragment.updateMedicationListEverywhere();
+    }
+
+    @Override
+    public void updateCalendar() {
+
+    }
+
+    @Override
+    public void updateHistoryMedication() {
+
+    }
+
+    @Override
+    public void updateHistoryReports() {
+
+    }
+
+    @Override
+    public void updateHistoryVaccination() {
+
+    }
+
     public void setAddMedPopupBehavior(View view) {
         AlertDialog.Builder medPopupBuilder = new AlertDialog.Builder(MainActivity.this);
         View medPopupView = getLayoutInflater().inflate(R.layout.overlay_today_add_med_1, null);
-
         medPopupBuilder.setView(medPopupView);
         final AlertDialog medInfoDialog = medPopupBuilder.create();
         medInfoDialog.show();
 
-        // TODO: Modularize this function to find multiple Views by ID
         final TextView medName = medPopupView.findViewById(R.id.txtMedName);
         final TextView totalPills = medPopupView.findViewById(R.id.txtTotalPills);
         final TextView dosagePerIntake = medPopupView.findViewById(R.id.txtDosagePerIntake);
@@ -208,8 +198,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             linearLayout.addView(rowView);
 
-                            // Set
-                            // new text
+                            // Number each time slot
                             TextView medTime = rowView.findViewById(R.id.txtMedTime);
                             medTime.setText(medTime.getText() + Integer.toString(i) + ": ");
 
@@ -273,13 +262,16 @@ public class MainActivity extends AppCompatActivity {
                             times.add(entry.getValue());
                         }
                         final String medTimes = sortAndConcatMedTimes(times);
+                        final String startDate = new Date().toString();
+                        final String endDate = new Date(2020,06,26).toString();
 
                         addMedicalEntry(
                             medName.getText().toString(),
                             medTimes,
                             daysOfTheWeekString.toString(),
-                            "startDate",
-                            "endDate",
+                            startDate,
+                            endDate,
+                            timeIDMap.size(),
                             Integer.parseInt(dosagePerIntake.getText().toString()),
                             Integer.parseInt(totalPills.getText().toString()),
                             notes.getText().toString());
@@ -316,32 +308,31 @@ public class MainActivity extends AppCompatActivity {
             String daysPerWeek,
             String startDate,
             String endDate,
+            int numTimesPerDay,
             int dosePerIntake,
             int totalPills,
             String notes) {
-
-        medDb.insertMedicationData(
-                1,
+        // TODO: Add notes, totalPills, and dosePerIntake
+        mainActivityPresenter.addMedication(
+                "1",
                 medName,
-                timesOfDay,
+                startDate,
+                endDate,
                 daysPerWeek,
-                new Date(),
-                new Date(2020,06,26),
-                dosePerIntake,
-                totalPills,
-                notes);
+                Integer.toString(numTimesPerDay),
+                timesOfDay);
 
         this.update();
     }
 
     private void update() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new TodayFragment()).commit();
+                .replace(R.id.fragment_container, todayFragment).commit();
     }
 
     public void delete(View view){
-        medDb.deleteData(Integer.toString(view.getId()));
+        // TODO: replace medDb.deleteData(Integer.toString(view.getId()));
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new TodayFragment()).commit();
+                .replace(R.id.fragment_container, todayFragment).commit();
     }
 }
