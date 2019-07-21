@@ -43,6 +43,7 @@ public class HistoryFragment extends Fragment {
     String type = "medication";
     JSONArray jsonArray;
     String userID;
+    TextView uriText;
     TextView pdfFile;
 
     String m = "[{'rowNum': '22', 'userID': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
@@ -175,7 +176,7 @@ public class HistoryFragment extends Fragment {
                     startActivity(p);
                 } else if (type == "report") {
                     String name = listView.getItemAtPosition(i).toString();
-                    String pdf = "";
+                    String uri = "";
 
                     try {
                         for (int j = 0; j < jsonArray.length(); ++j) {
@@ -183,7 +184,7 @@ public class HistoryFragment extends Fragment {
 
                             if (explrObject.getString("reportName") == name) {
                                 System.out.println("YEEEES report");
-                                pdf = explrObject.getString("pdfName");
+                                uri = explrObject.getString("uri");
                                 break;
                             }
                         }
@@ -191,7 +192,7 @@ public class HistoryFragment extends Fragment {
                         System.out.println("Failed at Line 191");
                     }
 
-                    Uri path = Uri.parse(pdf);
+                    Uri path = Uri.parse(uri);
                     System.out.println(path);
 
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -337,7 +338,6 @@ public class HistoryFragment extends Fragment {
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject explrObject = jsonArray.getJSONObject(i);
                     names.add(explrObject.getString("reportName"));
-
                     duration.add("File Name: " + explrObject.getString("pdfName"));
                 }
             } catch (Exception e) {
@@ -464,7 +464,8 @@ public class HistoryFragment extends Fragment {
 
         Button browseButton = repPopupView.findViewById(R.id.browseButton);
 
-       pdfFile = (TextView) repPopupView.findViewById(R.id.pdfName);
+        pdfFile = (TextView) repPopupView.findViewById(R.id.pdfName);
+        uriText = (TextView) repPopupView.findViewById(R.id.uriName);
 
         browseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -480,6 +481,7 @@ public class HistoryFragment extends Fragment {
         });
 
         final TextView pdfName = repPopupView.findViewById(R.id.pdfName);
+        final TextView uriName = repPopupView.findViewById(R.id.uriName);
 
         Button submitNewRepButton = repPopupView.findViewById(R.id.addReportSubmit);
 
@@ -489,12 +491,14 @@ public class HistoryFragment extends Fragment {
                 System.out.println("ADDDDDING");
                 System.out.println(repName.getText().toString());
                 System.out.println(pdfName.getText().toString());
+                System.out.println(uriName.getText().toString());
                 JSONObject report = new JSONObject();
                 try {
 //                    vac.put("rowNum", "1");
                     report.put("userID", userID);
                     report.put("reportName", repName.getText().toString());
                     report.put("pdfName", pdfName.getText().toString());
+                    report.put("uri", uriName.getText().toString());
                 } catch (Exception e) {
                     System.out.println("Failed at Add report from history");
                 }
@@ -521,31 +525,26 @@ public class HistoryFragment extends Fragment {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = resultData.getData();
-                System.out.println(uri);
-                System.out.println((uri));
                 File myFile = new File(uri.toString());
                 String path = myFile.getAbsolutePath();
-                System.out.println(path);
-//                String displayName = "";
-//
-//                if (uri.toString().startsWith("content://")) {
-//                    Cursor c = null;
-//
-//                    try {
-//                        c = getActivity().getContentResolver().query(uri, null, null, null, null);
-//
-//                        if (c != null && c.moveToFirst()) {
-//                            displayName = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-//                        }
-//                    } finally {
-//                        c.close();
-//                    }
-//                }
-//                System.out.println("lalallal");
-//                System.out.println(displayName);
-//                System.out.println("lalallal");
+                String displayName = "";
 
-                pdfFile.setText(uri.toString());
+                if (uri.toString().startsWith("content://")) {
+                    Cursor c = null;
+
+                    try {
+                        c = getActivity().getContentResolver().query(uri, null, null, null, null);
+
+                        if (c != null && c.moveToFirst()) {
+                            displayName = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                        }
+                    } finally {
+                        c.close();
+                    }
+                }
+
+                uriText.setText(uri.toString());
+                pdfFile.setText(displayName);
             }
         }
         super.onActivityResult(requestCode, resultCode, resultData);

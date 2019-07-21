@@ -28,15 +28,13 @@
             android:inputType="textPersonName"
             android:textColorHint="@color/hintColor" />
 
-        <EditText
+        <TextView
             android:id="@+id/pdfName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="PDF Name (ex: report.pdf)"
-            android:inputType="textPersonName"
+            android:layout_height="42dp"
+            android:hint="PDF File Name"
             android:textColorHint="@color/hintColor"
-            android:visibility="invisible" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/browseButton"
@@ -49,6 +47,13 @@
             android:textColor="@color/textColor2"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/uriName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/addReportSubmit"
