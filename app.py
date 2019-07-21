@@ -42,7 +42,8 @@ def addMedication():
         numTimesPerDay = jsonData['numTimesPerDay']
         timesToBeReminded = jsonData['timesToBeReminded']
         dosagePerIntake = jsonData['dosagePerIntake']
-        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded) VALUES (%s, %s,%s,%s,%s,%s,%s,%s)""",
+	takenInPast = jsonData['takenInPast']
+        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast) VALUES (%s, %s,%s,%s,%s,%s,%s,%s,%s)""",
         (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake))
         cur.close()
         return 'success'
