@@ -179,6 +179,19 @@ def getUser(userID):
     cur.close()
     return json.dumps(json_data, default=str)
 
+@app.route('/getMultiUserInfo/<careTakerID>', methods=['GET'])
+def getMultiUserInfo(careTakerID):
+    cur = conn.cursor()
+    cur.execute("""SELECT CareTakers.careTakerID, CareTakers.patientID, Users.firstName, Users.lastName FROM CareTakers LEFT JOIN Users ON CareTakers.patientID = Users.userID WHERE careTakerID = %s""", (careTakerID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
+
 @app.route('/getAppointments/<userID>', methods=['GET'])
 def getAppointments(userID):
     cur = conn.cursor()
