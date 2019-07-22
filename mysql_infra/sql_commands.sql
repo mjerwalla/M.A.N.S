@@ -25,13 +25,14 @@ CREATE TABLE medaid.Medications(
    selectedDaysPerWeek VARCHAR(30),
    numTimesPerDay INT,
    timesToBeReminded VARCHAR(30),
+   dosagePerIntake INT,
    takenInPast INT,
    PRIMARY KEY(medicationID),
    FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
 CREATE TABLE medaid.Vaccinations(
-    vaccinationID INTEGER NOT NULL,
+    vaccinationID INTEGER NOT NULL AUTO_INCREMENT,
 	userID	INTEGER NOT NULL,
 	vacName	TEXT NOT NULL,
 	timeOfVac	DATETIME,
@@ -39,10 +40,22 @@ CREATE TABLE medaid.Vaccinations(
     FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
+CREATE TABLE medaid.Appointments(
+    appointmentID INTEGER NOT NULL AUTO_INCREMENT,
+    userID INTEGER NOT NULL,
+    appointmentName VARCHAR(40),
+    timeOfApt DATETIME,
+    PRIMARY KEY(appointmentID),
+    FOREIGN KEY(userID) REFERENCES Users(userID)
+);
+
 CREATE TABLE medaid.Reports (
-  reportID INTEGER NOT NULL,
+  reportID INTEGER NOT NULL AUTO_INCREMENT,
   userID INTEGER NOT NULL,
   reportName TEXT NOT NULL,
+  pdfName TEXT NOT NULL,
+  uri TEXT NOT NULL,
+  PRIMARY KEY(reportID),
   FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 

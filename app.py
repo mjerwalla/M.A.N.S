@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 
-
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     print(request.args)
@@ -25,8 +24,76 @@ def addUser():
         userType = jsonData['userType']
         print(userName + password + firstName + lastName + userType)
         cur.execute("""INSERT INTO Users (userName, password, firstName, lastName, userType) VALUES (%s, %s,%s,%s,%s)""", (userName, password, firstName, lastName, userType))
+        cur.execute("""SELECT LAST_INSERT_ID()""");
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
         cur.close()
-        return 'success'
+        return json.dumps(json_data, default=str)
+
+@app.route('/addReport', methods=['GET', 'POST'])
+def addReport():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        userID = jsonData['userID']
+        reportName = jsonData['reportName']
+        pdfName = jsonData['pdfName']
+        uri = jsonData['uri']
+        print(userID + reportName + pdfName + uri)
+        cur.execute("""INSERT INTO Reports (userID, reportName, pdfName, uri) VALUES (%s,%s,%s,%s)""", (userID, reportName, pdfName, uri))
+        cur.execute("""SELECT * FROM Reports WHERE userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
+@app.route('/addVaccination', methods=['GET', 'POST'])
+def addVaccination():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        userID = jsonData['userID']
+        vacName = jsonData['vacName']
+        timeofVac = jsonData['timeofVac']
+        print(userID + vacName + timeofVac)
+        cur.execute("""INSERT INTO Vaccinations (userID, vacName, timeofVac) VALUES (%s,%s,%s)""", (userID, vacName, timeofVac))
+        cur.execute("""SELECT * FROM Vaccinations WHERE userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
+@app.route('/addAppointment', methods=['GET', 'POST'])
+def addAppointment():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        userID = jsonData['userID']
+        appointmentName = jsonData['appointmentName']
+        timeOfApt = jsonData['timeOfApt']
+        print(userID + appointmentName + timeOfApt)
+        cur.execute("""INSERT INTO Appointments (userID, appointmentName, timeOfApt) VALUES (%s,%s,%s)""", (userID, appointmentName, timeOfApt))
+        cur.execute("""SELECT * FROM Appointments WHERE userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
+
+
+
 
 @app.route('/addMedication', methods=['GET', 'POST'])
 def addMedication():
@@ -40,10 +107,39 @@ def addMedication():
         selectedDaysPerWeek = jsonData['selectedDaysPerWeek']
         numTimesPerDay = jsonData['numTimesPerDay']
         timesToBeReminded = jsonData['timesToBeReminded']
-        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded) VALUES (%s, %s,%s,%s,%s,%s,%s)""",
-        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded))
-        cor.close()
-        return 'success'
+        dosagePerIntake = jsonData['dosagePerIntake']
+        takenInPast = jsonData['takenInPast']
+        print(userID)
+        print(medName)
+        print(startDate)
+        print(endDate)
+        print(selectedDaysPerWeek)
+        print(numTimesPerDay)
+        print(timesToBeReminded)
+        print(dosagePerIntake)
+        print(takenInPast)
+        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake,takenInPast))
+        cur.execute("""SELECT * FROM Medications WHERE userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+             json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
+@app.route('/getAppointments/<userID>', methods=['GET'])
+def getAppointments(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Appointments WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
 
 @app.route('/getUserMedicalHistory/<userID>', methods=['GET'])
 def getUserMedicalHistory(userID):
@@ -57,10 +153,34 @@ def getUserMedicalHistory(userID):
     cur.close()
     return json.dumps(json_data, default=str)
 
+@app.route('/getVaccinations/<userID>', methods=['GET'])
+def getVaccinations(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Vaccinations WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
+@app.route('/getReports/<userID>', methods=['GET'])
+def getReports(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Reports WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
 @app.route('/getCurrentMeds/<userID>', methods=['GET'])
 def getCurrentMeds(userID):
     cur = conn.cursor()
-    cur.execute("""SELECT * FROM Medications WHERE NOW() <= endDate AND startDate <= NOW() AND userID = %s""", (userID))
+    cur.execute("""SELECT * FROM Medications WHERE NOW() <= endDate AND startDate <= NOW() AND takenInPast = 0 AND userID = %s""", (userID))
     row_headers=[x[0] for x in cur.description] #this will extract row headers
     rv = cur.fetchall()
     json_data=[]
