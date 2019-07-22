@@ -1,5 +1,7 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,8 +14,8 @@ public class TodayFragmentPresenter {
     private DatabaseHelperModel dbHelperModel;
     private View view;
 
-    public TodayFragmentPresenter(View view) {
-        this.dbHelperModel = new DatabaseHelperModel();
+    public TodayFragmentPresenter(View view, Context context) {
+        this.dbHelperModel = new DatabaseHelperModel(context);
         this.view = view;
     }
 

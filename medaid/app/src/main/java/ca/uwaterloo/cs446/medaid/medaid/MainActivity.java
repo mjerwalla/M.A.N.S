@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActivityPresenter = new MainActivityPresenter(this);
+        mainActivityPresenter = new MainActivityPresenter(this, getBaseContext());
+        mainActivityHelper = new MainActivityHelper();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction()
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         final TextView medName = medPopupView.findViewById(R.id.txtMedName);
         final TextView dosagePerIntake = medPopupView.findViewById(R.id.txtDosagePerIntake);
         // final TextView startDate = medPopupView.findViewById(R.id.startDate);
+        final TextView totalNumPills = medPopupView.findViewById(R.id.txtTotalPills);
         final TextView notes = medPopupView.findViewById(R.id.txtNotes);
         Button nextScreenButton = medPopupView.findViewById(R.id.btnNext);
 
@@ -236,15 +238,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                         String startDateString = ft.format(startDate);
                         String endDateString = ft.format(endDate);
                         mainActivityPresenter.addMedication(
-                                "1",
                                 medName.getText().toString(),
                                 startDateString,
-                                startDateString,
+                                endDateString,
                                 daysOfTheWeekString,
                                 Integer.toString(timeIDMap.size()),
                                 medTimes,
-                                dosagePerIntake.getText().toString());
-                        // this.update();
+                                dosagePerIntake.getText().toString(),
+                                totalNumPills.getText().toString(),
+                                notes.getText().toString());
 
                         medTimesDialog.hide();
                     }

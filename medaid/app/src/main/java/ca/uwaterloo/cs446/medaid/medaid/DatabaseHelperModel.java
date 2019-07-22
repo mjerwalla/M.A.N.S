@@ -1,13 +1,21 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.content.Context;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DatabaseHelperModel {
-    private String fakeUserId = "1";
+    private Context context;
+    final private String userID;
+
+    public DatabaseHelperModel(Context context) {
+        this.context = context;
+        this.userID = new sharePref(this.context).getPref(Constants.USER_ID);
+    }
+
     public void addNewMedication(
-            String userID,
             String medName,
             String startDate,
             String endDate,
@@ -15,11 +23,12 @@ public class DatabaseHelperModel {
             String numTimesPerDay,
             String timesToBeReminded,
             String dosagePerIntake,
+            String totalNumPills,
+            String notes,
             Callback callback) {
         Map<String, String> postData = new HashMap<>();
 
-        // TODO: Use real userID
-        postData.put(Constants.USER_ID, fakeUserId);
+        postData.put(Constants.USER_ID, this.userID);
         postData.put(Constants.MED_NAME, medName);
         postData.put(Constants.START_DATE, startDate);
         postData.put(Constants.END_DATE, endDate);
@@ -28,6 +37,8 @@ public class DatabaseHelperModel {
         postData.put(Constants.TIMES_TO_BE_REMINDED, timesToBeReminded);
         postData.put(Constants.DOSAGE_PER_INTAKE, dosagePerIntake);
         postData.put(Constants.TAKEN_IN_PAST, "0");
+        postData.put(Constants.TOTAL_NUM_PILLS, totalNumPills);
+        postData.put(Constants.NOTES, notes);
 
         DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
         task.execute("http://3.94.171.162:5000/addMedication");
@@ -49,7 +60,7 @@ public class DatabaseHelperModel {
         DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
 
         // TODO: Use real userID
-        task.execute("http://3.94.171.162:5000/getCurrentMeds/" + fakeUserId);
+        task.execute("http://3.94.171.162:5000/getCurrentMeds/" + this.userID);
     }
 
     public String getVaccinations() {

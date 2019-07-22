@@ -1,6 +1,7 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.app.Fragment;
+import android.content.Context;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,20 +19,21 @@ public class MainActivityPresenter {
         void updateInsights();
     }
 
-    public MainActivityPresenter(View view) {
-        this.dbHelperModel = new DatabaseHelperModel();
+    public MainActivityPresenter(View view, Context context) {
+        this.dbHelperModel = new DatabaseHelperModel(context);
         this.view = view;
     }
 
     public void addMedication(
-            String userID,
             String medName,
             String startDate,
             String endDate,
             String selectedDaysPerWeek,
             String numTimesPerDay,
             String timesToBeReminded,
-            String dosagePerIntake) {
+            String dosagePerIntake,
+            String totalNumPills,
+            String notes) {
         Callback callback = new Callback() {
             @Override
             public void onValueReceived(final String value) {
@@ -45,7 +47,6 @@ public class MainActivityPresenter {
         };
 
         dbHelperModel.addNewMedication(
-                userID,
                 medName,
                 startDate,
                 endDate,
@@ -53,6 +54,8 @@ public class MainActivityPresenter {
                 numTimesPerDay,
                 timesToBeReminded,
                 dosagePerIntake,
+                totalNumPills,
+                notes,
                 callback);
     }
 }

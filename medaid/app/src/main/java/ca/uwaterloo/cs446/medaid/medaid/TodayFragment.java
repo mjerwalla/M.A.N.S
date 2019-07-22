@@ -21,7 +21,7 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_today, container, false);
-        todayFragmentPresenter = new TodayFragmentPresenter(this);
+        todayFragmentPresenter = new TodayFragmentPresenter(this, this.getContext());
         this.updateMedicationListEverywhere();
 
         return v;
