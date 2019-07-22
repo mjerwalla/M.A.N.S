@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 
 public class DoctorMainActivity extends AppCompatActivity implements DoctorMainActivityPresenter.View {
     private DoctorMainActivityPresenter doctorMainActivityPresenter;
-    
+
     // TODO: ADD LOGOUT FUNCTIONALITY
 
     @Override
