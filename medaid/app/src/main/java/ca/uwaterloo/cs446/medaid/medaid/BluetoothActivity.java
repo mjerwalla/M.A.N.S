@@ -177,7 +177,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.overlay_doctor_bluetooth_request);
         Button btnONOFF = (Button) findViewById(R.id.btnBluetoothOnOff);
         btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnEnableDiscoverable);
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);

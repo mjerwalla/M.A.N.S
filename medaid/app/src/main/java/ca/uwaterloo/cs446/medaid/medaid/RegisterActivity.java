@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     System.out.println("NOT FALSE");
                     postFailed = "false";
-                    setSharedPreferences(Integer.toString(userType));
+                    setSharedPreferences(value);
                     nextActivity();
                 }
                 System.out.println("The onValueReceived  for Post: " + value);
@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
                 case "2":
 //                    // Create doctor user intent
-                    intent = new Intent(getBaseContext(), DoctorMainActivity.class);
+                    intent = new Intent(getBaseContext(), BluetoothActivity.class);
                     break;
                 default:
                     System.out.println("Failed to direct to activity");

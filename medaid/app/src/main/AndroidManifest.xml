@@ -36,6 +36,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ConflictsActivity"></activity>
         <activity android:name=".DoctorMainActivity"></activity>
+        <activity android:name=".BluetoothActivity"></activity>
     </application>
 
 </manifest>
