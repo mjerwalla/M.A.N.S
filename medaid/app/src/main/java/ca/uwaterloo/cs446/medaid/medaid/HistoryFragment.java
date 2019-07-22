@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -256,6 +257,21 @@ public class HistoryFragment extends Fragment {
                 } else if (type == "report") {
                     addReportPopUp();
                 }
+            }
+        });
+
+        ImageButton bluetoothButton = view.findViewById(R.id.btnBluetoothConnect);
+        bluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), BluetoothActivity.class);
+                startActivity(intent);
+
+//                AlertDialog.Builder bluetoothDialogBuilder = new AlertDialog.Builder(getContext());
+//                View bluetoothView = getLayoutInflater().inflate(R.layout.overlay_doctor_bluetooth_request, null);
+//                bluetoothDialogBuilder.setView(bluetoothView);
+//                final AlertDialog bluetoothDialog = bluetoothDialogBuilder.create();
+//                bluetoothDialog.show();
             }
         });
 

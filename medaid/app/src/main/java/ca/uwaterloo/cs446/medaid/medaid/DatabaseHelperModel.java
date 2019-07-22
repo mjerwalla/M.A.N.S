@@ -59,6 +59,11 @@ public class DatabaseHelperModel {
         task.execute("http://3.94.171.162:5000/getUserMedicalHistory/" + this.userID);
     }
 
+    public void getAllVacinations(Callback callback) {
+        DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
+        task.execute("http://3.94.171.162:5000/getVaccinations/" + this.userID);
+    }
+
     public void getTodayMedication(Callback callback) {
 
         DatabaseHelperGet task = new DatabaseHelperGet(null, callback);

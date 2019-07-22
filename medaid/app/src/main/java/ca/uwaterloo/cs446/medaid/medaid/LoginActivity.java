@@ -226,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     break;
                 case "2":
 //                    // Create doctor user intent
-                    intent = new Intent(getBaseContext(), DoctorMainActivity.class);
+                    intent = new Intent(getBaseContext(), BluetoothActivity.class);
                     break;
                 default:
                     System.out.println("Failed to direct to activity");

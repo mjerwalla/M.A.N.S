@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature android:name="android.hardware.bluetooth" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -46,6 +51,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ConflictsActivity"></activity>
         <activity android:name=".DoctorMainActivity"></activity>
+        <activity android:name=".BluetoothActivity"></activity>
         <activity android:name=".MultiuserActivity"></activity>
     </application>
 
