@@ -37,5 +37,6 @@
     <string name="analytics">Analytics</string>
     <string name="connect_to_patient">Please connect to your patient</string>
     <string name="connect_to_doctor">Please connect to your doctor</string>
+    <string name="nav_title_multiuserlist">Patient List</string>
 
 </resources>

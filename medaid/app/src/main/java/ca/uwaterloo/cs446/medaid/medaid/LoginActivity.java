@@ -222,6 +222,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     break;
                 case "1":
                     // Create multiuser intent
+                    intent = new Intent(getBaseContext(), MultiuserActivity.class);
                     break;
                 case "2":
 //                    // Create doctor user intent

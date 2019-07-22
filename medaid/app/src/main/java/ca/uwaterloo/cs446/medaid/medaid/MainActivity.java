@@ -1,4 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +11,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         SharePreferences user = new SharePreferences(this);
         user.modifyPref("userID",null);
         user.modifyPref("userType", null);
+        user.modifyPref("parentID", null);
     }
 
     public void setAddMedPopupBehavior(View view) {
@@ -246,6 +252,28 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                                 notes.getText().toString());
 
                         medTimesDialog.hide();
+                        System.out.println(medTimes);
+
+                        String newTime;
+
+                        if (medTimes.contains(",")) {
+                            newTime = startDateString.substring(0, 10) + " " + medTimes.substring(medTimes.indexOf(",")+1);
+                        } else {
+                            newTime = startDateString.substring(0, 10) + " " + medTimes;
+                        }
+
+                        System.out.println("New Time: " + newTime);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        Date date = null;
+                        try {
+                            date = sdf.parse(newTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        backgroundNotifications(date.getTime());
+
                     }
                 });
             }
@@ -255,5 +283,45 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     public void delete(View view){
         // TODO: replace medDb.deleteData(Integer.toString(view.getId()));
         mainActivityPresenter.deleteMedication(view.getId());
+    }
+
+    public void backgroundNotifications(long time){
+        Intent notifyIntent = new Intent(this,AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  time,
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SharePreferences sp = new SharePreferences(this);
+        String parentID = sp.getPref("parentID");
+        System.out.println("parentID " + parentID);
+        if (!TextUtils.isEmpty(parentID)) {
+            System.out.println("there");
+            getMenuInflater().inflate(R.menu.top_navigation, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_multiuserList:
+                SharePreferences sP = new SharePreferences(this);
+                String parentID = sP.getPref("ParentID");
+                sP.modifyPref("userID",parentID);
+                sP.modifyPref("userType","1");
+                finish();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
