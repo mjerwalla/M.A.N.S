@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     System.out.println("NOT FALSE");
                     postFailed = "false";
-                    setSharedPreferences(Integer.toString(userType));
+                    setSharedPreferences(value);
                     nextActivity();
                 }
                 System.out.println("The onValueReceived  for Post: " + value);
@@ -104,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                     intent = new Intent(getBaseContext(), MainActivity.class);
                     break;
                 case "1":
+                    intent = new Intent(getBaseContext(), MultiuserActivity.class);
                     // Create multiuser intent
                     break;
                 case "2":
@@ -121,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void setSharedPreferences(String response){
         try {
+            System.out.println(response);
             JSONArray jsonArray = new JSONArray(response);
             String userID = String.valueOf(jsonArray.getJSONObject(0).getString("LAST_INSERT_ID()"));
             SharePreferences preferences = new SharePreferences(this);
