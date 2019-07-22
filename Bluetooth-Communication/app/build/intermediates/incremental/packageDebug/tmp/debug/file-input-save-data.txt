@@ -1,0 +1,11 @@
+#Internal package file, do not edit.
+#Mon Jul 22 03:01:46 EDT 2019
+1.base=/Users/nabilbarakati/Desktop/University/Spring 2019/CS 446/Sending-and-Receiving-Data-with-Bluetooth/Bluetooth-Communication/app/build/intermediates/transforms/dexMerger/debug/13
+0.baseType=DIRECTORY
+1.baseType=DIRECTORY
+count=2
+1.set=DEX
+0.path=classes.dex
+0.set=DEX
+0.base=/Users/nabilbarakati/Desktop/University/Spring 2019/CS 446/Sending-and-Receiving-Data-with-Bluetooth/Bluetooth-Communication/app/build/intermediates/transforms/dexMerger/debug/12
+1.path=classes.dex

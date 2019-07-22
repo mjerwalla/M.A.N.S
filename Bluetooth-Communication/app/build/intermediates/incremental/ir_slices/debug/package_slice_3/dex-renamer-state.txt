@@ -1,0 +1,4 @@
+#Mon Jul 22 03:01:46 EDT 2019
+base.0=/Users/nabilbarakati/Desktop/University/Spring 2019/CS 446/Sending-and-Receiving-Data-with-Bluetooth/Bluetooth-Communication/app/build/intermediates/transforms/dexMerger/debug/4
+path.0=classes.dex
+renamed.0=classes.dex
