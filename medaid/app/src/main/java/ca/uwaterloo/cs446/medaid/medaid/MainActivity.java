@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, selectedFrag).commit();
-
-                    // TODO: Call corresponding updateView functions
                     return true;
                 }
             };
@@ -286,17 +284,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                         SimpleDateFormat ft = new SimpleDateFormat (Constants.DATE_TIME_FORMAT);
                         String startDateString = ft.format(startDate);
                         String endDateString = ft.format(endDate);
-
-                        addMedicalEntry(
-                            medName.getText().toString(),
-                            medTimes,
-                            daysOfTheWeekString,
-                            startDateString,
-                            endDateString,
-                            timeIDMap.size(),
-                            Integer.parseInt(dosagePerIntake.getText().toString()),
-                            Integer.parseInt(totalPills.getText().toString()),
-                            notes.getText().toString());
+                        mainActivityPresenter.addMedication(
+                                "1",
+                                medName.getText().toString(),
+                                startDateString,
+                                startDateString,
+                                daysOfTheWeekString,
+                                Integer.toString(timeIDMap.size()),
+                                medTimes,
+                                dosagePerIntake.getText().toString());
+                        // this.update();
 
                         // TODO: Check if new med was successfully added (maybe return value of addMedicalEntry?)
                         // TODO: If successful, close window, otherwise show prompt that say they are missing fields
@@ -321,35 +318,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         times = timesBuilder.toString();
         int lastCharIndex = times.length() - 1;
         return times.substring(0, lastCharIndex);
-    }
-
-    private void addMedicalEntry(
-            String medName,
-            String timesOfDay,
-            String daysPerWeek,
-            String startDate,
-            String endDate,
-            int numTimesPerDay,
-            int dosePerIntake,
-            int totalPills,
-            String notes) {
-        // TODO: Add notes, totalPills, and dosePerIntake
-        mainActivityPresenter.addMedication(
-                "1",
-                medName,
-                startDate,
-                endDate,
-                daysPerWeek,
-                Integer.toString(numTimesPerDay),
-                timesOfDay,
-                Integer.toString(dosePerIntake));
-
-        this.update();
-    }
-
-    private void update() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, todayFragment).commit();
     }
 
     public void delete(View view){
