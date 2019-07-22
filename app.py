@@ -33,6 +33,8 @@ def addUser():
         cur.close()
         return json.dumps(json_data, default=str)
 
+
+
 @app.route('/addMedication', methods=['GET', 'POST'])
 def addMedication():
     if request.method == "POST":
@@ -58,8 +60,14 @@ def addMedication():
         print(takenInPast)
         cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
         (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake,takenInPast))
+        cur.execute("""SELECT * FROM Medications WHERE userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+             json_data.append(dict(zip(row_headers,result)))
         cur.close()
-        return 'success'
+        return json.dumps(json_data, default=str)
 
 @app.route('/getAppointments/<userID>', methods=['GET'])
 def getAppointments(userID):
