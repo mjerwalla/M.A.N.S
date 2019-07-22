@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 //        finish();
     }
 
-    private void postData(int userType){
+    private void postData(final int userType){
         System.out.println("In postData ");
         String emailID = email.getText().toString();
         String password = pass.getText().toString();
@@ -76,9 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                     System.out.println("NOT FALSE");
                     postFailed = "false";
                     setSharedPreferences(value);
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    nextActivity();
                 }
                 System.out.println("The onValueReceived  for Post: " + value);
                 // call method to update view as required using returned value
@@ -91,15 +89,41 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("I failed :(");
             }
         };
+
         DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
         task.execute("http://3.94.171.162:5000/addUser");
+    }
+
+    private void nextActivity(){
+        SharePreferences preferences = new SharePreferences(this);
+        if ( preferences.getPref("userID") != null ){
+            String userType = preferences.getPref("userType");
+            Intent intent =null;
+            switch(userType) {
+                case "0":
+                    intent = new Intent(getBaseContext(), MainActivity.class);
+                    break;
+                case "1":
+                    // Create multiuser intent
+                    break;
+                case "2":
+//                    // Create doctor user intent
+                    intent = new Intent(getBaseContext(), DoctorMainActivity.class);
+                    break;
+                default:
+                    System.out.println("Failed to direct to activity");
+            }
+//            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void setSharedPreferences(String response){
         try {
             JSONArray jsonArray = new JSONArray(response);
             String userID = String.valueOf(jsonArray.getJSONObject(0).getString("LAST_INSERT_ID()"));
-            sharePref preferences = new sharePref(this);
+            SharePreferences preferences = new SharePreferences(this);
             preferences.modifyPref("userID",userID);
             preferences.modifyPref("userType", String.valueOf(userType));
 

@@ -37,9 +37,9 @@
                 <!--<action android:name="android.intent.action.QUICKBOOT_POWERON" />-->
             <!--</intent-filter>-->
         </receiver>
-        <activity android:name=".HistoryActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ConflictsActivity"></activity>
+        <activity android:name=".DoctorMainActivity"></activity>
     </application>
 
 </manifest>

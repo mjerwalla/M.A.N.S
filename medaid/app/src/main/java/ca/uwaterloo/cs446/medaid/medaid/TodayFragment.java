@@ -30,6 +30,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import java.util.Calendar;
 import java.util.List;
 
+<<<<<<< HEAD
 import static android.content.Context.ALARM_SERVICE;
 
 public class TodayFragment extends Fragment {
@@ -38,24 +39,32 @@ public class TodayFragment extends Fragment {
 //    AlarmManager alarmManager;
     AlarmReceiver alarmReceiver;
     PendingIntent pendingIntent;
+=======
+public class TodayFragment extends Fragment implements TodayFragmentPresenter.View{
+    private View v;
+    private TodayFragmentPresenter todayFragmentPresenter;
+>>>>>>> ca28cb2f7c048375b095883f1dbd35f0f1012dce
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_today, container, false);
-        medDb = new CalendarActivityDBHelper(getContext());
-        this.UpdateMedList();
+        todayFragmentPresenter = new TodayFragmentPresenter(this, this.getContext());
+        this.updateMedicationListEverywhere();
 
         backgroundNotifications();
 
         return v;
     }
 
-    private void UpdateMedList() {
+    @Override
+    public void updateMedicationListView(List<TodayFragmentPresenter.UpcomingMedicine> upcomingMedicines) {
         LinearLayout linearLayout = v.findViewById(R.id.linearLayout);
-        List<CalendarActivityDBHelper.MyData> data = medDb.getAllData();
+        linearLayout.removeAllViews();
 
-        for (CalendarActivityDBHelper.MyData myData: data) {
+        int idCounter = 0;
+        for (TodayFragmentPresenter.UpcomingMedicine med: upcomingMedicines) {
+            idCounter++;
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.upcoming_med_block, linearLayout, false);
 
@@ -65,21 +74,22 @@ public class TodayFragment extends Fragment {
             linearLayout.addView(rowView);
 
             TextView medName = rowView.findViewById(R.id.txtMedName);
-            medName.setText(myData.column2);
+            medName.setText(med.medName);
 
             // TODO: Create new medicine reminder for each time
             TextView time = rowView.findViewById(R.id.txtTime);
-            time.setText(myData.column3.charAt(1) + ":00am");
+            time.setText(med.timesToBeReminded[0]);
 
             TextView dosage = rowView.findViewById(R.id.txtDosage);
-            dosage.setText(myData.column7 + " pills");
+            dosage.setText(med.dosagePerIntake + " pills");
 
             // Set button ID
             Button takenButton = rowView.findViewById(R.id.btnTaken);
-            takenButton.setId(Integer.parseInt(myData.column0));
+            takenButton.setId(Integer.parseInt(med.medID));
         }
     }
 
+<<<<<<< HEAD
     public void backgroundNotifications() {
         String CHANNEL_ID="\"my_channel_id_01\"";
         int NOTIFICATION_ID = 1;
@@ -158,5 +168,9 @@ public class TodayFragment extends Fragment {
 ////        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
 ////                alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 //        System.out.println("Alarm Alarms set for everyday 8 am.");
+=======
+    public void updateMedicationListEverywhere() {
+        todayFragmentPresenter.updateMedicationList();
+>>>>>>> ca28cb2f7c048375b095883f1dbd35f0f1012dce
     }
 }

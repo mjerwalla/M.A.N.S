@@ -1,5 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class InsightsFragment extends Fragment {
+public class InsightsFragment extends Fragment implements InsightsFragmentPresenter.View {
     View view;
     TextView text1;
     TextView text2;
@@ -34,24 +35,15 @@ public class InsightsFragment extends Fragment {
     BarChart weekChart;
     ArrayList<BarEntry> Meds = new ArrayList();
     ArrayList<String> Day = new ArrayList();
-
-    //Will be removed
-    String m = "[{'rowNum': '22', 'userID': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,SAT', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Adderall', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'TUE,WED,THUR', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Xanax', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Ibuprofen', 'startDate': '2018-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,THUR,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil Flu and Cold', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'SUN', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Evening Snack'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Antibiotic', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'SUN,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Penicillin', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'SUN,THUR,SAT', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Panadol', 'startDate': '2017-07-02 00:00', 'endDate': '2017-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Buckleys', 'startDate': '2018-07-02 00:00', 'endDate': '2018-08-01 00:00', 'selectedDaysPerWeek': 'TUE,WED,SAT', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'}]";
-
+    private InsightsFragmentPresenter insightsFragmentPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_insights, container, false);
+        insightsFragmentPresenter = new InsightsFragmentPresenter(this, getContext());
+
+        this.getDataforChart();
 
         text1 = (TextView) view.findViewById(R.id.medication1);
         text2 = (TextView) view.findViewById(R.id.medication2);
@@ -75,8 +67,6 @@ public class InsightsFragment extends Fragment {
         });
 
         weekChart = (BarChart) view.findViewById(R.id.barChart);
-
-        getDataforChart();
 
         return view;
     }
@@ -142,7 +132,7 @@ public class InsightsFragment extends Fragment {
         }
     }
 
-    public void getDataforChart() {
+    public void getBarChart(String meds) {
         Day.add("MON");
         Day.add("TUE");
         Day.add("WED");
@@ -162,7 +152,7 @@ public class InsightsFragment extends Fragment {
         JSONArray medication;
 
         try {
-            medication = new JSONArray(m);
+            medication = new JSONArray(meds);
         } catch (Exception e) {
             System.out.println("Failed to initialize JSON Array");
             return;
@@ -174,7 +164,7 @@ public class InsightsFragment extends Fragment {
                 String s = x.getString("startDate");
                 String e = x.getString("endDate");
                 Calendar c = Calendar.getInstance();
-                c.add(Calendar.DATE, -1);
+//                c.add(Calendar.DATE, -1);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date start = sdf.parse(s);
                 Date end = sdf.parse(e);
@@ -221,7 +211,11 @@ public class InsightsFragment extends Fragment {
         weekChart.animateY(10);
         BarData d = new BarData(Day, data);
         data.setColors(ColorTemplate.PASTEL_COLORS);
-        weekChart.setDescription("Number of Current Medication Per Day");
+        weekChart.setDescription("");
         weekChart.setData(d);
+    }
+
+    public void getDataforChart() {
+        insightsFragmentPresenter.getMedications();
     }
 }
