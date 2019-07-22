@@ -51,6 +51,7 @@ public class MainActivityPresenter {
                 selectedDaysPerWeek,
                 numTimesPerDay,
                 timesToBeReminded,
+                dosagePerIntake,
                 callback);
     }
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DatabaseHelperModel {
-    private String fakeUserId = "25";
+    private String fakeUserId = "1";
     public void addNewMedication(
             String userID,
             String medName,
@@ -14,6 +14,7 @@ public class DatabaseHelperModel {
             String selectedDaysPerWeek,
             String numTimesPerDay,
             String timesToBeReminded,
+            String dosagePerIntake,
             Callback callback) {
         Map<String, String> postData = new HashMap<>();
 
@@ -25,6 +26,8 @@ public class DatabaseHelperModel {
         postData.put(Constants.SELECTED_DAYS_PER_WEEK, selectedDaysPerWeek);
         postData.put(Constants.NUM_TIMES_PER_DAY, numTimesPerDay);
         postData.put(Constants.TIMES_TO_BE_REMINDED, timesToBeReminded);
+        postData.put(Constants.DOSAGE_PER_INTAKE, dosagePerIntake);
+        postData.put(Constants.TAKEN_IN_PAST, "0");
 
         DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
         task.execute("http://3.94.171.162:5000/addMedication");
@@ -39,14 +42,14 @@ public class DatabaseHelperModel {
     }
 
     public void getAllMedication(String userID, Callback callback) {
+    }
+
+    public void getTodayMedication(String userID, Callback callback) {
+
         DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
 
         // TODO: Use real userID
         task.execute("http://3.94.171.162:5000/getCurrentMeds/" + fakeUserId);
-    }
-
-    public String getTodayMedication() {
-        return null;
     }
 
     public String getVaccinations() {

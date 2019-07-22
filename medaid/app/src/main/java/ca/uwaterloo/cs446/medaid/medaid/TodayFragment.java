@@ -13,14 +13,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class TodayFragment extends Fragment implements  TodayFragmentPresenter.View{
+public class TodayFragment extends Fragment implements TodayFragmentPresenter.View{
     private View v;
     private TodayFragmentPresenter todayFragmentPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        System.out.println("ON CREATE VIEW CALLED - today");
         v = inflater.inflate(R.layout.fragment_today, container, false);
         todayFragmentPresenter = new TodayFragmentPresenter(this);
         this.updateMedicationListEverywhere();
@@ -30,12 +29,11 @@ public class TodayFragment extends Fragment implements  TodayFragmentPresenter.V
 
     @Override
     public void updateMedicationListView(List<TodayFragmentPresenter.UpcomingMedicine> upcomingMedicines) {
-        System.out.println("UPDATEMEDLIST CALLED");
         LinearLayout linearLayout = v.findViewById(R.id.linearLayout);
+        linearLayout.removeAllViews();
 
         int idCounter = 0;
         for (TodayFragmentPresenter.UpcomingMedicine med: upcomingMedicines) {
-            System.out.println("Inside for loop - iteration #:" + idCounter);
             idCounter++;
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.upcoming_med_block, linearLayout, false);

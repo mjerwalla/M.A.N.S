@@ -282,8 +282,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                         }
                         final String medTimes = sortAndConcatMedTimes(times);
                         Date startDate = new Date();
-                        Date endDate = new Date(2020, 05, 22);
-                        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm");
+                        Date endDate = new Date(120, 05, 22);
+                        SimpleDateFormat ft = new SimpleDateFormat (Constants.DATE_TIME_FORMAT);
                         String startDateString = ft.format(startDate);
                         String endDateString = ft.format(endDate);
 

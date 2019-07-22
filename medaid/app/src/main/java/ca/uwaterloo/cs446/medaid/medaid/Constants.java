@@ -10,4 +10,6 @@ public final class Constants {
     public static final String TIMES_TO_BE_REMINDED = "timesToBeReminded";
     public static final String DOSAGE_PER_INTAKE = "dosagePerIntake";
     public static final String TAKEN_IN_PAST = "takenInPast";
+
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd hh:mm";
 }
