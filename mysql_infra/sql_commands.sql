@@ -27,6 +27,8 @@ CREATE TABLE medaid.Medications(
    timesToBeReminded VARCHAR(30),
    dosagePerIntake INT,
    takenInPast INT,
+   totalNumPills INT,
+   notes VARCHAR(100),
    PRIMARY KEY(medicationID),
    FOREIGN KEY(userID) REFERENCES Users(userID)
 );
