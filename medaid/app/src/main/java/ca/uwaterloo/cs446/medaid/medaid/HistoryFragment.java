@@ -1,35 +1,31 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.icu.text.SymbolTable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.DatePicker;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,48 +44,45 @@ public class HistoryFragment extends Fragment {
     String userID;
     TextView uriText;
     TextView pdfFile;
+    sharePref preferences;
 
-    String m = "[{'rowNum': '22', 'userID': '1', 'medName': 'Tylenol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Adderall', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Xanax', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Ibuprofen', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Advil Flu and Cold', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Evening Snack'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Antibiotic', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Penicillin', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Dinner'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Panadol', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Breakfast'},\n" +
-            "{'rowNum': 23', 'userID': '1', 'medName': 'Buckleys', 'startDate': '2019-07-02 00:00', 'endDate': '2019-08-01 00:00', 'selectedDaysPerWeek': 'MON,WED,FRI', 'numTimesPerDay': '3', 'timesToBeReminded': '8:00,14:00,21:00', 'takenWith': 'Lunch'}]";
+    Callback callbackGet = new Callback() {
+        @Override
+        public void onValueReceived(final String value) {
+            System.out.println("The onValueReceived for Get : " + value);
+            System.out.println("The type is " + type);
+            updateViewFromCallback(type, value);
+        }
 
-    String v = "[{'userID':'1', 'vacName':'Chicken Pox', 'dateTaken':'2009-04-12 00:00'}, {'userID':'1', 'vacName':'Tetanus', 'dateTaken':'2018-10-22 00:00'}]";
+        @Override
+        public void onFailure() {
+            System.out.println("Failed at callbackGet");
+        }
+    };
 
-    String r = "[]";
+    Callback callbackPost = new Callback() {
+        @Override
+        public void onValueReceived(final String value) {
+            System.out.println("The onValueReceived for Post : " + value);
+            System.out.println("The type is " + type);
+            updateViewFromCallback(type, value);
+        }
+
+        @Override
+        public void onFailure() {
+            System.out.println("Failed at callbackPost");
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_history_new, container, false);
+        preferences = new sharePref(this.getContext());
+        userID = preferences.getPref("userID");
 
-        try {
-            jsonArray = new JSONArray(m);
-
-            System.out.println(jsonArray);
-
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                JSONObject explrObject = jsonArray.getJSONObject(i);
-                userID = explrObject.getString("userID");
-                System.out.println(explrObject.getString("medName"));
-                names.add(explrObject.getString("medName"));
-
-                String start = explrObject.getString("startDate");
-                String end = explrObject.getString("endDate");
-
-                duration.add("Start Date: " + start.substring(0, 10) + " End Date: " + end.substring(0, 10));
-                System.out.println(names);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Failed");
-        }
+        final DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
+        taskGet.execute("http://3.94.171.162:5000/getUserMedicalHistory/" + userID);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
@@ -98,20 +91,22 @@ public class HistoryFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 int tabPosition = tab.getPosition();
                 System.out.println(tabPosition);
+                DatabaseHelperGet get = new DatabaseHelperGet(null, callbackGet);
 
                 switch (tabPosition) {
                     case 0:
                         type = "medication";
+                        get.execute("http://3.94.171.162:5000/getUserMedicalHistory/" + userID);
                         break;
                     case 1:
                         type = "vaccination";
+                        get.execute("http://3.94.171.162:5000/getVaccinations/" + userID);
                         break;
                     case 2:
                         type = "report";
+                        get.execute("http://3.94.171.162:5000/getReports/" + userID);
                         break;
                 }
-
-                updateView(type);
             }
 
             @Override
@@ -133,9 +128,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-//                    TextView t1 = (TextView) view.findViewById(android.R.id.text1);
                 TextView t2 = (TextView) view.findViewById(android.R.id.text2);
-//                    t1.setText(names.get(position));
                 t2.setText(duration.get(position));
                 return view;
             }
@@ -166,9 +159,11 @@ public class HistoryFragment extends Fragment {
                                 String end = explrObject.getString("endDate");
                                 extras.putString("start", "Start Date: " + start.substring(0, 10));
                                 extras.putString("end", "End Date: " + end.substring(0, 10));
-                                extras.putString("daysPerWeek", explrObject.getString("selectedDaysPerWeek"));
+                                extras.putString("selectedDaysPerWeek", explrObject.getString("selectedDaysPerWeek"));
                                 extras.putString("numTimesPerDay", explrObject.getString("numTimesPerDay"));
-                                extras.putString("takenWith", explrObject.getString("takenWith"));
+                                extras.putString("dosagePerIntake", explrObject.getString("dosagePerIntake"));
+                                extras.putString("takenInPast", explrObject.getString("takenInPast"));
+                                extras.putString("notes", explrObject.getString("notes"));
                                 break;
                             }
                         }
@@ -216,12 +211,6 @@ public class HistoryFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                else {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "No Match Found", Toast.LENGTH_SHORT);
-//                    toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-//                    toast.show();
-//                    adapter.getFilter().filter(query);
-//                }
                 return false;
             }
 
@@ -245,9 +234,7 @@ public class HistoryFragment extends Fragment {
                     @Override
                     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
-//                    TextView t1 = (TextView) view.findViewById(android.R.id.text1);
                         TextView t2 = (TextView) view.findViewById(android.R.id.text2);
-//                    t1.setText(names.get(position));
                         t2.setText(duration.get(position));
                         return view;
                     }
@@ -277,18 +264,18 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-    public View updateView(String type) {
-        System.out.println(("UPDATE VIEW"));
+
+    public View updateViewFromCallback(String type, String data) {
+        System.out.println(("UPDATE VIEW FROM CALLBACK"));
 
         listView = (ListView) view.findViewById(R.id.listView);
-
 
         if (type == "medication") {
             System.out.println(("medication"));
             names.clear();
             duration.clear();
             try {
-                jsonArray = new JSONArray(m);
+                jsonArray = new JSONArray(data);
 
                 System.out.println(jsonArray);
 
@@ -300,18 +287,19 @@ public class HistoryFragment extends Fragment {
                     String end = explrObject.getString("endDate");
 
                     duration.add("Start Date: " + start.substring(0, 10) + " End Date: " + end.substring(0, 10));
-                    System.out.println(names);
                 }
 
             } catch (Exception e) {
-                System.out.println("Failed");
+                System.out.println("Failed at update medication");
             }
-        } else if (type == "vaccination") {
+        }
+
+        else if (type == "vaccination") {
             System.out.println(("vaccination"));
             names.clear();
             duration.clear();
             try {
-                jsonArray = new JSONArray(v);
+                jsonArray = new JSONArray(data);
 
                 System.out.println(jsonArray);
 
@@ -319,22 +307,22 @@ public class HistoryFragment extends Fragment {
                     JSONObject explrObject = jsonArray.getJSONObject(i);
                     names.add(explrObject.getString("vacName"));
 
-                    String taken = explrObject.getString("dateTaken");
+                    String taken = explrObject.getString("timeOfVac");
 
                     duration.add("Taken On: " + taken.substring(0, 10));
                 }
             } catch (Exception e) {
-                System.out.println("Failed");
+                System.out.println("Failed at update vaccination");
             }
 
-        } else if (type == "report") {
+        }
+
+        else if (type == "report") {
             System.out.println(("report"));
-            System.out.println(names);
-            System.out.println(r);
             names.clear();
             duration.clear();
             try {
-                jsonArray = new JSONArray(r);
+                jsonArray = new JSONArray(data);
 
                 System.out.println(jsonArray);
 
@@ -344,16 +332,14 @@ public class HistoryFragment extends Fragment {
                     duration.add("File Name: " + explrObject.getString("pdfName"));
                 }
             } catch (Exception e) {
-                System.out.println("Failed");
+                System.out.println("Failed at update report");
             }
         }
 
         adapter.notifyDataSetChanged();
-
         return view;
 
     }
-
 
     public void addMedPopUp() {
         AlertDialog.Builder medPopupBuilder = new AlertDialog.Builder(this.getContext());
@@ -373,15 +359,10 @@ public class HistoryFragment extends Fragment {
         submitNewMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ADDDDDING");
-                System.out.println(medName.getText().toString());
-                System.out.println(start.getDayOfMonth() + "-" + (start.getMonth() + 1) + "-" + start.getYear());
-                System.out.println(end.getDayOfMonth() + "-" + (end.getMonth() + 1) + "-" + end.getYear());
-                System.out.println(notes.getText().toString());
+                System.out.println("Adding Medication");
 
-                JSONObject med = new JSONObject();
+                Map<String, String> med = new HashMap<>();
                 try {
-                    med.put("rowNum", "1");
                     med.put("userID", userID);
                     med.put("medName", medName.getText().toString());
                     String dayS = String.valueOf(start.getDayOfMonth());
@@ -402,21 +383,21 @@ public class HistoryFragment extends Fragment {
                     }
                     med.put("startDate", start.getYear() + "-" + monthS + "-" + dayS + " 00:00");
                     med.put("endDate", end.getYear() + "-" + monthE + "-" + dayE + " 00:00");
-                    med.put("selectedDaysPerWeek", "");
-                    med.put("numTimesPerDay", "");
-                    med.put("timesToBeReminded", "");
-                    med.put("takenWith", notes.getText().toString());
+                    med.put("selectedDaysPerWeek", "null");
+                    med.put("numTimesPerDay", "0");
+                    med.put("timesToBeReminded", "0");
+                    med.put("dosagePerIntake", "0");
+                    med.put("takenInPast", "1");
+                    med.put("totalNumPills", "0");
+                    med.put("notes", notes.getText().toString());
                 } catch (Exception e) {
                     System.out.println("Failed at Add medication from history");
                 }
 
                 System.out.println(med);
 
-                m = m.substring(0, m.length()-1) + "," + med.toString() + "]";
-
-                updateView("medication");
-
-//                addToMedicationTable(med);
+                DatabaseHelperPost taskPost = new DatabaseHelperPost(med, callbackPost);
+                taskPost.execute("http://3.94.171.162:5000/addMedication");
 
                 dialog.hide();
             }
@@ -439,13 +420,9 @@ public class HistoryFragment extends Fragment {
         submitNewVacButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ADDDDDING");
-                System.out.println(vacName.getText().toString());
-                System.out.println("HEEEELO DATEPICKER");
-                System.out.println(date.getDayOfMonth() + "-" + (date.getMonth() + 1) + "-" + date.getYear());
-                JSONObject vac = new JSONObject();
+                System.out.println("Adding vaccination");
+                Map<String, String> vac = new HashMap<>();
                 try {
-//                    vac.put("rowNum", "1");
                     vac.put("userID", userID);
                     vac.put("vacName", vacName.getText().toString());
                     String day = String.valueOf(date.getDayOfMonth());
@@ -456,18 +433,15 @@ public class HistoryFragment extends Fragment {
                     if (month.length() == 1) {
                         month = "0" + month;
                     }
-                    vac.put("dateTaken", date.getYear() + "-" + month + "-" + day + " 00:00");
+                    vac.put("timeOfVac", date.getYear() + "-" + month + "-" + day + " 00:00");
                 } catch (Exception e) {
                     System.out.println("Failed at Add vaccination from history");
                 }
 
                 System.out.println(vac);
 
-                v = v.substring(0, v.length()-1) + "," + vac.toString() + "]";
-
-                updateView("vaccination");
-
-//                addToVaccinationTable(vac);
+                DatabaseHelperPost taskPost = new DatabaseHelperPost(vac, callbackPost);
+                taskPost.execute("http://3.94.171.162:5000/addVaccination");
 
                 dialog.hide();
             }
@@ -510,13 +484,9 @@ public class HistoryFragment extends Fragment {
         submitNewRepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ADDDDDING");
-                System.out.println(repName.getText().toString());
-                System.out.println(pdfName.getText().toString());
-                System.out.println(uriName.getText().toString());
-                JSONObject report = new JSONObject();
+                System.out.println("Adding Report");
+                Map<String, String> report = new HashMap<>();
                 try {
-//                    vac.put("rowNum", "1");
                     report.put("userID", userID);
                     report.put("reportName", repName.getText().toString());
                     report.put("pdfName", pdfName.getText().toString());
@@ -525,15 +495,10 @@ public class HistoryFragment extends Fragment {
                     System.out.println("Failed at Add report from history");
                 }
 
-                if (r == "[]") {
-                    r = r.substring(0, r.length() - 1) + report.toString() + "]";
-                } else {
-                    r = r.substring(0, r.length() - 1) + "," + report.toString() + "]";
-                }
+                System.out.println(report);
 
-                updateView("report");
-
-//                addToVaccinationTable(vac);
+                DatabaseHelperPost taskPost = new DatabaseHelperPost(report, callbackPost);
+                taskPost.execute("http://3.94.171.162:5000/addReport");
 
                 dialog.hide();
             }
@@ -542,8 +507,6 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-//        super.onActivityResult(requestCode, resultCode, resultData);
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = resultData.getData();
