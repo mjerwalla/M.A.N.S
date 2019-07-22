@@ -14,6 +14,8 @@ public final class Constants {
     public static final String NOTES = "notes";
 
     public static final String MEDICATION_ID = "medicationID";
+    public static final String APPOINTMENT_NAME = "appointmentName";
+    public static final String TIME_OF_APT = "timeOfApt";
 
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd hh:mm";
 }

@@ -74,4 +74,20 @@ public class MainActivityPresenter {
 
         dbHelperModel.deleteMedication(Integer.toString(medID), callback);
     }
+
+    public void addAppointment(String appointmentName, String timeOfApt) {
+        Callback callback = new Callback() {
+            @Override
+            public void onValueReceived(final String value) {
+                view.updateCalendar();
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("ERROR: Failed to add appointment.");
+            }
+        };
+
+        dbHelperModel.addAppointment(appointmentName, timeOfApt, callback);
+    }
 }
