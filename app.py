@@ -60,7 +60,7 @@ def addVaccination():
         jsonData = request.get_json()
         userID = jsonData['userID']
         vacName = jsonData['vacName']
-        timeofVac = jsonData['timeofVac']
+        timeOfVac = jsonData['timeOfVac']
         print(userID + vacName + timeofVac)
         cur.execute("""INSERT INTO Vaccinations (userID, vacName, timeofVac) VALUES (%s,%s,%s)""", (userID, vacName, timeofVac))
         cur.execute("""SELECT * FROM Vaccinations WHERE userID = %s""", (userID))
@@ -92,9 +92,6 @@ def addAppointment():
         return json.dumps(json_data, default=str)
 
 
-
-
-
 @app.route('/addMedication', methods=['GET', 'POST'])
 def addMedication():
     if request.method == "POST":
@@ -109,6 +106,8 @@ def addMedication():
         timesToBeReminded = jsonData['timesToBeReminded']
         dosagePerIntake = jsonData['dosagePerIntake']
         takenInPast = jsonData['takenInPast']
+        totalNumPills = jsonData['totalNumPills']
+        notes = jsonData['notes']
         print(userID)
         print(medName)
         print(startDate)
@@ -118,8 +117,10 @@ def addMedication():
         print(timesToBeReminded)
         print(dosagePerIntake)
         print(takenInPast)
-        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake,takenInPast))
+        print(totalNumPills)
+        print(notes)
+        cur.execute("""INSERT INTO Medications (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake, takenInPast, totalNumPills, notes) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+        (userID, medName, startDate, endDate, selectedDaysPerWeek, numTimesPerDay, timesToBeReminded, dosagePerIntake,takenInPast,totalNumPills,notes))
         cur.execute("""SELECT * FROM Medications WHERE userID = %s""", (userID))
         row_headers=[x[0] for x in cur.description] #this will extract row headers
         rv = cur.fetchall()
