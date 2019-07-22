@@ -31,6 +31,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ConflictsActivity"></activity>
         <activity android:name=".DoctorMainActivity"></activity>
+        <activity android:name=".MultiuserActivity"></activity>
     </application>
 
 </manifest>

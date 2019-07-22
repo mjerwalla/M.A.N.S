@@ -9,7 +9,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         SharePreferences user = new SharePreferences(this);
         user.modifyPref("userID",null);
         user.modifyPref("userType", null);
+        user.modifyPref("parentID", null);
     }
 
     public void setAddMedPopupBehavior(View view) {
@@ -255,5 +258,39 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     public void delete(View view){
         // TODO: replace medDb.deleteData(Integer.toString(view.getId()));
         mainActivityPresenter.deleteMedication(view.getId());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SharePreferences sp = new SharePreferences(this);
+        String parentID = sp.getPref("parentID");
+        System.out.println("parentID " + parentID);
+        if (!TextUtils.isEmpty(parentID)) {
+            System.out.println("there");
+            getMenuInflater().inflate(R.menu.top_navigation, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_multiuserList:
+                SharePreferences sP = new SharePreferences(this);
+                String parentID = sP.getPref("ParentID");
+                sP.modifyPref("userID",parentID);
+                sP.modifyPref("userType","1");
+
+//                Intent intent = new Intent(this, MultiuserActivity.class);
+//                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }

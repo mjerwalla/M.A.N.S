@@ -67,4 +67,22 @@ public class DatabaseHelperModel {
         task.execute("http://3.94.171.162:5000/getCurrentMeds/" + this.userID);
     }
 
+    public void addUser(Map<String, String> user, Callback callback) {
+        DatabaseHelperPost task = new DatabaseHelperPost(user, callback);
+        task.execute("http://3.94.171.162:5000/addUser");
+    }
+
+    public void addUserToCaretaker(String patientID, Callback callback) {
+        Map<String, String> postData = new HashMap<>();
+        postData.put("careTakerID", this.userID);
+        postData.put("patientID", patientID);
+        System.out.println(postData);
+        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
+        task.execute("http://3.94.171.162:5000/addPatientToCareTaker");
+    }
+
+    public void getPatients(Callback callback) {
+        DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
+        task.execute("http://3.94.171.162:5000/getMultiUserInfo/" + this.userID);
+    }
 }
