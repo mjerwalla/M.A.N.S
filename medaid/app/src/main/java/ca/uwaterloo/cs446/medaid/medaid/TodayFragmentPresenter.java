@@ -31,8 +31,10 @@ public class TodayFragmentPresenter {
                     int arrLength = medListArray.length();
                     for (int i = 0; i < arrLength; i++) {
                         JSONObject obj = medListArray.getJSONObject(i);
+                        System.out.println("JSONOBJ: " + obj);
                         UpcomingMedicine upcomingMedicine = new UpcomingMedicine();
                         upcomingMedicine.medName = obj.getString(Constants.MED_NAME);
+                        upcomingMedicine.medID = obj.getString(Constants.MEDICATION_ID);
                         upcomingMedicine.startDate =
                                 new SimpleDateFormat(Constants.DATE_TIME_FORMAT)
                                         .parse(obj.getString(Constants.START_DATE));
@@ -66,6 +68,7 @@ public class TodayFragmentPresenter {
 
     public class UpcomingMedicine {
         String medName;
+        String medID;
         Date startDate;
         Date endDate;
         String[] selectedDaysPerWeek;
