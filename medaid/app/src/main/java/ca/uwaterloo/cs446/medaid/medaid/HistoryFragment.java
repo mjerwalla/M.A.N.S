@@ -44,7 +44,7 @@ public class HistoryFragment extends Fragment {
     String userID;
     TextView uriText;
     TextView pdfFile;
-    sharePref preferences;
+    SharePreferences preferences;
 
     Callback callbackGet = new Callback() {
         @Override
@@ -78,7 +78,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_history_new, container, false);
-        preferences = new sharePref(this.getContext());
+        preferences = new SharePreferences(this.getContext());
         userID = preferences.getPref("userID");
 
         final DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
