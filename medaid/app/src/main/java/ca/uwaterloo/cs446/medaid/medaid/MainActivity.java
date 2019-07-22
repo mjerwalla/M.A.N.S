@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                     @Override
                     public void onClick(View view) {
                         int chosenNumTimesPerDay = numberPicker.getValue();
+                        timeIDMap.clear();
+                        submitButton.setVisibility(View.INVISIBLE);
                         // Populate chosenNumTimesPerDay # of time choosers
                         LinearLayout linearLayout = medTimesPopupView.findViewById(R.id.linearLayoutMedTimes);
                         linearLayout.removeAllViews();
@@ -252,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
     public void delete(View view){
         // TODO: replace medDb.deleteData(Integer.toString(view.getId()));
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, todayFragment).commit();
+        mainActivityPresenter.deleteMedication(view.getId());
     }
 }

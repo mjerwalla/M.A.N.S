@@ -55,7 +55,7 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
 
             // Set button ID
             Button takenButton = rowView.findViewById(R.id.btnTaken);
-            takenButton.setId(R.id.btnTaken + idCounter);
+            takenButton.setId(Integer.parseInt(med.medID));
         }
     }
 

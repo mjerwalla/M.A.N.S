@@ -58,4 +58,20 @@ public class MainActivityPresenter {
                 notes,
                 callback);
     }
+
+    public void deleteMedication(int medID) {
+        Callback callback = new Callback() {
+            @Override
+            public void onValueReceived(final String value) {
+                view.updateTodayMedicationList();
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("ERROR: Failed to delete medication.");
+            }
+        };
+
+        dbHelperModel.deleteMedication(Integer.toString(medID), callback);
+    }
 }

@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/txtDosage"
-        android:layout_width="111dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/txtMedName"
         android:layout_marginStart="140dp"
@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/txtTime"
-        android:layout_width="114dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/txtDosage"
         android:layout_alignStart="@+id/txtDosage"
@@ -47,10 +47,11 @@
     <Button
         android:id="@+id/btnTaken"
         style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:layout_toEndOf="@+id/txtDosage"
         android:background="#56B7D1"

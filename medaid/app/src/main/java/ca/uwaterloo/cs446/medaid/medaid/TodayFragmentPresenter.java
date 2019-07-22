@@ -31,8 +31,10 @@ public class TodayFragmentPresenter {
                     int arrLength = medListArray.length();
                     for (int i = 0; i < arrLength; i++) {
                         JSONObject obj = medListArray.getJSONObject(i);
+                        System.out.println("JSONOBJ: " + obj);
                         UpcomingMedicine upcomingMedicine = new UpcomingMedicine();
                         upcomingMedicine.medName = obj.getString(Constants.MED_NAME);
+                        upcomingMedicine.medID = obj.getString(Constants.MEDICATION_ID);
                         upcomingMedicine.startDate =
                                 new SimpleDateFormat(Constants.DATE_TIME_FORMAT)
                                         .parse(obj.getString(Constants.START_DATE));
@@ -52,8 +54,6 @@ public class TodayFragmentPresenter {
                     System.out.println("ERROR: " + e);
                 }
                 // TODO: Parse timesToBeReminded into an array of times with am/pm
-
-                view.updateMedicationListView(upcomingMedicineList);
             }
 
             @Override
@@ -63,11 +63,12 @@ public class TodayFragmentPresenter {
         };
 
         // TODO: Add real userID
-        dbHelperModel.getTodayMedication("fake-ID", callback);
+        dbHelperModel.getTodayMedication(callback);
     }
 
     public class UpcomingMedicine {
         String medName;
+        String medID;
         Date startDate;
         Date endDate;
         String[] selectedDaysPerWeek;

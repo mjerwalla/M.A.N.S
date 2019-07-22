@@ -60,8 +60,9 @@ public class MainActivityHelper {
         }
 
         // Remove last comma
-        int lastCharIndex = daysOfTheWeekStringBuilder.length() - 1;
-        return daysOfTheWeekStringBuilder.substring(0, lastCharIndex);
+        String daysOfTheWeekString = daysOfTheWeekStringBuilder.toString();
+        int lastCharIndex = daysOfTheWeekString.length() - 1;
+        return daysOfTheWeekString.substring(0, lastCharIndex);
     }
 
     public String getTimesToTakeMedication(int hourOfDay, int minutes) {
