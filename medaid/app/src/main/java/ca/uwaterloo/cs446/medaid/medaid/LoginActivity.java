@@ -3,9 +3,6 @@ package ca.uwaterloo.cs446.medaid.medaid;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -14,17 +11,14 @@ import android.content.Loader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.text.Html;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -36,11 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -212,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             System.out.println(vals);
             String userID = String.valueOf(vals.getString("userID"));
             String userType = String.valueOf(vals.getString("userType"));
-            sharePref preferences = new sharePref(this);
+            SharePreferences preferences = new SharePreferences(this);
             preferences.modifyPref("userID",userID);
             preferences.modifyPref("userType",userType);
         } catch (Exception e) {
@@ -222,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean nextActivity(){
-        sharePref preferences = new sharePref(this);
+        SharePreferences preferences = new SharePreferences(this);
         if ( preferences.getPref("userID") != null ){
             String userType = preferences.getPref("userType");
             Intent intent =null;

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 
-public class sharePref extends ContextWrapper {
+public class SharePreferences extends ContextWrapper {
 
-    public sharePref(Context base) {
+    public SharePreferences(Context base) {
         super(base);
     }
 
