@@ -33,7 +33,7 @@ def addUser():
         cur.close()
         return json.dumps(json_data, default=str)
 
-@app.route('/addReport/', methods=['GET', 'POST'])
+@app.route('/addReport', methods=['GET', 'POST'])
 def addReport():
     if request.method == "POST":
         cur = conn.cursor()
@@ -53,7 +53,7 @@ def addReport():
         cur.close()
         return json.dumps(json_data, default=str)
 
-@app.route('/addVaccination/', methods=['GET', 'POST'])
+@app.route('/addVaccination', methods=['GET', 'POST'])
 def addVaccination():
     if request.method == "POST":
         cur = conn.cursor()
@@ -72,7 +72,7 @@ def addVaccination():
         cur.close()
         return json.dumps(json_data, default=str)
 
-@app.route('/addAppointment/', methods=['GET', 'POST'])
+@app.route('/addAppointment', methods=['GET', 'POST'])
 def addAppointment():
     if request.method == "POST":
         cur = conn.cursor()
