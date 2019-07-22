@@ -154,7 +154,6 @@ public class HistoryFragment extends Fragment {
                             JSONObject explrObject = jsonArray.getJSONObject(j);
 
                             if (explrObject.getString("medName") == name) {
-                                System.out.println("YEEEES");
                                 String start = explrObject.getString("startDate");
                                 String end = explrObject.getString("endDate");
                                 extras.putString("start", "Start Date: " + start.substring(0, 10));
@@ -181,7 +180,6 @@ public class HistoryFragment extends Fragment {
                             JSONObject explrObject = jsonArray.getJSONObject(j);
 
                             if (explrObject.getString("reportName") == name) {
-                                System.out.println("YEEEES report");
                                 uri = explrObject.getString("uri");
                                 break;
                             }
