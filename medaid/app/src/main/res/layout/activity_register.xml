@@ -164,7 +164,7 @@
 
                 <Spinner
                     android:id="@+id/userType"
-                    android:layout_width="270sp"
+                    android:layout_width="260sp"
                     android:layout_height="match_parent" />
             </LinearLayout>
 
