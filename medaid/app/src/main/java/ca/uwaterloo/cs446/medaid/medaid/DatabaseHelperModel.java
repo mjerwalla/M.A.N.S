@@ -65,11 +65,20 @@ public class DatabaseHelperModel {
     }
 
     public void getTodayMedication(Callback callback) {
-
         DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
 
-        // TODO: Use real userID
         task.execute("http://3.94.171.162:5000/getCurrentMeds/" + this.userID);
+    }
+
+    public void addAppointment(String appointmentName, String timeOfApt, Callback callback) {
+        Map<String, String> postData = new HashMap<>();
+
+        postData.put(Constants.USER_ID, this.userID);
+        postData.put(Constants.APPOINTMENT_NAME, appointmentName);
+        postData.put(Constants.TIME_OF_APT, timeOfApt);
+
+        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
+        task.execute("http://3.94.171.162:5000/addAppointment");
     }
 
     public void addUser(Map<String, String> user, Callback callback) {

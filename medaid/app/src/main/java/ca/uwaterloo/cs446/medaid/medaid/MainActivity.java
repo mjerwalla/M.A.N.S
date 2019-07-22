@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
     @Override
     public void updateCalendar() {
-
+        calendarFragment.updateCalendar();
     }
 
     @Override
@@ -285,6 +285,58 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         mainActivityPresenter.deleteMedication(view.getId());
     }
 
+    public void addAppointment(View view) {
+        AlertDialog.Builder addAppointmentDialogBuilder = new AlertDialog.Builder(this);
+        View addAppointmentView = getLayoutInflater().inflate(R.layout.overlay_calendar_add_appointment, null);
+        addAppointmentDialogBuilder.setView(addAppointmentView);
+        final AlertDialog addAppointmentDialog = addAppointmentDialogBuilder.create();
+        addAppointmentDialog.show();
+
+        final TextView aptName = addAppointmentView.findViewById(R.id.txtAptName);
+        final Button aptTime = addAppointmentView.findViewById(R.id.btnSelectAptTime);
+        final Button addAptButton = addAppointmentView.findViewById(R.id.btnAddAppointment);
+        final String[] timeArray = new String[1];
+        addAptButton.setEnabled(false);
+
+        aptTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog;
+                timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        String ampm = "am";
+                        if (hourOfDay >= 12) {
+                            ampm = "pm";
+                        }
+
+                        String minutesString = Integer.toString(minutes);
+                        if (minutes < 10) {
+                            minutesString = "0" + minutesString;
+                        }
+                        timeArray[0] = hourOfDay + ":" + minutesString;
+
+                        String time = mainActivityHelper.getTimesToTakeMedication(hourOfDay, minutes);
+
+                        aptTime.setText(time + " " + ampm);
+
+                        addAptButton.setEnabled(true);
+                    }
+                }, 0, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
+        addAptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivityPresenter.addAppointment(
+                        aptName.getText().toString(),
+                        timeArray[0]);
+                addAppointmentDialog.hide();
+            }
+        });
+      
     public void backgroundNotifications(long time){
         Intent notifyIntent = new Intent(this,AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast

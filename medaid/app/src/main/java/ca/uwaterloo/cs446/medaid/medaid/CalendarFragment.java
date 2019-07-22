@@ -31,18 +31,34 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarFragment extends Fragment {
-    public View v;
+public class CalendarFragment extends Fragment implements CalendarFragmentPresenter.View {
+    private View v;
+    private CalendarFragmentPresenter calendarFragmentPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_calendar, container, false);
-        this.whatev();
+        this.decorateCalendar();
         return v;
     }
 
-    public void whatev() {
+    @Override
+    public void updateCalendar() {
+        decorateCalendar();
+    }
+
+    @Override
+    public void addAppointment() {
+
+    }
+
+    @Override
+    public void addLowMedicineEvent() {
+
+    }
+
+    public void decorateCalendar() {
         final MaterialCalendarView calendarView = (MaterialCalendarView) v.findViewById(R.id.calendarView);
         calendarView.setSelectionColor(Color.parseColor("#27CEA7"));
         List decorators = new ArrayList<>();
