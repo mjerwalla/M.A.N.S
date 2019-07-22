@@ -221,7 +221,7 @@ public class InsightsFragment extends Fragment {
         weekChart.animateY(10);
         BarData d = new BarData(Day, data);
         data.setColors(ColorTemplate.PASTEL_COLORS);
-        weekChart.setDescription("Number of Current Medication Per Day");
+        weekChart.setDescription("");
         weekChart.setData(d);
     }
 }

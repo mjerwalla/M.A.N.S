@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class PopupActivity extends AppCompatActivity {
@@ -36,5 +39,20 @@ public class PopupActivity extends AppCompatActivity {
                 t.setText(name + "\n\n" + start + "\n" + end + "\n\nInstructions:\n\n" + "Have " + dosagePerIntake + " dosages " + numTimesPerDay + " times a day on " + selectedDaysPerWeek + "\n\nAdditional:\n" + notes);
             }
         }
+
+        Button enlargeButton = findViewById(R.id.enlargeButton);
+
+        enlargeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enlargeText();
+            }
+        });
+    }
+
+    public void enlargeText() {
+        TextView t = (TextView) findViewById(R.id.textViewPopup);
+        t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+
     }
 }

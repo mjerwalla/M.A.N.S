@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".PopupActivity"
     android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert">
-
-    <!--<EditText-->
-        <!--android:id="@+id/editText"-->
-        <!--android:layout_width="296dp"-->
-        <!--android:layout_height="319dp"-->
-        <!--android:ems="10"-->
-        <!--android:gravity="start|top"-->
-        <!--android:inputType="textMultiLine"-->
-        <!--tools:layout_editor_absoluteX="57dp"-->
-        <!--tools:layout_editor_absoluteY="128dp" />-->
     <TextView
         android:id="@+id/textViewPopup"
         android:layout_width="match_parent"
@@ -34,4 +24,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/enlargeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="ENLARGE"
+        android:textColor="@color/textColor2"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>
