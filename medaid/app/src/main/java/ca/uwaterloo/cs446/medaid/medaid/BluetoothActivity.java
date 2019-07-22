@@ -644,8 +644,11 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
             public void doctorViewPatientInfo(String incomingMessage) {
                 Intent intent = new Intent(getBaseContext(), DoctorMainActivity.class);
+                intent.putExtra("patientInfo", incomingMessage);
                 startActivity(intent);
                 // TODO: Break out of
+
+
             }
 
             //Call this from the main activity to send data to the remote device

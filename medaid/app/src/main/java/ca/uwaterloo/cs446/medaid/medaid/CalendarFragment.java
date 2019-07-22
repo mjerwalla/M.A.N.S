@@ -82,11 +82,6 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangedListener(dateListener);
         calendarView.refreshDrawableState();
 
-
-                ////////////////////////////////////
-
-
-
         Callback callbackGet = new Callback() {
             @Override
             public void onValueReceived(final String value) {
@@ -128,10 +123,5 @@ public class CalendarFragment extends Fragment {
         };
         DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
         taskGet.execute("http://3.94.171.162:5000/getAppointments/1");
-
-
-        
-
     }
-
 }

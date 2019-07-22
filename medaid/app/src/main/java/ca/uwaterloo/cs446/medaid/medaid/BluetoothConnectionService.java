@@ -255,8 +255,6 @@ public class BluetoothConnectionService {
                     bytes = mmInStream.read(buffer);
                     String incomingMessage = new String(buffer, 0, bytes);
                     Log.d(TAG, "InputStream: " + incomingMessage);
-                    doctorViewPatientInfo(incomingMessage);
-                    break;
                     // TODO: Deal with information given
 
                 } catch (IOException e) {
@@ -264,12 +262,6 @@ public class BluetoothConnectionService {
                     break;
                 }
             }
-        }
-
-        public void doctorViewPatientInfo(String incomingMessage) {
-            Intent intent = new Intent(, DoctorMainActivity.class);
-            //startActivity(intent);
-            // TODO: Break out of
         }
 
         //Call this from the main activity to send data to the remote device
