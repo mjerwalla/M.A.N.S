@@ -52,7 +52,7 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:gravity="center_horizontal|center_vertical"
             android:paddingTop="20dp"
-            android:text="Please connect to your patient"
+            android:text="@string/connect_to_patient"
             android:textSize="18dp" />
 
         <ListView
