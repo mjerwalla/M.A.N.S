@@ -27,12 +27,14 @@ CREATE TABLE medaid.Medications(
    timesToBeReminded VARCHAR(30),
    dosagePerIntake INT,
    takenInPast INT,
+   totalNumPills INT,
+   notes VARCHAR(100),
    PRIMARY KEY(medicationID),
    FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
 CREATE TABLE medaid.Vaccinations(
-    vaccinationID INTEGER NOT NULL,
+    vaccinationID INTEGER NOT NULL AUTO_INCREMENT,
 	userID	INTEGER NOT NULL,
 	vacName	TEXT NOT NULL,
 	timeOfVac	DATETIME,
@@ -55,6 +57,7 @@ CREATE TABLE medaid.Reports (
   reportName TEXT NOT NULL,
   pdfName TEXT NOT NULL,
   uri TEXT NOT NULL,
+  PRIMARY KEY(reportID),
   FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
