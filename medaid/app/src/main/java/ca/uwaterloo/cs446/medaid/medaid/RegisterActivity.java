@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     System.out.println("NOT FALSE");
                     postFailed = "false";
-                    setSharedPreferences(Integer.toString(userType));
+                    setSharedPreferences(value);
                     nextActivity();
                 }
                 System.out.println("The onValueReceived  for Post: " + value);
