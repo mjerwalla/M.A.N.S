@@ -72,6 +72,24 @@ def addVaccination():
         cur.close()
         return json.dumps(json_data, default=str)
 
+@app.route('/addPatientToCareTaker', methods=['GET', 'POST'])
+def addPatientToCareTaker():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        careTakerID = jsonData['careTakerID']
+        patientID = jsonData['patientID']
+        print(careTakerID + patientID)
+        cur.execute("""INSERT INTO CareTakers (careTakerID, patientID) VALUES (%s,%s)""", (careTakerID, patientID))
+        cur.execute("""SELECT patientID FROM CareTakers WHERE careTakerID = %s""", (careTakerID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
 @app.route('/addAppointment', methods=['GET', 'POST'])
 def addAppointment():
     if request.method == "POST":
@@ -129,6 +147,19 @@ def addMedication():
              json_data.append(dict(zip(row_headers,result)))
         cur.close()
         return json.dumps(json_data, default=str)
+
+
+@app.route('/getUser/<userID>', methods=['GET'])
+def getUser(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT firstName,lastName FROM Users WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
 
 @app.route('/getAppointments/<userID>', methods=['GET'])
 def getAppointments(userID):
