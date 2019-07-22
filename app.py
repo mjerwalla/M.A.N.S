@@ -4,7 +4,7 @@ import json
 import pymysql
 app = Flask(__name__)
 
-conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='456455Nabil', db='Test',autocommit=True)
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='test', passwd='test', db='medaid',autocommit=True)
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
