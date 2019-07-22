@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class DoctorMainActivity extends AppCompatActivity implements DoctorMainActivityPresenter.View {
     private DoctorMainActivityPresenter doctorMainActivityPresenter;
@@ -31,7 +32,7 @@ public class DoctorMainActivity extends AppCompatActivity implements DoctorMainA
             }
         });
 
-        final Button circleBluetoothButton = this.findViewById(R.id.btnBluetoothConnect);
+        final ImageButton circleBluetoothButton = this.findViewById(R.id.btnBluetoothConnect);
         circleBluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
