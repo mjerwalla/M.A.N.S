@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ConflictsActivity"></activity>
+        <activity android:name=".DoctorMainActivity"></activity>
     </application>
 
 </manifest>
