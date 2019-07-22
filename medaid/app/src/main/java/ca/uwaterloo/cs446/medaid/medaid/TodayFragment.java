@@ -1,21 +1,42 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.graphics.Color;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+
+import java.util.Calendar;
 import java.util.List;
+
 
 public class TodayFragment extends Fragment implements TodayFragmentPresenter.View{
     private View v;
     private TodayFragmentPresenter todayFragmentPresenter;
+    //    AlarmManager alarmManager;
+    AlarmReceiver alarmReceiver;
+
 
     @Nullable
     @Override
