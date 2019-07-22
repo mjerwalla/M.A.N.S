@@ -52,8 +52,6 @@ public class TodayFragmentPresenter {
                     System.out.println("ERROR: " + e);
                 }
                 // TODO: Parse timesToBeReminded into an array of times with am/pm
-
-                view.updateMedicationListView(upcomingMedicineList);
             }
 
             @Override
@@ -63,7 +61,7 @@ public class TodayFragmentPresenter {
         };
 
         // TODO: Add real userID
-        dbHelperModel.getTodayMedication("fake-ID", callback);
+        dbHelperModel.getTodayMedication(callback);
     }
 
     public class UpcomingMedicine {
