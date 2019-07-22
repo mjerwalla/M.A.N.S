@@ -77,9 +77,9 @@ public class HistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_history_new, container, false);
+        view = inflater.inflate(R.layout.activity_history, container, false);
         preferences = new SharePreferences(this.getContext());
-        userID = preferences.getPref("userID");
+        userID = preferences.getPref(Constants.USER_ID);
 
         final DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
         taskGet.execute("http://3.94.171.162:5000/getUserMedicalHistory/" + userID);

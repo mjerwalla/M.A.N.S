@@ -43,18 +43,16 @@ public class DatabaseHelperModel {
         task.execute("http://3.94.171.162:5000/addMedication");
     }
 
-    public void addPastMedication() {
-
-    }
-
     public void deleteMedication() {
 
     }
 
-    public void getAllMedication(String userID, Callback callback) {
+    public void getAllMedication(Callback callback) {
+        DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
+        task.execute("http://3.94.171.162:5000/getUserMedicalHistory/" + this.userID);
     }
 
-    public void getTodayMedication(String userID, Callback callback) {
+    public void getTodayMedication(Callback callback) {
 
         DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
 
@@ -62,11 +60,4 @@ public class DatabaseHelperModel {
         task.execute("http://3.94.171.162:5000/getCurrentMeds/" + this.userID);
     }
 
-    public String getVaccinations() {
-        return null;
-    }
-
-    public String getReports() {
-        return null;
-    }
 }
