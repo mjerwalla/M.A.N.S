@@ -57,9 +57,10 @@ public class NotificationService extends JobIntentService {
         System.out.println("In Handle");
         createNotificationChannel();
         Notification.Builder builder = new Notification.Builder(this,NOTIFICATION_CHANNEL_ID );
-        builder.setContentTitle("My Title");
-        builder.setContentText("This is the Body");
+        builder.setContentTitle("Reminder");
+        builder.setContentText("Hey! It's time to take your Health Boosters!");
         builder.setSmallIcon(R.drawable.pills);
+        builder.setAutoCancel(true);
         Intent notifyIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         //to be able to launch your activity from the notification

@@ -24,6 +24,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -251,6 +252,28 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                                 notes.getText().toString());
 
                         medTimesDialog.hide();
+                        System.out.println(medTimes);
+
+                        String newTime;
+
+                        if (medTimes.contains(",")) {
+                            newTime = startDateString.substring(0, 10) + " " + medTimes.substring(medTimes.indexOf(",")+1);
+                        } else {
+                            newTime = startDateString.substring(0, 10) + " " + medTimes;
+                        }
+
+                        System.out.println("New Time: " + newTime);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        Date date = null;
+                        try {
+                            date = sdf.parse(newTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        backgroundNotifications(date.getTime());
+
                     }
                 });
             }
@@ -262,14 +285,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         mainActivityPresenter.deleteMedication(view.getId());
     }
 
-//    public void backgroundNotifications(){
-//        Intent notifyIntent = new Intent(getActivity(),AlarmReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast
-//                (getContext(), 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-//                1000 * 30, pendingIntent);
-//    }
+    public void backgroundNotifications(long time){
+        Intent notifyIntent = new Intent(this,AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  time,
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
