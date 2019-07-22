@@ -21,13 +21,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View{
@@ -117,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     }
 
     public void deleteUserSettings(){
-        sharePref user = new sharePref(this);
+        SharePreferences user = new SharePreferences(this);
         user.modifyPref("userID",null);
         user.modifyPref("userType", null);
     }

@@ -2,7 +2,6 @@ package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.content.Context;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class DatabaseHelperModel {
 
     public DatabaseHelperModel(Context context) {
         this.context = context;
-        this.userID = new sharePref(this.context).getPref(Constants.USER_ID);
+        this.userID = new SharePreferences(this.context).getPref(Constants.USER_ID);
     }
 
     public void addNewMedication(

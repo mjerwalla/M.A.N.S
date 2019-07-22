@@ -99,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             JSONArray jsonArray = new JSONArray(response);
             String userID = String.valueOf(jsonArray.getJSONObject(0).getString("LAST_INSERT_ID()"));
-            sharePref preferences = new sharePref(this);
+            SharePreferences preferences = new SharePreferences(this);
             preferences.modifyPref("userID",userID);
             preferences.modifyPref("userType", String.valueOf(userType));
 
