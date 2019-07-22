@@ -53,6 +53,24 @@ def addReport():
         cur.close()
         return json.dumps(json_data, default=str)
 
+@app.route('/deleteMedication', methods=['GET', 'POST'])
+def deleteMedication():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        userID = jsonData['userID']
+        medicationID = jsonData['medicationID']
+        print(medicationID)
+        cur.execute("""DELETE FROM Medications WHERE medicationID = %s""", (medicationID))
+        cur.execute("""SELECT * FROM Medications WHERE NOW() <= endDate AND startDate <= NOW() AND takenInPast = 0 AND userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
 @app.route('/addVaccination', methods=['GET', 'POST'])
 def addVaccination():
     if request.method == "POST":
@@ -64,6 +82,24 @@ def addVaccination():
         print(userID + vacName + timeOfVac)
         cur.execute("""INSERT INTO Vaccinations (userID, vacName, timeOfVac) VALUES (%s,%s,%s)""", (userID, vacName, timeOfVac))
         cur.execute("""SELECT * FROM Vaccinations WHERE userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
+@app.route('/addPatientToCareTaker', methods=['GET', 'POST'])
+def addPatientToCareTaker():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        careTakerID = jsonData['careTakerID']
+        patientID = jsonData['patientID']
+        print(careTakerID + patientID)
+        cur.execute("""INSERT INTO CareTakers (careTakerID, patientID) VALUES (%s,%s)""", (careTakerID, patientID))
+        cur.execute("""SELECT patientID FROM CareTakers WHERE careTakerID = %s""", (careTakerID))
         row_headers=[x[0] for x in cur.description] #this will extract row headers
         rv = cur.fetchall()
         json_data=[]
@@ -129,6 +165,32 @@ def addMedication():
              json_data.append(dict(zip(row_headers,result)))
         cur.close()
         return json.dumps(json_data, default=str)
+
+
+@app.route('/getUser/<userID>', methods=['GET'])
+def getUser(userID):
+    cur = conn.cursor()
+    cur.execute("""SELECT firstName,lastName FROM Users WHERE userID = %s""", (userID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
+@app.route('/getMultiUserInfo/<careTakerID>', methods=['GET'])
+def getMultiUserInfo(careTakerID):
+    cur = conn.cursor()
+    cur.execute("""SELECT CareTakers.careTakerID, CareTakers.patientID, Users.firstName, Users.lastName FROM CareTakers LEFT JOIN Users ON CareTakers.patientID = Users.userID WHERE careTakerID = %s""", (careTakerID))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
 
 @app.route('/getAppointments/<userID>', methods=['GET'])
 def getAppointments(userID):
@@ -239,6 +301,17 @@ def getAllUsers():
    cur.close()
    return json.dumps(json_data)
 
+@app.route('/getPatients/<userID>', methods=['GET'])
+def getPatients(userID):
+   cur = conn.cursor()
+   cur.execute("""SELECT patientID FROM CareTakers WHERE careTakerID = %s""", (userID))
+   row_headers=[x[0] for x in cur.description] #this will extract row headers
+   rv = cur.fetchall()
+   json_data=[]
+   for result in rv:
+        json_data.append(dict(zip(row_headers,result)))
+   cur.close()
+   return json.dumps(json_data)
+
 if __name__ == '__main__':
    app.run(host='0.0.0.0',port=5000,debug=True)
-
