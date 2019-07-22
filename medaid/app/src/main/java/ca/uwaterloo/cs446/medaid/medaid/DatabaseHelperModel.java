@@ -1,6 +1,7 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
 import android.content.Context;
+import android.telecom.Call;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +44,14 @@ public class DatabaseHelperModel {
         task.execute("http://3.94.171.162:5000/addMedication");
     }
 
-    public void deleteMedication() {
+    public void deleteMedication(String medicationID, Callback callback) {
+        Map<String, String> postData = new HashMap<>();
 
+        postData.put(Constants.USER_ID, this.userID);
+        postData.put(Constants.MEDICATION_ID, medicationID);
+
+        DatabaseHelperPost task = new DatabaseHelperPost(postData, callback);
+        task.execute("http://3.94.171.162:5000/deleteMedication");
     }
 
     public void getAllMedication(Callback callback) {

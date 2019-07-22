@@ -13,5 +13,7 @@ public final class Constants {
     public static final String TOTAL_NUM_PILLS = "totalNumPills";
     public static final String NOTES = "notes";
 
+    public static final String MEDICATION_ID = "medicationID";
+
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd hh:mm";
 }
