@@ -268,7 +268,7 @@ public class BluetoothConnectionService {
 
         public void doctorViewPatientInfo(String incomingMessage) {
             Intent intent = new Intent(, DoctorMainActivity.class);
-            startActivity(intent);
+            //startActivity(intent);
             // TODO: Break out of
         }
 
