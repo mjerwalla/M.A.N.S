@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 
-public class sharePref extends ContextWrapper {
+public class SharePreferences extends ContextWrapper {
 
-    public sharePref(Context base) {
+    public SharePreferences(Context base) {
         super(base);
     }
 
@@ -18,7 +18,7 @@ public class sharePref extends ContextWrapper {
         return true;
     }
 
-    public  String getPref(String prefName){
+    public String getPref(String prefName){
         SharedPreferences prefs = getSharedPreferences("medaid", MODE_PRIVATE);
         String restoredPref = prefs.getString(prefName, null);
         return restoredPref;
