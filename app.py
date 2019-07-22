@@ -53,6 +53,24 @@ def addReport():
         cur.close()
         return json.dumps(json_data, default=str)
 
+@app.route('/deleteMedication', methods=['GET', 'POST'])
+def deleteMedication():
+    if request.method == "POST":
+        cur = conn.cursor()
+        jsonData = request.get_json()
+        userID = jsonData['userID']
+        medicationID = jsonData['medicationID']
+        print(medicationID)
+        cur.execute("""DELETE FROM Medications WHERE medicationID = %s""", (medicationID))
+        cur.execute("""SELECT * FROM Medications WHERE NOW() <= endDate AND startDate <= NOW() AND takenInPast = 0 AND userID = %s""", (userID))
+        row_headers=[x[0] for x in cur.description] #this will extract row headers
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        cur.close()
+        return json.dumps(json_data, default=str)
+
 @app.route('/addVaccination', methods=['GET', 'POST'])
 def addVaccination():
     if request.method == "POST":
@@ -272,4 +290,3 @@ def getAllUsers():
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0',port=5000,debug=True)
-
