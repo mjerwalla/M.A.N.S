@@ -158,6 +158,9 @@ public class InsightsFragment extends Fragment implements InsightsFragmentPresen
             return;
         }
 
+        System.out.println("medications");
+        System.out.println(medication);
+
         for (int i = 0; i < medication.length(); ++i) {
             try {
                 JSONObject x = medication.getJSONObject(i);
@@ -165,11 +168,12 @@ public class InsightsFragment extends Fragment implements InsightsFragmentPresen
                 String e = x.getString("endDate");
                 Calendar c = Calendar.getInstance();
 //                c.add(Calendar.DATE, -1);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date start = sdf.parse(s);
                 Date end = sdf.parse(e);
 
                 if ((c.getTimeInMillis() >= start.getTime()) && (c.getTimeInMillis() <= end.getTime())) {
+                    System.out.println("accepted");
                     String selectedDays = x.getString("selectedDaysPerWeek");
 
                     if (selectedDays.contains("MON")) {
@@ -198,6 +202,15 @@ public class InsightsFragment extends Fragment implements InsightsFragmentPresen
                 System.out.println("Failed to get JSON Object");
             }
         }
+
+        System.out.println(mon);
+        System.out.println(tue);
+        System.out.println(wed);
+        System.out.println(thur);
+        System.out.println(wed);
+        System.out.println(fri);
+        System.out.println(sat);
+        System.out.println(sun);
 
         Meds.add(new BarEntry(mon, 0));
         Meds.add(new BarEntry(tue, 1));
