@@ -21,17 +21,32 @@ public class DoctorMainActivity extends AppCompatActivity implements DoctorMainA
         AlertDialog bluetoothConnectDialog = bluetoothConnectPopupBuilder.create();
         bluetoothConnectDialog.show();
 
-        final Button connectButton = bluetoothRequestView.findViewById(R.id.btnBluetoothConnect);
+        final Button connectButton = bluetoothRequestView.findViewById(R.id.btnConnect);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Check/request for bluetooth connection with patient
+                // TODO: Connect with patient
+
+                // TODO: Once connected, close the pop-up and populate the lists
+            }
+        });
+
+        final Button circleBluetoothButton = this.findViewById(R.id.btnBluetoothConnect);
+        circleBluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Disconnect with current patient and be available to connect with another
             }
         });
     }
 
     @Override
-    public void updateView(String patientInfo) {
+    public void updateListView(String patientInfo) {
         // TODO: Update list of medication history
+    }
+
+    @Override
+    public void reconnectBluetooth() {
+        // TODO: Show reconnectBluetooth popup
     }
 }
