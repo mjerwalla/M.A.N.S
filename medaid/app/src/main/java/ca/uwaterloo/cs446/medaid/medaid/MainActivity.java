@@ -1,4 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -257,3 +259,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         mainActivityPresenter.deleteMedication(view.getId());
     }
 }
+
+//    public void backgroundNotifications(){
+//        Intent notifyIntent = new Intent(getActivity(),AlarmReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast
+//                (getContext(), 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+//                1000 * 30, pendingIntent);
+//    }

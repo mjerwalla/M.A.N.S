@@ -30,20 +30,13 @@ import android.support.v4.app.NotificationManagerCompat;
 import java.util.Calendar;
 import java.util.List;
 
-<<<<<<< HEAD
-import static android.content.Context.ALARM_SERVICE;
 
-public class TodayFragment extends Fragment {
-    private View v;
-    private CalendarActivityDBHelper medDb;
-//    AlarmManager alarmManager;
-    AlarmReceiver alarmReceiver;
-    PendingIntent pendingIntent;
-=======
 public class TodayFragment extends Fragment implements TodayFragmentPresenter.View{
     private View v;
     private TodayFragmentPresenter todayFragmentPresenter;
->>>>>>> ca28cb2f7c048375b095883f1dbd35f0f1012dce
+    //    AlarmManager alarmManager;
+    AlarmReceiver alarmReceiver;
+
 
     @Nullable
     @Override
@@ -51,8 +44,6 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
         v = inflater.inflate(R.layout.fragment_today, container, false);
         todayFragmentPresenter = new TodayFragmentPresenter(this, this.getContext());
         this.updateMedicationListEverywhere();
-
-        backgroundNotifications();
 
         return v;
     }
@@ -89,52 +80,50 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
         }
     }
 
-<<<<<<< HEAD
-    public void backgroundNotifications() {
-        String CHANNEL_ID="\"my_channel_id_01\"";
-        int NOTIFICATION_ID = 1;
-        System.out.println("in background notifs");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "test";
-            String description = "test in prof";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-        Intent mIntent = new Intent(this.getContext(), TodayFragment.class);
-        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("test", "test");
-//        mIntent.putExtras(bundle);
-        pendingIntent = PendingIntent.getActivity(this.getContext(), 0, mIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-//        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        Resources res = this.getResources();
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        NotificationCompat.Builder notif =  new NotificationCompat.Builder(this.getContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.pills)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentTitle("Notif title")
-                .setContentText("Text")
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
-//        Notification notif = notification.setContentIntent(pendingIntent)
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this.getContext());
-//        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
-//        notification.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
-//        notification.ledARGB = 0xFFFFA500;
-//        notification.ledOnMS = 800;
-//        notification.ledOffMS = 1000;
-//        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, notif.build());
-        System.out.println("Notif sent");
-//
+//    public void backgroundNotifications() {
+////        String CHANNEL_ID = "\"my_channel_id_01\"";
+////        int NOTIFICATION_ID = 1;
+////        System.out.println("in background notifs");
+////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+////            CharSequence name = "test";
+////            String description = "test in prof";
+////            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+////            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+////            channel.setDescription(description);
+////            // Register the channel with the system; you can't change the importance
+////            // or other notification behaviors after this
+////            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+////            notificationManager.createNotificationChannel(channel);
+////        }
+////        Intent mIntent = new Intent(this.getContext(), TodayFragment.class);
+//////        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        PendingIntent pendingIntent;
+////                = PendingIntent.getActivity(this.getContext(), 0, mIntent,
+////                0);
+//////        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//////        Resources res = this.getResources();
+//////        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//////        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+////        NotificationCompat.Builder notif = new NotificationCompat.Builder(this.getContext(), CHANNEL_ID)
+////                .setSmallIcon(R.drawable.pills)
+////                .setPriority(NotificationCompat.PRIORITY_HIGH)
+////                .setContentTitle("Notif title")
+////                .setContentText("Text")
+////                .setAutoCancel(true)
+////                .setContentIntent(pendingIntent);
+//////        Notification notif = notification.setContentIntent(pendingIntent)
+////
+////        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this.getContext());
+//////        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+//////        notification.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
+//////        notification.ledARGB = 0xFFFFA500;
+//////        notification.ledOnMS = 800;
+//////        notification.ledOffMS = 1000;
+//////        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+////        notificationManager.notify(NOTIFICATION_ID, notif.build());
+////        System.out.println("Notif sent");
+////
 //        Intent alarmIntent = new Intent(this.getActivity(), AlarmReceiver.class);
 //        System.out.println(alarmIntent);
 //        AlarmReceiver ar = new AlarmReceiver();
@@ -142,9 +131,6 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
 ////        pendingIntent = PendingIntent.getService(this.getContext(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 //        pendingIntent = PendingIntent.getBroadcast(this.getContext(), 0, alarmIntent, 0);
 //        System.out.println(pendingIntent);
-//        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-//        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-//        LocalBroadcastManager.registerReceiver(ar, filter);
 ////        AlarmManager alarmManager = (AlarmManager) this.getContext().getSystemService(ALARM_SERVICE);
 ////        System.out.println(SystemClock.elapsedRealtime());
 ////        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10*1000, pendingIntent );
@@ -168,9 +154,9 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
 ////        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
 ////                alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 //        System.out.println("Alarm Alarms set for everyday 8 am.");
-=======
+//    }
+
     public void updateMedicationListEverywhere() {
         todayFragmentPresenter.updateMedicationList();
->>>>>>> ca28cb2f7c048375b095883f1dbd35f0f1012dce
     }
 }

@@ -13,9 +13,20 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("In onReceive");
-        Intent service = new Intent(context, NotificationService.class);
+        try {
+//            Intent service = new Intent(context, NotificationService.class);
+//            context.startService(service);
+//            service.enqueueWork(context, service);
+
+            Intent i = new Intent(context, NotificationService.class);
+            NotificationService.enqueueWork(context, i);
+        } catch (Exception e) {
+            System.out.println("Failed");
+            System.out.println(e);
+        }
 //        service.setData((Uri.parse("custom://"+System.currentTimeMillis())));
-        context.startService(service);
-        System.out.println("exit onReceive");
+        finally{
+            System.out.println("exit onReceive");
+        }
     }
 }
