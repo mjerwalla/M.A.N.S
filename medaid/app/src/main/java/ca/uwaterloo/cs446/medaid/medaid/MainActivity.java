@@ -1,6 +1,7 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -63,12 +64,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                         case R.id.nav_calendar:
                             selectedFrag = calendarFragment;
                             break;
+                        case R.id.nav_history:
+                            selectedFrag = new HistoryFragment();
+                            break;
                         case R.id.nav_insights:
-                            selectedFrag = historyFragment;
+                            selectedFrag = new InsightsFragment();
                             break;
-                        case R.id.nav_personal:
-                            selectedFrag = historyFragment;
-                            break;
+                        case R.id.nav_logout:
+                            deleteUserSettings();
+                            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                            return true;
                     }
 
                     getSupportFragmentManager().beginTransaction()
@@ -102,6 +109,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     @Override
     public void updateHistoryVaccination() {
 
+    }
+
+    public void deleteUserSettings(){
+        sharePref user = new sharePref(this);
+        user.modifyPref("userID",null);
+        user.modifyPref("userType", null);
     }
 
     public void setAddMedPopupBehavior(View view) {

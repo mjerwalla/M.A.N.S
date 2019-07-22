@@ -29,7 +29,8 @@ public class MainActivityPresenter {
             String endDate,
             String selectedDaysPerWeek,
             String numTimesPerDay,
-            String timesToBeReminded) {
+            String timesToBeReminded,
+            String dosagePerIntake) {
         Callback callback = new Callback() {
             @Override
             public void onValueReceived(final String value) {
