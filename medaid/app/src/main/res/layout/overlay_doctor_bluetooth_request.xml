@@ -94,6 +94,21 @@
                 android:textColor="@color/textColor2"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnSendInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnBluetoothOnOff"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/primaryColor3"
+                android:onClick="addMedicalEntry"
+                android:padding="12dp"
+                android:text="SEND"
+                android:textColor="@color/textColor2"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </LinearLayout>

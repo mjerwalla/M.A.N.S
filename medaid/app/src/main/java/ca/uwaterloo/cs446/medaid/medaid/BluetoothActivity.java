@@ -183,11 +183,10 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
         mBTDevices = new ArrayList<>();
 
-        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        btnStartConnection = (Button) findViewById(R.id.btnConnect);
 
         // TODO: Dont need to send/edit
-        btnSend = (Button) findViewById(R.id.btnSend);
-        etSend = (EditText) findViewById(R.id.editText);
+        btnSend = (Button) findViewById(R.id.btnSendInfo);
 
         //Broadcasts when bond state changes (ie:pairing)
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -218,6 +217,8 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             public void onClick(View view) {
                 byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
                 mBluetoothConnection.write(bytes);
+
+                // TODO: Overwrite this function to send over patient info
             }
         });
 
