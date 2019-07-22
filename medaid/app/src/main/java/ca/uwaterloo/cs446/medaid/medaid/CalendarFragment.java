@@ -49,10 +49,10 @@ public class CalendarFragment extends Fragment {
         days.add(day);
         //decorators.add(new AppointmentDecorator(days));
         int red = Color.RED;
-        int green = Color.BLUE;
+        int blue = Color.BLUE;
 
         calendarView.addDecorator(new LowMedicineDecorator(days,red));
-        calendarView.addDecorator(new AppointmentDecorator(days,green));
+        calendarView.addDecorator(new AppointmentDecorator(days,blue));
         OnDateSelectedListener dateListener = new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
