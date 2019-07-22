@@ -61,8 +61,8 @@ def addVaccination():
         userID = jsonData['userID']
         vacName = jsonData['vacName']
         timeOfVac = jsonData['timeOfVac']
-        print(userID + vacName + timeofVac)
-        cur.execute("""INSERT INTO Vaccinations (userID, vacName, timeofVac) VALUES (%s,%s,%s)""", (userID, vacName, timeofVac))
+        print(userID + vacName + timeOfVac)
+        cur.execute("""INSERT INTO Vaccinations (userID, vacName, timeOfVac) VALUES (%s,%s,%s)""", (userID, vacName, timeOfVac))
         cur.execute("""SELECT * FROM Vaccinations WHERE userID = %s""", (userID))
         row_headers=[x[0] for x in cur.description] #this will extract row headers
         rv = cur.fetchall()
