@@ -142,6 +142,30 @@ def getAppointments(userID):
     cur.close()
     return json.dumps(json_data, default=str)
 
+@app.route('/getAppointmentToday/<userID>/<calendarDay>', methods=['GET'])
+def getAppointmentToday(userID,calendarDay):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Appointments WHERE userID = %s AND DATE(timeOfApt) = %s""", (userID,calendarDay))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
+@app.route('/getVaccinationToday/<userID>/<calendarDay>', methods=['GET'])
+def getVaccinationToday(userID,calendarDay):
+    cur = conn.cursor()
+    cur.execute("""SELECT * FROM Vaccinations WHERE userID = %s AND DATE(timeOfVac) = %s""", (userID,calendarDay))
+    row_headers=[x[0] for x in cur.description] #this will extract row headers
+    rv = cur.fetchall()
+    json_data=[]
+    for result in rv:
+         json_data.append(dict(zip(row_headers,result)))
+    cur.close()
+    return json.dumps(json_data, default=str)
+
 @app.route('/getUserMedicalHistory/<userID>', methods=['GET'])
 def getUserMedicalHistory(userID):
     cur = conn.cursor()
@@ -217,3 +241,4 @@ def getAllUsers():
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0',port=5000,debug=True)
+
