@@ -27,6 +27,10 @@ public class AppointmentDecorator implements DayViewDecorator {
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
+
+        if (dates.contains(day)){
+            System.out.println("The day matches one in the collection DECORATE IT: " + day);
+        }
         return dates.contains(day);
     }
 
