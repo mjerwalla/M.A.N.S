@@ -10,20 +10,23 @@ import android.Manifest;
         import android.os.Build;
         import android.os.Bundle;
         import android.support.v7.app.AppCompatActivity;
-        import android.util.Log;
+import android.telecom.Call;
+import android.util.Log;
         import android.view.View;
         import android.widget.AdapterView;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.ListView;
+import android.widget.TextView;
 
-        import java.nio.charset.Charset;
+import java.nio.charset.Charset;
         import java.util.ArrayList;
         import java.util.UUID;
 
 
 public class BluetoothActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private static final String TAG = "MainActivity";
+    private String userType;
 
     BluetoothAdapter mBluetoothAdapter;
     Button btnEnableDisable_Discoverable;
@@ -32,8 +35,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
     Button btnStartConnection;
     Button btnSend;
-
-    EditText etSend;
+    TextView txtInfo;
 
     private static final UUID MY_UUID_INSECURE =
             UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -183,10 +185,24 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
         mBTDevices = new ArrayList<>();
 
+        SharePreferences sharePreferences = new SharePreferences(this);
+        userType = sharePreferences.getPref("userType");
+
         btnStartConnection = (Button) findViewById(R.id.btnConnect);
 
-        // TODO: Dont need to send/edit
         btnSend = (Button) findViewById(R.id.btnSendInfo);
+        txtInfo = (TextView) findViewById(R.id.txtConnect);
+
+        switch (userType) {
+            case "0" :
+                txtInfo.setText("Please connect to your doctor");
+                break;
+            case "1" :
+                break;
+            case "2" :
+                txtInfo.setText("Please connect to your patient");
+                break;
+        }
 
         //Broadcasts when bond state changes (ie:pairing)
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -212,15 +228,44 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-                mBluetoothConnection.write(bytes);
+        switch (userType) {
+            case "0" :
+                // Single User
+                btnSend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Callback callback = new Callback() {
+                            @Override
+                            public void onValueReceived(String value) {
+                                byte[] bytes = value.getBytes(Charset.defaultCharset());
+                                if (mBluetoothConnection != null) {
+                                    mBluetoothConnection.write(bytes);
+                                }
+                            }
 
-                // TODO: Overwrite this function to send over patient info
-            }
-        });
+                            @Override
+                            public void onFailure() {
+
+                            }
+                        };
+
+                        // TODO: Send patient info
+                        String testText = "Hello, this is patient info";
+                        DatabaseHelperModel dbHelperModel = new DatabaseHelperModel(getBaseContext());
+                        dbHelperModel.getAllMedication(callback);
+                        // dbHelperModel.getAllVacinations(callback);
+                    }
+                });
+                break;
+            case "1" :
+                // Multi User
+                break;
+            case "2" :
+                // Doctor
+                btnSend.setText("WAITING FOR PATIENT TO SEND DATA");
+                btnSend.setEnabled(false);
+                break;
+        }
 
     }
 

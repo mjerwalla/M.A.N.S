@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import java.io.IOException;
@@ -231,7 +232,6 @@ public class BluetoothConnectionService {
                 e.printStackTrace();
             }
 
-
             try {
                 tmpIn = mmSocket.getInputStream();
                 tmpOut = mmSocket.getOutputStream();
@@ -255,16 +255,21 @@ public class BluetoothConnectionService {
                     bytes = mmInStream.read(buffer);
                     String incomingMessage = new String(buffer, 0, bytes);
                     Log.d(TAG, "InputStream: " + incomingMessage);
+                    doctorViewPatientInfo(incomingMessage);
+                    break;
+                    // TODO: Deal with information given
 
-                    // TODO: Call callback, then break
-                    // Check user type -
-                    // Get all medical history, passing in userID
-                    // When callback returns, send data back to doctor
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
                 }
             }
+        }
+
+        public void doctorViewPatientInfo(String incomingMessage) {
+            Intent intent = new Intent(, DoctorMainActivity.class);
+            startActivity(intent);
+            // TODO: Break out of
         }
 
         //Call this from the main activity to send data to the remote device

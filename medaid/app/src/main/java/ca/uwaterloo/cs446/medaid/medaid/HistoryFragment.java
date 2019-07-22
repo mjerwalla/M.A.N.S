@@ -264,11 +264,14 @@ public class HistoryFragment extends Fragment {
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder bluetoothDialogBuilder = new AlertDialog.Builder(getContext());
-                View bluetoothView = getLayoutInflater().inflate(R.layout.overlay_doctor_bluetooth_request, null);
-                bluetoothDialogBuilder.setView(bluetoothView);
-                final AlertDialog bluetoothDialog = bluetoothDialogBuilder.create();
-                bluetoothDialog.show();
+                Intent intent = new Intent(getContext(), BluetoothActivity.class);
+                startActivity(intent);
+
+//                AlertDialog.Builder bluetoothDialogBuilder = new AlertDialog.Builder(getContext());
+//                View bluetoothView = getLayoutInflater().inflate(R.layout.overlay_doctor_bluetooth_request, null);
+//                bluetoothDialogBuilder.setView(bluetoothView);
+//                final AlertDialog bluetoothDialog = bluetoothDialogBuilder.create();
+//                bluetoothDialog.show();
             }
         });
 
