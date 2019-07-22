@@ -15,6 +15,7 @@ public class MainActivityPresenter {
         void updateHistoryMedication();
         void updateHistoryVaccination();
         void updateHistoryReports();
+        void updateInsights();
     }
 
     public MainActivityPresenter(View view) {
