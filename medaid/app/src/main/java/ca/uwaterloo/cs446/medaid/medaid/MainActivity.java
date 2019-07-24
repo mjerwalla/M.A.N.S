@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                     public void onClick(View view) {
                         final String medTimes = mainActivityHelper.sortAndConcatMedTimes(timeIDMap);
                         Date startDate = new Date();
+                        startDate.setMonth(startDate.getMonth() - 1);
                         Date endDate = new Date(120, 05, 22);
                         SimpleDateFormat ft = new SimpleDateFormat (Constants.DATE_TIME_FORMAT);
                         String startDateString = ft.format(startDate);
