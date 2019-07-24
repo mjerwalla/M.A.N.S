@@ -257,14 +257,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                                 notes.getText().toString());
 
                         medTimesDialog.hide();
-                        System.out.println(medTimes);
+
+                        String changedTime = medTimes;
+
+                        if (medTimes.length() == 4) {
+                            System.out.println("CHANGING");
+                            changedTime = "0" + changedTime;
+                        }
 
                         String newTime;
 
-                        if (medTimes.contains(",")) {
-                            newTime = startDateString.substring(0, 10) + " " + medTimes.substring(medTimes.indexOf(",")+1);
+                        if (changedTime.contains(",")) {
+                            newTime = startDateString.substring(0, 10) + " " + changedTime.substring(medTimes.indexOf(",")+1);
                         } else {
-                            newTime = startDateString.substring(0, 10) + " " + medTimes;
+                            newTime = startDateString.substring(0, 10) + " " + changedTime;
                         }
 
                         System.out.println("New Time: " + newTime);
