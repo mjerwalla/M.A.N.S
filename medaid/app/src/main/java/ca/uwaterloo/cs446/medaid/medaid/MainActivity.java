@@ -215,10 +215,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                                                 ampm = "pm";
                                             }
 
+                                            String time24Hour = hourOfDay + ":" + minutes;
+                                            timeIDMap.put(setMedicineTime.getId(), time24Hour);
                                             String time = mainActivityHelper.getTimesToTakeMedication(hourOfDay, minutes);
 
                                             setMedicineTime.setText(time + " " + ampm);
-                                            timeIDMap.put(setMedicineTime.getId(), time);
 
                                             if (!timeIDMap.containsValue("NULL")) {
                                                 submitButton.setVisibility(View.VISIBLE);
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                         Date startDate = new Date();
                         startDate.setMonth(startDate.getMonth() - 1);
                         Date endDate = new Date(120, 05, 22);
+                        
                         SimpleDateFormat ft = new SimpleDateFormat (Constants.DATE_TIME_FORMAT);
                         String startDateString = ft.format(startDate);
                         String endDateString = ft.format(endDate);

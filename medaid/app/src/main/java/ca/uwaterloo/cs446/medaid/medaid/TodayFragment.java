@@ -69,7 +69,20 @@ public class TodayFragment extends Fragment implements TodayFragmentPresenter.Vi
 
             // TODO: Create new medicine reminder for each time
             TextView time = rowView.findViewById(R.id.txtTime);
-            time.setText(med.timesToBeReminded[0]);
+            String[] hoursMinutes = med.timesToBeReminded[0].split(":");
+            int hours = Integer.parseInt(hoursMinutes[0]);
+            String minutes = hoursMinutes[1];
+            String ampm = " am";
+            if (hours >= 12) {
+                ampm = " pm";
+            }
+
+            hours = hours % 12;
+            if (hours == 0) {
+                hours = 12;
+            }
+
+            time.setText(hours + ":" + minutes + ampm);
 
             TextView dosage = rowView.findViewById(R.id.txtDosage);
             dosage.setText(med.dosagePerIntake + " pills");
