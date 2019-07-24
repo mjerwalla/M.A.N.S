@@ -42,13 +42,13 @@ public class NotificationService extends JobIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        showToast("Job Execution Started");
+//        showToast("Job Execution Started");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        showToast("Job Execution Finished");
+//        showToast("Job Execution Finished");
     }
 
 
