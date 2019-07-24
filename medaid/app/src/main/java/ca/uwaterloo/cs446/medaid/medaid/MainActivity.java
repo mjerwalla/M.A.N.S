@@ -1,5 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -213,10 +215,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                                                 ampm = "pm";
                                             }
 
+                                            String time24Hour = hourOfDay + ":" + minutes;
+                                            timeIDMap.put(setMedicineTime.getId(), time24Hour);
                                             String time = mainActivityHelper.getTimesToTakeMedication(hourOfDay, minutes);
 
                                             setMedicineTime.setText(time + " " + ampm);
-                                            timeIDMap.put(setMedicineTime.getId(), time);
 
                                             if (!timeIDMap.containsValue("NULL")) {
                                                 submitButton.setVisibility(View.VISIBLE);
@@ -236,7 +239,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                     public void onClick(View view) {
                         final String medTimes = mainActivityHelper.sortAndConcatMedTimes(timeIDMap);
                         Date startDate = new Date();
+                        startDate.setMonth(startDate.getMonth() - 1);
                         Date endDate = new Date(120, 05, 22);
+                        
                         SimpleDateFormat ft = new SimpleDateFormat (Constants.DATE_TIME_FORMAT);
                         String startDateString = ft.format(startDate);
                         String endDateString = ft.format(endDate);
@@ -294,8 +299,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         final TextView aptName = addAppointmentView.findViewById(R.id.txtAptName);
         final Button aptTime = addAppointmentView.findViewById(R.id.btnSelectAptTime);
+        final Button aptDate = addAppointmentView.findViewById(R.id.btnSelectAptDate);
         final Button addAptButton = addAppointmentView.findViewById(R.id.btnAddAppointment);
         final String[] timeArray = new String[1];
+        final String[] dateArray = new String[1];
         addAptButton.setEnabled(false);
 
         aptTime.setOnClickListener(new View.OnClickListener() {
@@ -327,17 +334,45 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
             }
         });
 
+        aptDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog;
+                datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        i1 += 1;
+                        String year = Integer.toString(i);
+                        String month = Integer.toString(i1);
+                        String day = Integer.toString(i2);
+
+                        if (i1 < 10) {
+                            month = "0" + i1;
+                        }
+                        if (i2 < 10) {
+                            day = "0" + i2;
+                        }
+
+                        dateArray[0] = year + "-" + month + "-" + day;
+                        aptDate.setText(dateArray[0]);
+                    }
+                }, 2019, 6, 24);
+                datePickerDialog.show();
+            }
+        });
+
         addAptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String appointmentDateTime = dateArray[0] + " " + timeArray[0];
                 mainActivityPresenter.addAppointment(
                         aptName.getText().toString(),
-                        timeArray[0]);
+                        appointmentDateTime);
                 addAppointmentDialog.hide();
             }
         });
     }
-      
+
     public void backgroundNotifications(long time){
         Intent notifyIntent = new Intent(this,AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
@@ -378,3 +413,4 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         }
     }
 }
+
