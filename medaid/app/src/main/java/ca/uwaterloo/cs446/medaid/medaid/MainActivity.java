@@ -336,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
                 addAppointmentDialog.hide();
             }
         });
+    }
       
     public void backgroundNotifications(long time){
         Intent notifyIntent = new Intent(this,AlarmReceiver.class);
