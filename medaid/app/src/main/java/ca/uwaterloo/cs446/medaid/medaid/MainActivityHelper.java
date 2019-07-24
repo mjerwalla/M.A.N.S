@@ -78,4 +78,13 @@ public class MainActivityHelper {
 
         return hourOfDay + ":" + minutesString;
     }
+
+    public String getTimesToTakeMedication24Hour(int hourOfDay, int minutes) {
+        String minutesString = Integer.toString(minutes);
+        if (minutes < 10) {
+            minutesString = "0" + minutes;
+        }
+
+        return hourOfDay + ":" + minutesString;
+    }
 }
