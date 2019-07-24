@@ -99,4 +99,9 @@ public class DatabaseHelperModel {
         DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
         task.execute("http://3.94.171.162:5000/getMultiUserInfo/" + this.userID);
     }
+
+    public void getVacMed(Callback callback) {
+        DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
+        task.execute("http://3.94.171.162:5000/getVacMed/" + this.userID);
+    }
 }

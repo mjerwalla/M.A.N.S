@@ -51,11 +51,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/medication" />
 
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/vaccination" />
-
         </android.support.design.widget.TabLayout>
 
         <LinearLayout
@@ -64,14 +59,9 @@
             android:orientation="horizontal">
 
             <SearchView
-                android:id="@+id/searchView"
+                android:id="@+id/doctorSearch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp">
-
-            </SearchView>
-
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <ListView

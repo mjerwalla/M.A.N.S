@@ -258,7 +258,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
                         // TODO: Send patient info
                         String testText = "Hello, this is patient info";
                         DatabaseHelperModel dbHelperModel = new DatabaseHelperModel(getBaseContext());
-                        dbHelperModel.getAllMedication(callback);
+                        dbHelperModel.getVacMed(callback);
                         // dbHelperModel.getAllVacinations(callback);
                     }
                 });
