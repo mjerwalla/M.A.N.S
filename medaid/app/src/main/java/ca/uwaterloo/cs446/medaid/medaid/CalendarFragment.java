@@ -38,7 +38,8 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_calendar, container, false);
+        this.v = inflater.inflate(R.layout.fragment_calendar, container, false);
+        this.calendarFragmentPresenter = new CalendarFragmentPresenter(this, this.getContext());
         this.decorateCalendar();
         return v;
     }
@@ -70,9 +71,10 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
         int blue = Color.BLUE;
 
 
-        calendarView.addDecorator(new LowMedicineDecorator(days,red));
-        System.out.println("OLD DAYS - " + days);
-        calendarView.addDecorator(new AppointmentDecorator(days,blue));
+//        calendarView.addDecorator(new LowMedicineDecorator(days,red));
+//        calendarView.addDecorator(new AppointmentDecorator(days,blue));
+//        System.out.println("OLD DAYS - " + days);
+
         OnDateSelectedListener dateListener = new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
@@ -134,10 +136,12 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
 
             @Override
             public void onFailure() {
-                System.out.println("I failed :(");
+                System.out.println("ERROR: Failed to decorate Calendar days.");
             }
         };
         DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
-        taskGet.execute("http://3.94.171.162:5000/getAppointments/1");
+
+        String userID = new SharePreferences(this.getContext()).getPref(Constants.USER_ID);
+        taskGet.execute("http://3.94.171.162:5000/getAppointments/" + userID);
     }
 }
