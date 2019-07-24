@@ -1,5 +1,6 @@
 package ca.uwaterloo.cs446.medaid.medaid;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
         int red = Color.RED;
         int blue = Color.BLUE;
 
+        final String userID = new SharePreferences(this.getContext()).getPref(Constants.USER_ID);
 
 //        calendarView.addDecorator(new LowMedicineDecorator(days,red));
 //        calendarView.addDecorator(new AppointmentDecorator(days,blue));
@@ -77,14 +79,50 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
 
         OnDateSelectedListener dateListener = new OnDateSelectedListener() {
             @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
                 //System.out.println("Hello A new date was selected : " + date);
                 Callback callback = new Callback() {
                     @Override
                     public void onValueReceived(final String value) {
-                        System.out.println("The onValueReceived  for Post: " + value);
-                        // call method to update view as required using returned value
+                        AlertDialog.Builder daySelectedDialogBuilder = new AlertDialog.Builder(getContext());
+                        View daySelectedView = getLayoutInflater().inflate(R.layout.overlay_calendar_select_day, null);
+                        daySelectedDialogBuilder.setView(daySelectedView);
+                        final AlertDialog daySelectedDialog = daySelectedDialogBuilder.create();
 
+                        TextView txtAptName = daySelectedView.findViewById(R.id.txtAptName);
+                        TextView txtAptTime = daySelectedView.findViewById(R.id.txtAptTime);
+                        TextView txtAptDate = daySelectedView.findViewById(R.id.txtAptDate);
+
+                        System.out.println("The onValueReceived for Get: " + value);
+                        // call method to update view as required using returned value
+                        try {
+                            JSONArray jsonArray = new JSONArray(value);
+                            if (jsonArray.length() == 0) {
+                                return;
+                            }
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject obj = jsonArray.getJSONObject(i);
+                                String aptName = obj.getString(Constants.APPOINTMENT_NAME);
+                                String aptTimeDate = obj.getString(Constants.TIME_OF_APT);
+                                String[] aptTimeDateArray = aptTimeDate.split(" ");
+                                String aptDate = aptTimeDateArray[0];
+                                String aptTime = aptTimeDateArray[1].substring(0, 5);
+
+                                if (aptTime.charAt(0) == '0') {
+                                    aptTime = aptTime.substring(1);
+                                }
+
+                                txtAptName.setText(aptName);
+                                txtAptTime.setText("Time: " + aptTime);
+                                txtAptDate.setText("Date: " + aptDate);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("ERROR: " + e);
+                            return;
+                        }
+
+                        daySelectedDialog.show();
                     }
 
                     @Override
@@ -92,12 +130,17 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
                         System.out.println("I failed :(");
                     }
                 };
-                DatabaseHelperPost task = new DatabaseHelperPost(null, callback);
+                DatabaseHelperGet task = new DatabaseHelperGet(null, callback);
                 // pass in the saved userID and the CalenderDay
-                //task.execute("http://10.0.2.2/eventsOnThisDay/" + userID + "/" + );
+                // TODO: CHECK THAT THE FORMAT OF date IS CORRECT
+                int realMonth = date.getMonth() + 1;
+                String dateString = date.getYear() + "-" + realMonth + "-" + date.getDay();
+                task.execute("http://3.94.171.162:5000/getAppointmentToday/" + userID + "/" + dateString);
+                System.out.println("DATES ARE BEING SELECTED");
             }
         };
         calendarView.setOnDateChangedListener(dateListener);
+
         calendarView.refreshDrawableState();
 
         Callback callbackGet = new Callback() {
@@ -141,7 +184,6 @@ public class CalendarFragment extends Fragment implements CalendarFragmentPresen
         };
         DatabaseHelperGet taskGet = new DatabaseHelperGet(null, callbackGet);
 
-        String userID = new SharePreferences(this.getContext()).getPref(Constants.USER_ID);
         taskGet.execute("http://3.94.171.162:5000/getAppointments/" + userID);
     }
 }
